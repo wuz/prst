@@ -67,6 +67,9 @@ with builtins; [
       name = removeSuffix ".nix" n;
       value = pkgs.callPackage (./pkgs + ("/" + n)) { };
     }))
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
   ]
 
 

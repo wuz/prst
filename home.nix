@@ -69,8 +69,8 @@ in with pkgs.hax; {
       kwbauson-cfg.nle
       mcfly
       moreutils
-      neovim
-      neovim
+      msgpack
+      neovim-nightly
       nix-bash-completions
       nixfmt
       nnn
