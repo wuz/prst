@@ -11,12 +11,7 @@ let
   user = (builtins.getEnv "USER");
   dots = "${home}/.alchemy";
 
-  kwbauson-cfg = import (fetchFromGitHub {
-    owner = "kwbauson";
-    repo = "cfg";
-    rev = "52f2bfd4ed529b8ce441751940b436822e6f128a";
-    sha256 = "0mbjsnximhwy77svh1m9ypdc88hv73a359hbahsanzwyjyajkrf1";
-  });
+  kwbauson-cfg = import <kwbauson-cfg>;
 
 in with pkgs.hax; {
   nixpkgs.overlays = import ./overlays.nix;
@@ -39,6 +34,8 @@ in with pkgs.hax; {
     };
 
     packages = with pkgs; [
+      (import (fetchTarball { url = "https://github.com/NixOS/nixpkgs/archive/266b6cdea3203ae0164c9974cfb4d58c6ff3b3fe.tar.gz"; sha256 = "1c8fymvb5r8xhp55ckynzyrk731p9bnmfs0k4yxz0ykxz5hpf4p4"; }) {}).wezterm
+      act
       bandwhich
       bash-completion
       bashInteractive
@@ -67,10 +64,12 @@ in with pkgs.hax; {
       kwbauson-cfg.better-comma
       kwbauson-cfg.git-trim
       kwbauson-cfg.nle
+      luajit
       mcfly
       moreutils
       msgpack
-      neovim-nightly
+      neovim-unwrapped
+      ninja
       nix-bash-completions
       nixfmt
       nnn
@@ -83,26 +82,27 @@ in with pkgs.hax; {
       rename
       ripgrep
       rsync
+      rustfmt
       shellcheck
       tealdeer
       tmux
       tmux
       tokei
       tree
+      tree-sitter
       unzip
-      wezterm
       wget
       zoxide
     ];
 
     file = {
-        cantrip = {
-          target = ".config/cantrip";
-          source = "${dots}/cantrip";
-        };
         familiar = {
           target = ".config/familiar";
           source = "${dots}/familiar";
+        };
+        tmux = {
+          target = ".tmux.conf";
+          source = "${dots}/tmux.conf";
         };
     };
   };
@@ -126,18 +126,22 @@ in with pkgs.hax; {
       GPG_TTY=$(tty)
       export GPG_TTY
 
-      [[ -e /usr/local/opt/asdf/asdf.sh ]] && source /usr/local/opt/asdf/asdf.sh
-      [[ -e /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash ]] && source /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
-
       source ~/.nix-profile/etc/profile.d/bash_completion.sh
-      source ~/.nix-profile/etc/bash_completion.d/better-comma.sh
       source ~/.nix-profile/share/bash-completion/completions/git
       source ~/.nix-profile/share/bash-completion/completions/ssh
       complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
       
       eval "$(zoxide init bash)"
+
+      # . $HOME/.asdf/asdf.sh
+      # . $HOME/.asdf/completions/asdf.bash
+
+      . "$HOME/.local/share/lscolors.sh"
+
+      export LOCAL_OPS_USE_NIX=true
     '';
   };
+  programs.direnv.enable = true;
   programs.gh.enable = true;
   programs.git = {
     enable = true;
@@ -185,6 +189,7 @@ in with pkgs.hax; {
       who = "shortlog -n -s --no-merges";
       cleanup = "!git remote prune origin && git branch -vv | grep ': gone]' | cut -d ' ' -f 3 | xargs -n 1 git branch -D";
       fco="!f() { git branch -a -vv --color=always --format='%(refname)' | sed \"s_refs/heads/__\" | sed \"s_refs/remotes/__\" | fzf --query=\"$@\" --height=40% --ansi --tac --color=16 --border | awk '{print $1}' | xargs git co; }; f";
+      lb = "!git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37      m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'";
     };
     extraConfig = {
       color.ui = true;

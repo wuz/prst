@@ -36,7 +36,7 @@ with builtins; [
       flatten (mapAttrsToList (_: v: drvs v) x);
       soundScript = x: y:
       writeShellScriptBin x ''
-        ${sox}/bin/play --no-show-progress ${y}
+      ${sox}/bin/play --no-show-progress ${y}
       '';
       drvsExcept = x: e:
       with { excludeNames = concatMap attrNames (attrValues e); };
@@ -67,9 +67,33 @@ with builtins; [
       name = removeSuffix ".nix" n;
       value = pkgs.callPackage (./pkgs + ("/" + n)) { };
     }))
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
+    (self: super: {
+
+      tree-sitter-updated = super.tree-sitter.overrideAttrs(oldAttrs: {
+
+        version = "0.17.3";
+        sha256 = "sha256-uQs80r9cPX8Q46irJYv2FfvuppwonSS5HVClFujaP+U=";
+        cargoSha256 = "sha256-fonlxLNh9KyEwCj7G5vxa7cM/DlcHNFbQpp0SwVQ3j4=";
+
+        postInstall = ''
+        PREFIX=$out make install
+        '';
+
+      });
+
+      neovim-unwrapped = super.neovim-unwrapped.overrideAttrs (oldAttrs: rec {
+        name = "neovim-nightly";
+        version = "0.5-nightly";
+        src = self.fetchurl {
+          url = "https://github.com/neovim/neovim/archive/master.zip";
+          sha256 = "0g3a2j07n1jmf34rj63rh4fakrgjlnw3094g6cibp5gm0bzv98gz";
+        };
+
+        nativeBuildInputs = with self.pkgs; [ unzip cmake pkgconfig gettext tree-sitter-updated ];
+
+      });
+
+    })
   ]
 
 
