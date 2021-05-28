@@ -104,12 +104,12 @@ in with pkgs.hax; {
       '';
     };
 
-    file = {
-      familiar = {
-        target = ".config/familiar";
-        source = "${dots}/familiar";
-      };
-    };
+    # file = {
+    #   familiar = {
+    #     target = ".config/familiar";
+    #     source = "${dots}/familiar";
+    #   };
+    # };
   };
 
 
@@ -126,7 +126,7 @@ in with pkgs.hax; {
       shopt -s cdspell
       . "$HOME/.files/common/bashrc"
 
-      PS1='$(familiar)'
+      # PS1='$(familiar)'
 
       GPG_TTY=$(tty)
       export GPG_TTY
@@ -358,5 +358,22 @@ in with pkgs.hax; {
 
         run '~/.tmux/plugins/tpm/tpm'
       '';
+    };
+
+    programs.bat = {
+      enable=true;
+      config={
+        theme="DankNeon";
+        italicText="always";
+        style="numbers,changes,headers";
+      };
+      themes = {
+        dankneon = builtins.readFile (pkgs.fetchFromGitHub {
+          owner = "DankNeon";
+          repo = "sublime"; # Bat uses sublime syntax for its themes
+          rev = "31dd0216c33225cde3968f882dca0ad1375bc4e3";
+          sha256 = "1xla6qln6fj123q92si59va90syn3fjkn4ynps42fvawyx1n4rld";
+        } + "/DankNeon.tmTheme");
+      };
     };
   }
