@@ -124,6 +124,7 @@ in with pkgs.hax; {
         wget
         zoxide
       ];
+
     activation = {
       copyApplications = let
         apps = pkgs.buildEnv {
@@ -144,6 +145,14 @@ in with pkgs.hax; {
         done
       '';
     };
+
+    # file = {
+    #   familiar = {
+    #     target = ".config/familiar";
+    #     source = "${dots}/familiar";
+    #   };
+    # };
+  };
 
   programs.bash = {
     enable = true;
