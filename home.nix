@@ -164,6 +164,7 @@ in with pkgs.hax; {
     shellAliases = {
       ".s" = "source ~/.bash_profile";
       hm = "home-manager";
+      dr = "darwin-rebuild";
       vim = "nvim";
       vi = "nvim";
       add = "git add -A";
@@ -457,4 +458,6 @@ in with pkgs.hax; {
       } + "/Dank_Neon.tmTheme");
     };
   };
+
+  services.lorri.enable = true;
 }
