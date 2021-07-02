@@ -39,17 +39,19 @@ in with pkgs.hax; {
       lib.flatten [
         (lib.optional isDarwin [
           (brewCaskDmg "insomnia"
-            "0l88zzd3zmz55di44aldhnlncvh87plhcq6q73nvaiq7p2y7fggd")
+            "1ygiirdpdjzv6jb9a7wpki35p9ikfw3s29jnigbcqb0k6jgmhgvw")
+          (brewCaskDmg "slack"
+            "0dwzl8gq0mb1bky51zyln90yp5i3wfv8d3b9hd7zba7q05w356n8")
           (brewCaskDmg "cleanshot"
-            "1lm5jr84m0v5n3rwjx9bhq3kqvn8yl8px4z9iiwlbpmgm4hjcmkp")
+            "1h53qlri71zbfwwgvrdj9lr6snqy1m2vhy3bi8ylwhp8yswj06wn")
           # (brewCaskDmg "muzzle"
           #   "1viikhkb4iqb5jkzhwj2j419wyp8q8qsv8vfqkc7spjv82ymm28w")
           (brewCaskDmg "alfred"
-            "1sb7lwk3vj0f598kpbhwwn75zjs1m3939pkvi6ljnph1wjx0wdna")
+            "0dw16iq5qxj8zqwa79slvnbvfagyh68m30zzvd2v86a0d1x6rfl9")
           # (brewCaskDmg "karabiner-elements"
           #   "0dyhxlycplwya0zgqmhpvc6hn65b1b5b8rgfqh99dxhrls3w9li8")
           (brewCaskPkg "owncloud"
-            "0z2rgyd2vbgzf6v67ksvr248i1rkqw099hlw4ydvhjj19hy3f3g4")
+            "1mbni4hmcyk6xi09501159x2r13gkbqdgyh1zjgyv3g9xdd7nicb")
         ])
         (import (fetchTarball {
           url =
@@ -176,6 +178,7 @@ in with pkgs.hax; {
         "wget -O gogh https://git.io/vQgMr && chmod +x gogh && ./gogh && rm gogh";
       b64 = "base64 -w 0 | pbcopy";
       cat = "bat";
+      nixclean = "nix-collect-garbage -d";
     };
     initExtra = ''
       # Autocorrect typos in path names when using `cd`
@@ -203,6 +206,13 @@ in with pkgs.hax; {
       # export KEYS_AUTH=`keys auth -token`
       export PATH="$PATH:~/.bin"
       export PATH="$PATH:Users/wuz/.local/share/gem/ruby/2.7.0/gems"
+
+      function brewurl {
+        echo "Looking for $1"
+        curl "https://formulae.brew.sh/api/cask/$1.json" | jq
+        echo "sha256"
+        nix-prefetch-url "https://formulae.brew.sh/api/cask/$1.json"
+      }
     '';
   };
   programs.direnv.enable = true;

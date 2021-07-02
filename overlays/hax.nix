@@ -59,8 +59,9 @@
           phases = [ "buildPhase" "installPhase" ];
           buildInputs = [ installer ];
           installPhase = ''
-            mkdir -p $out/pkg
             installer -pkg "${package}" -target CurrentUserHomeDirectory
+            # This is very gross and super not nix-y, but IDK if it can be done any differently
+            mkdir -p $out/pkg
           '';
           meta = { };
           sourceRoot = ".";
@@ -81,9 +82,9 @@
           phases = [ "unpackPhase" "buildPhase" "installPhase" ];
           buildInputs = [ undmg ];
           installPhase = ''
-                        mkdir -p $out/Applications
-                        cp -R "${appFile}" "$out/Applications"
-                      '';
+            mkdir -p $out/Applications
+            cp -R "${appFile}" "$out/Applications"
+          '';
           meta = { };
           sourceRoot = ".";
         };
