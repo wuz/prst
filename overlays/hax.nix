@@ -42,52 +42,6 @@
           fi
         '';
       installer = mkImpureDrv "installer" "/usr/sbin/installer";
-      brewCaskPkg = cask: sha256:
-        let
-          home = getEnv "HOME";
-          data =
-            getJson "https://formulae.brew.sh/api/cask/${cask}.json" sha256;
-          appFile = removeSuffix " (Pkg)"
-            (head (filter isString (lists.flatten data.artifacts)));
-          package = fetchurl {
-            name = "${data.token}.pkg";
-            url = data.url;
-            sha256 = data.sha256;
-          };
-        in stdenv.mkDerivation {
-          name = data.token;
-          phases = [ "buildPhase" "installPhase" ];
-          buildInputs = [ installer ];
-          installPhase = ''
-            installer -pkg "${package}" -target CurrentUserHomeDirectory
-            # This is very gross and super not nix-y, but IDK if it can be done any differently
-            mkdir -p $out/pkg
-          '';
-          meta = { };
-          sourceRoot = ".";
-        };
-      brewCaskDmg = cask: sha256:
-        let
-          home = getEnv "HOME";
-          data =
-            getJson "https://formulae.brew.sh/api/cask/${cask}.json" sha256;
-          appFile = head (filter isString (lists.flatten data.artifacts));
-        in stdenv.mkDerivation {
-          name = data.token;
-          src = fetchurl {
-            name = "${data.token}.dmg";
-            url = data.url;
-            sha256 = data.sha256;
-          };
-          phases = [ "unpackPhase" "buildPhase" "installPhase" ];
-          buildInputs = [ undmg ];
-          installPhase = ''
-            mkdir -p $out/Applications
-            cp -R "${appFile}" "$out/Applications"
-          '';
-          meta = { };
-          sourceRoot = ".";
-        };
       alias = name: x:
         writeShellScriptBin name
         ''exec ${if isDerivation x then exe x else x} "$@"'';

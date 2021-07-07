@@ -1,4 +1,5 @@
 { config, pkgs, lib, ... }:
+
 let
   inherit (pkgs.hax) isDarwin fetchFromGitHub;
 
@@ -6,20 +7,19 @@ let
   lastName = "Durbin";
   username = "wuz";
   personalEmail = "c@wuz.sh";
-  workEmail = "conlin@hackerrank.com";
+  workEmail = "conlin@figurehr.com";
   home = (builtins.getEnv "HOME");
   user = (builtins.getEnv "USER");
   dots = "${home}/.alchemy";
 
-  kwbauson-cfg = import <kwbauson-cfg>;
-
   waterfoxConfig = import ./defaults/waterfox;
 
 in with pkgs.hax; {
+  imports = [ ./home/packages.nix ./home/optout.nix ];
   programs.home-manager.enable = true;
 
   home = {
-    username = "conlindurbin";
+    username = "wuz";
 
     sessionVariables = {
       EDITOR = "vim";
@@ -34,98 +34,6 @@ in with pkgs.hax; {
       LDFLAGS = "-L/usr/local/opt/readline/lib";
       CPPFLAGS = "-I/usr/local/opt/readline/include";
     };
-
-    packages = with pkgs;
-      lib.flatten [
-        (lib.optional isDarwin [
-          (brewCaskDmg "insomnia"
-            "1ygiirdpdjzv6jb9a7wpki35p9ikfw3s29jnigbcqb0k6jgmhgvw")
-          (brewCaskDmg "slack"
-            "0dwzl8gq0mb1bky51zyln90yp5i3wfv8d3b9hd7zba7q05w356n8")
-          (brewCaskDmg "cleanshot"
-            "1h53qlri71zbfwwgvrdj9lr6snqy1m2vhy3bi8ylwhp8yswj06wn")
-          # (brewCaskDmg "muzzle"
-          #   "1viikhkb4iqb5jkzhwj2j419wyp8q8qsv8vfqkc7spjv82ymm28w")
-          (brewCaskDmg "alfred"
-            "0dw16iq5qxj8zqwa79slvnbvfagyh68m30zzvd2v86a0d1x6rfl9")
-          # (brewCaskDmg "karabiner-elements"
-          #   "0dyhxlycplwya0zgqmhpvc6hn65b1b5b8rgfqh99dxhrls3w9li8")
-          (brewCaskPkg "owncloud"
-            "1mbni4hmcyk6xi09501159x2r13gkbqdgyh1zjgyv3g9xdd7nicb")
-        ])
-        (import (fetchTarball {
-          url =
-            "https://github.com/NixOS/nixpkgs/archive/266b6cdea3203ae0164c9974cfb4d58c6ff3b3fe.tar.gz";
-          sha256 = "1c8fymvb5r8xhp55ckynzyrk731p9bnmfs0k4yxz0ykxz5hpf4p4";
-        }) { }).wezterm
-        act
-        bandwhich
-        bash_5
-        bash-completion
-        bashInteractive
-        bat
-        bottom
-        coreutils-full
-        curl
-        delta
-        diffutils
-        dust
-        exa
-        exa
-        fd
-        figlet
-        ruby
-        nodejs
-        yarn
-        fzf
-        gawk
-        gh
-        gitAndTools.delta
-        gitAndTools.gh
-        gnugrep
-        gnupg
-        gnused
-        grex
-        hyperfine
-        # keybase
-        kwbauson-cfg.better-comma
-        kwbauson-cfg.git-trim
-        kwbauson-cfg.nle
-        luajit
-        mcfly
-        moreutils
-        msgpack
-        neovim-unwrapped
-        ninja
-        nix-bash-completions
-        nixfmt
-        nnn
-        nushell
-        openssh
-        ssh-copy-id
-        jq
-        go
-        procs
-        pssh
-        pup
-        ranger
-        rename
-        ripgrep
-        rsync
-        cargo
-        rustc
-        rustfmt
-        shellcheck
-        tealdeer
-        tmux
-        tokei
-        tree
-        tree-sitter
-        unzip
-        waterfox
-        wget
-        zoxide
-      ];
 
     activation = {
       copyApplications = let
@@ -458,6 +366,4 @@ in with pkgs.hax; {
       } + "/Dank_Neon.tmTheme");
     };
   };
-
-  services.lorri.enable = true;
 }

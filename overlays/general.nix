@@ -20,7 +20,7 @@ with builtins;
     version = "0.5-nightly";
     src = self.fetchurl {
       url = "https://github.com/neovim/neovim/archive/master.zip";
-      sha256 = "1074dxrlk978ddvn34r0kqwwadx1vnggjzi3a56zhd89dh5mirc8";
+      sha256 = "0p84xb7pids9ydnqx0aw97yy4xcp05sffg8g4m134qx834r4kwi1";
     };
 
     nativeBuildInputs = with self.pkgs; [ unzip cmake pkgconfig gettext tree-sitter-updated ];
