@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
-let home           = builtins.getEnv "HOME";
+let 
+  home           = builtins.getEnv "HOME";
 in {
   environment.darwinConfig = "$HOME/.config/nixpkgs/darwin.nix";
   imports = [ 
@@ -13,12 +14,14 @@ in {
     users.wuz = {
       name = "wuz";
       home = "/Users/wuz";
+      shell = pkgs.bash_5;
     };
   };
 
   services = {
     nix-daemon.enable = false;
     lorri.enable = true;
+    postgresql.enable = true;
   };
 
   nix = {
@@ -27,6 +30,11 @@ in {
       ssh-config-file = "${home}/.ssh/config";
     }];
     useDaemon = false;
+    extraOptions = ''
+      max-jobs = auto
+      extra-platforms = aarch64-darwin
+      extra-substituters = https://figurehr-figure.cachix.org
+    '';
   };
 
   nixpkgs = {

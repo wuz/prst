@@ -13,9 +13,10 @@
       "homebrew/cask-versions"
       "homebrew/core"
       "homebrew/services"
+      "wez/wezterm"
     ];
 
-    brews = [ ];
+    brews = [ "pam-u2f" ];
 
     casks = [
       "insomnia"
@@ -25,6 +26,13 @@
       "cleanshot"
       "muzzle"
       "owncloud"
+      "waterfox"
+      "brave-browser"
+      "itsycal"
+      "notion"
+      "obsidian"
+      "appcleaner"
+      "yubico-yubikey-manager"
 
       "affinity-designer"
       "affinity-photo"
@@ -35,13 +43,10 @@
       "tunnelblick"
       "rectangle"
       "karabiner-elements"
+      "iterm2-nightly"
+      "wezterm"
 
-      "qlcolorcode"
-      "qlstephen"
-      "qlmarkdown"
-      "quicklook-json"
-      "quicklook-csv"
-
+      "discord"
       "slack"
       "zoom"
 
