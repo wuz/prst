@@ -1,14 +1,9 @@
 { config, pkgs, ... }:
 
-let 
-  home           = builtins.getEnv "HOME";
+let home = builtins.getEnv "HOME";
 in {
   environment.darwinConfig = "$HOME/.config/nixpkgs/darwin.nix";
-  imports = [ 
-    <home-manager/nix-darwin>
-    ./darwin/system.nix
-    ./darwin/brew.nix
-  ];
+  imports = [ <home-manager/nix-darwin> ./darwin/system.nix ./darwin/brew.nix ];
 
   users = {
     users.wuz = {
@@ -20,21 +15,20 @@ in {
 
   services = {
     nix-daemon.enable = false;
-    lorri.enable = true;
     postgresql.enable = true;
   };
 
   nix = {
     nixPath = [{
-      darwin-config   = "${home}/.config/nixpkgs/darwin.nix";
+      darwin-config = "${home}/.config/nixpkgs/darwin.nix";
       ssh-config-file = "${home}/.ssh/config";
     }];
     useDaemon = false;
     extraOptions = ''
       max-jobs = auto
       extra-platforms = aarch64-darwin
-      extra-substituters = https://figurehr-figure.cachix.org
     '';
+    # extra-substituters = https://figurehr-figure.cachix.org
   };
 
   nixpkgs = {

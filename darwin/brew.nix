@@ -16,7 +16,7 @@
       "wez/wezterm"
     ];
 
-    brews = [ "pam-u2f" ];
+    brews = [ "pam-u2f" "signal-cli" ];
 
     casks = [
       "insomnia"
@@ -33,6 +33,8 @@
       "obsidian"
       "appcleaner"
       "yubico-yubikey-manager"
+      "bitwarden"
+      "1password"
 
       "affinity-designer"
       "affinity-photo"
@@ -49,6 +51,8 @@
       "discord"
       "slack"
       "zoom"
+      "signal"
+      "pulse-sms"
 
       "audio-hijack"
       "spotify"

@@ -12,21 +12,7 @@ let
 in with pkgs.hax; {
   home.packages = with pkgs;
     lib.flatten [
-      (lib.optional isDarwin [
-        reattach-to-user-namespace
-        (writeBashBinChecked "devenv" ''
-          #!/usr/bin/osascript
-          tell application "iTerm2"
-              tell current session of current tab of current window
-                  split horizontally with default profile
-                  split vertically with default profile
-              end tell
-              tell third session of current tab of current window
-                  split vertically with default profile
-              end tell
-          end tell
-        '')
-      ])
+      (lib.optional isDarwin [ reattach-to-user-namespace ])
       # lua-language-server
       act
       bandwhich
@@ -66,6 +52,7 @@ in with pkgs.hax; {
       kwbauson-cfg.git-trim
       kwbauson-cfg.nle
       libiconvReal
+      lolcat
       luajit
       mas
       mcfly
@@ -91,7 +78,7 @@ in with pkgs.hax; {
       ripgrep
       rsync
       ruby
-      rufo
+      # rufo
       rubocop
       rustc
       rustfmt
@@ -109,6 +96,5 @@ in with pkgs.hax; {
       wget
       yarn
       zoxide
-
     ];
 }
