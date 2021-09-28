@@ -2,9 +2,9 @@
 with pkgs.hax; {
   programs.bash = {
     enable = true;
-    inherit (config.home) sessionVariables;
     historyFileSize = -1;
     historySize = -1;
+    inherit (config.home) sessionVariables;
     shellAliases = {
       ".s" = "source ~/.bash_profile";
       hm = "home-manager";
@@ -40,7 +40,6 @@ with pkgs.hax; {
       # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
       eval "$(zoxide init bash)"
-
 
       # export KEYS_AUTH=`keys auth -token`
       export PATH="$PATH:~/.bin"

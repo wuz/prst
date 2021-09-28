@@ -1,34 +1,31 @@
-{ config, pkgs, lib, ... }:
-
+{ config, lib, ... }:
 let
+  pkgs = import ../default.nix { };
   inherit (pkgs.hax) isDarwin fetchFromGitHub;
   kwbauson-cfg = import (fetchFromGitHub {
     owner = "kwbauson";
     repo = "cfg";
-    rev = "1cd4b9097516358844f1d75551ad514dcf435011";
-    sha256 = "0vp1fwqwkn3x5sr57gcrc3ippjyx6c7a8whfp0dqax7wfmd5nznv";
+    rev = "main";
+    sha256 = "1hcvgyz4jdd55bq300iskn4ijl9qnfy9aqnnr0llpjmczf343jr0";
   });
   # lua-language-server = pkgs.callPackage ../packages/lua-language-server.nix { pkgs = pkgs; };
+  pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
+  python-with-global-packages = pkgsX86.python3.withPackages
+    (ps: with ps; [ pip botocore setuptools pynvim ]);
 in with pkgs.hax; {
   home.packages = with pkgs;
     lib.flatten [
       (lib.optional isDarwin [ reattach-to-user-namespace ])
       # lua-language-server
-      act
       bandwhich
-      bash-completion
-      bashInteractive
-      bash_5
-      bat
       bottom
-      cachix
+      # pkgsX86.cachix
       cargo
       coreutils-full
-      clangStdenv
+      # clangStdenv
       curl
-      delta
       diffutils
-      dust
+      du-dust
       exa
       fd
       figlet
@@ -38,30 +35,30 @@ in with pkgs.hax; {
       fzf
       gawk
       gcc11
-      gh
-      gitAndTools.delta
-      gitAndTools.gh
       gnugrep
       gnupg
       gnused
       go
       grex
+      heroku
       hyperfine
+      ipfs
       jq
       kwbauson-cfg.better-comma
-      kwbauson-cfg.git-trim
-      kwbauson-cfg.nle
       libiconvReal
       lolcat
-      luajit
+      pkgsX86.libuv
+      pkgsX86.luajit
       mas
-      mcfly
       moreutils
       msgpack
-      neovim-unwrapped
+      pkgsX86.neovim-unwrapped
+      pkgsX86.tree-sitter
       ninja
-      nix-bash-completions
-      nixfmt
+      # nix-bash-completions
+      nix-prefetch-git
+      nix-hash-unstable
+      pkgsX86.nixfmt
       nnn
       nodejs
       nushell
@@ -71,30 +68,27 @@ in with pkgs.hax; {
       procs
       pssh
       pup
-      python2
-      python3
+      pkgsX86.python2
+      python-with-global-packages
       ranger
       rename
       ripgrep
       rsync
       ruby
-      # rufo
       rubocop
       rustc
       rustfmt
-      shellcheck
+      pkgsX86.shellcheck
       solargraph
       ssh-copy-id
       tealdeer
-      thefuck
+      # thefuck
       time
-      tmux
       tokei
       tree
-      tree-sitter
       unzip
       wget
       yarn
-      zoxide
+      zsh-you-should-use
     ];
 }

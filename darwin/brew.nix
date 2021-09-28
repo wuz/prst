@@ -16,7 +16,7 @@
       "wez/wezterm"
     ];
 
-    brews = [ "pam-u2f" "signal-cli" ];
+    brews = [ "pam-u2f" ];
 
     casks = [
       "insomnia"
@@ -27,6 +27,7 @@
       "muzzle"
       "owncloud"
       "waterfox"
+      "google-chrome"
       "brave-browser"
       "itsycal"
       "notion"
@@ -35,6 +36,8 @@
       "yubico-yubikey-manager"
       "bitwarden"
       "1password"
+      "ipfs"
+      "mullvadvpn"
 
       "affinity-designer"
       "affinity-photo"
@@ -48,14 +51,15 @@
       "iterm2-nightly"
       "wezterm"
 
+      "steam"
       "discord"
       "slack"
-      "zoom"
       "signal"
       "pulse-sms"
 
       "audio-hijack"
       "spotify"
+      "beardedspice"
 
       "radicle-upstream"
     ];

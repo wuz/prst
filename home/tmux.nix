@@ -21,7 +21,7 @@ with pkgs.hax; {
 
       # handle mac copy/paste weirdness
       if-shell 'uname | grep -q Darwin' \
-      'set-option -g default-command "reattach-to-user-namespace -l bash"' \
+      'set-option -g default-command "reattach-to-user-namespace -l $SHELL"' \
 
       # mouse mode
       set -g mouse on

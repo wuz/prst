@@ -4,11 +4,16 @@ let
   workEmail = "conlin@figurehr.com";
   username = "wuz";
 in with pkgs.hax; {
+  programs.gh = {
+    enable = true;
+    gitProtocol = "ssh";
+  };
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
     userName = "${username}";
     userEmail = if isDarwin then workEmail else personalEmail;
+    delta = { enable = true; };
     aliases = {
       A = "add -A";
       cam = "commit -am";
@@ -23,7 +28,7 @@ in with pkgs.hax; {
       g =
         "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
       sl =
-        "stash list --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+        "stash list --pretty='format:%<(13)%C(auto)%gd %C(green)%s %C(auto)|%C(yellow) %ar'";
       h =
         "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline #pretty oneline graph of what is different from origin/master";
       pom =
@@ -72,10 +77,7 @@ in with pkgs.hax; {
       pull.ff = "only";
       init.defaultBranch = "main";
       checkout.defaultRemote = "origin";
-      core = {
-        editor = "nvim";
-        pager = "delta --dark";
-      };
+      core = { editor = "nvim"; };
       rebase.instructionFormat = "<%ae >%s";
       commit = { gpgsign = true; };
     };

@@ -1,15 +1,16 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let home = builtins.getEnv "HOME";
 in {
   environment.darwinConfig = "$HOME/.config/nixpkgs/darwin.nix";
   imports = [ <home-manager/nix-darwin> ./darwin/system.nix ./darwin/brew.nix ];
+  environment.shells = [ pkgs.zsh ];
 
   users = {
     users.wuz = {
       name = "wuz";
       home = "/Users/wuz";
-      shell = pkgs.bash_5;
+      shell = pkgs.zsh;
     };
   };
 
@@ -19,16 +20,13 @@ in {
   };
 
   nix = {
-    nixPath = [{
-      darwin-config = "${home}/.config/nixpkgs/darwin.nix";
-      ssh-config-file = "${home}/.ssh/config";
-    }];
     useDaemon = false;
     extraOptions = ''
+      system = x86_64-darwin
       max-jobs = auto
-      extra-platforms = aarch64-darwin
+      extra-platforms = x86_64-darwin aarch64-darwin
+      extra-substituters = https://figurehr-figure.cachix.org
     '';
-    # extra-substituters = https://figurehr-figure.cachix.org
   };
 
   nixpkgs = {

@@ -32,11 +32,12 @@ let
     (filter (file: hasSuffix ".nix" file && file != "default.nix") (files dir));
 
 in with pkgs.hax; {
+  nixpkgs.overlays = import ./overlays.nix;
   imports = nixFilesIn ./home;
-  # [ ./home/packages.nix ./home/optout.nix ./home/tmux.nix ./home/bash.nix ./home/git.nix ];
   programs.home-manager.enable = true;
 
   home = {
+    sessionPath = [ "${home}/.bin" ];
     username = "wuz";
 
     sessionVariables = {
@@ -44,7 +45,6 @@ in with pkgs.hax; {
       HISTCONTROL = "ignoredup";
       PAGER = "less";
       LESS = "-iR";
-      BASH_SILENCE_DEPRECATION_WARNING = "1";
       CACHE = "~/.cache";
       GCC_COLORS =
         "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01";
@@ -53,7 +53,7 @@ in with pkgs.hax; {
   };
 
   programs.direnv.enable = true;
-
   programs.mcfly.enable = true;
-
+  programs.zoxide.enable = true;
+  programs.starship.enable = true;
 }
