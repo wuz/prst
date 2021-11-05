@@ -80,6 +80,14 @@ in with pkgs.hax; {
       core = { editor = "nvim"; };
       rebase.instructionFormat = "<%ae >%s";
       commit = { gpgsign = true; };
+      merge = {
+        tool = "vimConflicted";
+      };
+      mergetool = {
+        vimConflicted = {
+          cmd = "vim +Conflicted";
+        };
+      };
     };
   };
   programs.git.signing = {

@@ -22,10 +22,9 @@ in {
   nix = {
     useDaemon = false;
     extraOptions = ''
-      system = x86_64-darwin
+      system = aarch64-darwin
       max-jobs = auto
       extra-platforms = x86_64-darwin aarch64-darwin
-      extra-substituters = https://figurehr-figure.cachix.org
     '';
   };
 

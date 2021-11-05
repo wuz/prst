@@ -1,8 +1,9 @@
+# conceptually this is a great idea, but it doesn't quite work for m1 macs
 { config, ... }:
 
 {
   homebrew = {
-    enable = true;
+    enable = false;
     autoUpdate = true;
     cleanup = "zap";
 

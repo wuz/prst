@@ -6,7 +6,7 @@ let
     owner = "kwbauson";
     repo = "cfg";
     rev = "main";
-    sha256 = "1hcvgyz4jdd55bq300iskn4ijl9qnfy9aqnnr0llpjmczf343jr0";
+    sha256 = "0l4fhngqlcgfj5xz001hak1wlc98l7rrzwrxfdqs72kr1pl1myi7";
   });
   # lua-language-server = pkgs.callPackage ../packages/lua-language-server.nix { pkgs = pkgs; };
   pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
@@ -16,13 +16,10 @@ in with pkgs.hax; {
   home.packages = with pkgs;
     lib.flatten [
       (lib.optional isDarwin [ reattach-to-user-namespace ])
-      # lua-language-server
       bandwhich
       bottom
-      # pkgsX86.cachix
       cargo
       coreutils-full
-      # clangStdenv
       curl
       diffutils
       du-dust
@@ -34,34 +31,32 @@ in with pkgs.hax; {
       fontforge-fonttools
       fzf
       gawk
-      gcc11
+      gcc
       gnugrep
       gnupg
       gnused
       go
       grex
+      hadolint
       heroku
       hyperfine
       ipfs
       jq
-      kwbauson-cfg.better-comma
-      libiconvReal
+      libiconv
       lolcat
       pkgsX86.libuv
       pkgsX86.luajit
       mas
       moreutils
       msgpack
-      pkgsX86.neovim-unwrapped
-      pkgsX86.tree-sitter
+      neovim-unwrapped
+      tree-sitter
       ninja
-      # nix-bash-completions
       nix-prefetch-git
       nix-hash-unstable
       pkgsX86.nixfmt
       nnn
       nodejs
-      nushell
       openssh
       pkg-config
       pinentry_mac

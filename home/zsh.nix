@@ -56,6 +56,8 @@ with pkgs.hax; {
       . /Users/wuz/.nix-profile/etc/profile.d/nix.sh
       export PATH="$PATH:/run/current-system/sw/bin:/usr/local/bin"
       export NIX_PATH="$NIX_PATH:darwin-rebuild=$HOME/.config/nixpkgs/darwin.nix"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+      eval "$(mcfly init zsh)"
     '';
   };
 }
