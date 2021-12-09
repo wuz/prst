@@ -4,22 +4,6 @@ with builtins; [
       with lib;
       with builtins;
       lib // rec {
-        tree-sitter-updated = super.tree-sitter.overrideAttrs (oldAttrs: {
-          version = "0.17.3";
-          sha256 = "sha256-uQs80r9cPX8Q46irJYv2FfvuppwonSS5HVClFujaP+U=";
-          cargoSha256 = "sha256-fonlxLNh9KyEwCj7G5vxa7cM/DlcHNFbQpp0SwVQ3j4=";
-
-          postInstall = ''
-            PREFIX=$out make install
-          '';
-
-        });
-      }))
-  (self: super:
-    (x: { hax = x; }) (with super;
-      with lib;
-      with builtins;
-      lib // rec {
         inherit (stdenv) isLinux isDarwin;
         inherit (pkgs) fetchFromGitHub;
         mapAttrValues = f: mapAttrs (n: v: f v);
@@ -121,6 +105,16 @@ with builtins; [
           https://github.com/NixOS/nixpkgs.git | \
         ${jq}/bin/jq '{ rev: .rev, sha256: .sha256 }'
       '');
+	tree-sitter-updated = super.tree-sitter.overrideAttrs (oldAttrs: {
+	  version = "0.20.0";
+	  sha256 = "sha256-uQs80r9cPX8Q46irJYv2FfvuppwonSS5HVClFujaP+U=";
+	  cargoSha256 = "sha256-fonlxLNh9KyEwCj7G5vxa7cM/DlcHNFbQpp0SwVQ3j4=";
+
+	  postInstall = ''
+	    PREFIX=$out make install
+	  '';
+
+	});
     nix-hash-kwb = with super;
       with hax;
       (writeBashBinChecked "nix-hash-kwb" ''

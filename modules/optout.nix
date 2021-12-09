@@ -1,0 +1,108 @@
+{ pkgs, lib, config, home-manager, nix-darwin, inputs, ... }: 
+let
+  inherit (pkgs.hax) isDarwin fetchFromGitHub;
+  kwbauson-cfg = import (fetchFromGitHub {
+    owner = "kwbauson";
+    repo = "cfg";
+    rev = "main";
+    sha256 = "sha256-T/yKpgfgfTzA2xeM4sshBZMDXCDZlHhpMTVADLV0Xb8";
+  });
+  pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
+  statix = import (fetchFromGitHub {
+    owner = "nerdypepper";
+    repo = "statix";
+    rev = "4e063b2abc402ac4d6902647e821978269025c7d";
+    sha256 = "0k5zgf1vssjzikbkknl0czv43kai48nvr1krhjs65w2gfwygqikf";
+  });
+  python-with-global-packages =
+    pkgs.python3.withPackages (ps: with ps; [ pip botocore setuptools pynvim ]);
+in with pkgs.hax; {
+    home-manager.users.wuz = {
+        home.sessionVariables = {
+            ET_NO_TELEMETRY = "ANY_VALUE";
+            HOMEBREW_NO_ANALYTICS = "1";
+            LYNX_ANALYTICS = "0";
+            AUTOMAGICA_NO_TELEMETRY = "ANY_VALUE";
+            SAM_CLI_TELEMETRY = "0";
+            AZURE_CORE_COLLECT_TELEMETRY = "0";
+            CLOUDSDK_CORE_DISABLE_USAGE_REPORTING = "true";
+            HOOKDECK_CLI_TELEMETRY_OPTOUT = "ANY_VALUE";
+            STRIPE_CLI_TELEMETRY_OPTOUT = "1";
+            DO_NOT_TRACK = "1";
+            MM_LOGSETTINGS_ENABLEDIAGNOSTICS = "false";
+            MM_SERVICESETTINGS_ENABLESECURITYFIXALERT = "false";
+            FEAST_TELEMETRY = "False";
+            INFLUXD_REPORTING_DISABLED = "true";
+            MELTANO_DISABLE_TRACKING = "True";
+            QUILT_DISABLE_USAGE_METRICS = "True";
+            ALIBUILD_NO_ANALYTICS = "1";
+            NG_CLI_ANALYTICS = "false";
+            NG_CLI_ANALYTICS_SHARE = "false";
+            APPCD_TELEMETRY = "0";
+            MOBILE_CENTER_TELEMETRY = "off";
+            ARDUINO_METRICS_ENABLED = "false";
+            BF_CLI_TELEMETRY = "false";
+            CARBON_TELEMETRY_DISABLED = "1";
+            CHOOSENIM_NO_ANALYTICS = "1";
+            COCOAPODS_DISABLE_STATS = "true";
+            CI = "ANY_VALUE";
+            CUBEJS_TELEMETRY = "false";
+            DAGSTER_DISABLE_TELEMETRY = "ANY_VALUE";
+            DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT = "1";
+            DOTNET_SVCUTIL_TELEMETRY_OPTOUT = "1";
+            FASTLANE_OPT_OUT_USAGE = "YES";
+            TELEMETRY_DISABLED = "ANY_VALUE";
+            GATSBY_TELEMETRY_DISABLED = "1";
+            HASURA_GRAPHQL_ENABLE_TELEMETRY = "false";
+            MEILI_NO_ANALYTICS = "true";
+            MLDOTNET_CLI_TELEMETRY_OPTOUT = "True";
+            MSSQL_CLI_TELEMETRY_OPTOUT = "True";
+            DOTNET_CLI_TELEMETRY_OPTOUT = "true";
+            NEXT_TELEMETRY_DISABLED = "1";
+            NUXT_TELEMETRY_DISABLED = "1";
+            SQA_OPT_OUT = "true";
+            ORYX_DISABLE_TELEMETRY = "true";
+            PANTS_ANONYMOUS_TELEMETRY_ENABLED = "false";
+            PROSE_TELEMETRY_OPTOUT = "ANY_VALUE";
+            RASA_TELEMETRY_ENABLED = "false";
+            REPORTPORTAL_CLIENT_JS_NO_ANALYTICS = "true";
+            AGENT_NO_ANALYTICS = "1";
+            RESTLER_TELEMETRY_OPTOUT = "1";
+            ROCKSET_CLI_TELEMETRY_OPTOUT = "1";
+            SUGGESTIONS_OPT_OUT = "ANY_VALUE";
+            APOLLO_TELEMETRY_DISABLED = "1";
+            SALTO_TELEMETRY_DISABLE = "1";
+            SLS_TELEMETRY_DISABLED = "1";
+            SFDX_DISABLE_TELEMETRY = "true";
+            SKU_TELEMETRY = "false";
+            STRAPI_TELEMETRY_DISABLED = "true";
+            STRAPI_DISABLE_UPDATE_NOTIFICATION = "true";
+            TUIST_STATS_OPT_OUT = "1";
+            VUEDX_TELEMETRY = "off";
+            HINT_TELEMETRY = "off";
+            AUTOMATEDLAB_TELEMETRY_OPTOUT = "1";
+            BATECT_ENABLE_TELEMETRY = "false";
+            CHEF_TELEMETRY_OPT_OUT = "1";
+            DECK_ANALYTICS = "off";
+            TEEM_DISABLE = "true";
+            F5_ALLOW_TELEMETRY = "false";
+            INFRACOST_SELF_HOSTED_TELEMETRY = "false";
+            INFRACOST_SKIP_UPDATE_CHECK = "true";
+            KICS_COLLECT_TELEMETRY = "0";
+            ALLOW_UI_ANALYTICS = "false";
+            MSLAB_TELEMETRY_LEVEL = "None";
+            NUKE_TELEMETRY_OPTOUT = "1";
+            PNPPOWERSHELL_DISABLETELEMETRY = "true";
+            PNPPOWERSHELL_UPDATECHECK = "false";
+            SCOUT_DISABLE = "1";
+            CHECKPOINT_DISABLE = "ANY_VALUE";
+            VAGRANT_CHECKPOINT_DISABLE = "ANY_VALUE";
+            VAGRANT_BOX_UPDATE_CHECK_DISABLE = "ANY_VALUE";
+            ANALYTICS = "no";
+            DISABLE_AUTO_UPDATE = "true";
+            POWERSHELL_TELEMETRY_OPTOUT = "1";
+            POWERSHELL_UPDATECHECK = "Off";
+            AITOOLSVSCODE_DISABLETELEMETRY = "ANY_VALUE";
+        };
+    };
+}
