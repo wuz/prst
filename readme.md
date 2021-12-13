@@ -1,6 +1,6 @@
 # prst - prestidigitate a dev env
 
-[![uses nix](https://img.shields.io/badge/uses-nix-%237EBAE4)](https://nixos.org/) | ![runs on dark magic](https://img.shields.io/badge/runs%20on-dark%20magic-ff467e)
+[![uses nix](https://img.shields.io/badge/uses-nix-%237EBAE4)](https://nixos.org/) ![runs on dark magic](https://img.shields.io/badge/runs%20on-dark%20magic-ff467e)
 
 ## install
 
