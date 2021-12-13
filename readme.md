@@ -27,7 +27,9 @@ git clone https://github.com/wuz/prst.git ~/.config/nixpkgs
 ### install tools
 
 ```bash
-nix build .\#darwinConfigurations.prst.system --extra-experimental-features nix-command --extra-experimental-features flakes --impure
+# change the name of the system configuration from `prst` to your hostname in flake.nix
+
+nix build .\#darwinConfigurations.$(hostname).system --extra-experimental-features nix-command --extra-experimental-features flakes --impure
 
 ./result/sw/bin/darwin-rebuild switch --flake . --impure
 ```
