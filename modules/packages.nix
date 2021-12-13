@@ -39,6 +39,8 @@ in {
 
         fontforge
         fontforge-fonttools
+        google-fonts
+
         gcc
         msgpack
         libiconv

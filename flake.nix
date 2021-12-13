@@ -48,7 +48,7 @@
         (filter (file: hasSuffix ".nix" file && file != "default.nix")
           (files dir));
     in {
-      darwinConfigurations."wuzsys" = darwin.lib.darwinSystem {
+      darwinConfigurations."prst" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           {

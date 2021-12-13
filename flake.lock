@@ -190,11 +190,11 @@
       },
       "locked": {
         "narHash": "sha256-nwnzNVbRx3Wr6SSALcDoGozpayGqBVzrjS8FTzMNnxQ=",
-        "path": "/nix/store/1im01hf5j4iiaca3bgb9fqcr92dy979b-source/pkgs-wuz",
+        "path": "/nix/store/jdilcpz27r95gc5m5v0nv9k5bzgw3ki1-source/pkgs-wuz",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/1im01hf5j4iiaca3bgb9fqcr92dy979b-source/pkgs-wuz",
+        "path": "/nix/store/jdilcpz27r95gc5m5v0nv9k5bzgw3ki1-source/pkgs-wuz",
         "type": "path"
       }
     },

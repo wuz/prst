@@ -220,7 +220,7 @@ in {
       initExtra = ''
         eval "$(/opt/homebrew/bin/brew shellenv)"
         source /Users/wuz/.iterm2_shell_integration.zsh
-        export PATH="$PATH:/etc/profiles/per-user/wuz/bin"
+        export PATH="$PATH:/etc/profiles/per-user/wuz/bin:/usr/local/bin"
       '';
     };
     programs.bat = {
