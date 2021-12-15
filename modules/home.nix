@@ -7,6 +7,7 @@ let
   username = "wuz";
 in {
   home-manager.users.wuz = {
+
     programs.tmux = {
       enable = true;
       shortcut = "a";
@@ -223,6 +224,9 @@ in {
         export PATH="$PATH:/etc/profiles/per-user/wuz/bin:/usr/local/bin"
       '';
     };
+    programs.gpg = {
+      enable = true;
+    };
     programs.bat = {
       enable = true;
       config = {
@@ -239,6 +243,7 @@ in {
         } + "/Dank_Neon.tmTheme");
       };
     };
+    programs.gh.enable = true;
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;

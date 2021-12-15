@@ -32,6 +32,8 @@ in {
       lib.flatten [
         (lib.optional stdenv.isDarwin [ reattach-to-user-namespace ])
 
+        libuv
+
         nix-prefetch-git
         nix-hash-unstable
         statix.defaultPackage.aarch64-darwin
@@ -92,24 +94,27 @@ in {
 
         neovim-nightly
         tree-sitter
-        todoist
+
+        selene
+        stylua
+        luaformatter
+        solargraph
 
         kwbauson-cfg.better-comma
+
+        openssh
+        pinentry_mac
 
         /* fzf
             hadolint
             ipfs
             lolcat
-            pkgsX86.libuv
             pkgsX86.luajit
             ninja
             nnn
-            openssh
             pkg-config
-            pinentry_mac
             procs
             pssh
-            solargraph
             ssh-copy-id
             # thefuck
         */
