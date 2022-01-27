@@ -173,15 +173,25 @@ in {
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
-    programs.mcfly.enable = true;
+    programs.mcfly={
+      enable = true;
+      enableZshIntegration = true;
+      keyScheme = "vim";
+    };
     programs.zoxide.enable = true;
     programs.starship.enable = true;
     programs.zsh = {
       enable = true;
       enableAutosuggestions = true;
       enableSyntaxHighlighting = true;
-      enableCompletion = false;
-      zplug = { enable = true; };
+      enableCompletion = true;
+      autocd = true;
+      zplug = { 
+        enable = true;
+        plugins = [
+          # { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+        ];
+      };
       shellAliases = {
         ".s" = "source ~/.zshrc";
         hm = "home-manager";
@@ -218,10 +228,18 @@ in {
         drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
         drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
       };
+      initExtraFirst = ''
+        [ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+      '';
       initExtra = ''
         eval "$(/opt/homebrew/bin/brew shellenv)"
         source /Users/wuz/.iterm2_shell_integration.zsh
+        DISABLE_MAGIC_FUNCTIONS=true
+        ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+        COMPLETION_WAITING_DOTS=true
+        DISABLE_UNTRACKED_FILES_DIRTY=true
         export PATH="$PATH:/etc/profiles/per-user/wuz/bin:/usr/local/bin"
+        [ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
       '';
     };
     programs.gpg = {

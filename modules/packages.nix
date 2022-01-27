@@ -6,7 +6,7 @@ let
     owner = "kwbauson";
     repo = "cfg";
     rev = "main";
-    sha256 = "sha256-T/yKpgfgfTzA2xeM4sshBZMDXCDZlHhpMTVADLV0Xb8";
+    sha256 = "sha256-fHD9LAvXcF8E44DopfBvzVO/DBhU4wD6rAwNVPny6SI=";
   });
   pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
 
@@ -94,6 +94,8 @@ in {
 
         neovim-nightly
         tree-sitter
+        
+        bitwarden-cli
 
         selene
         stylua
@@ -103,6 +105,7 @@ in {
         kwbauson-cfg.better-comma
 
         openssh
+        openssl
         pinentry_mac
 
         /* fzf
