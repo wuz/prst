@@ -6,7 +6,7 @@ let
     owner = "kwbauson";
     repo = "cfg";
     rev = "main";
-    sha256 = "sha256-fHD9LAvXcF8E44DopfBvzVO/DBhU4wD6rAwNVPny6SI=";
+    sha256 = "sha256-2M+rTi81t6u6S2KCmXpQ39tVc4hcyFO0wvBjJoKOIvY=";
   });
   pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
 
@@ -67,8 +67,8 @@ in {
         go
         ruby_3_0
         rubocop
-        python2
         python-with-global-packages
+        python2
 
         exa
         jq
@@ -101,12 +101,14 @@ in {
         stylua
         luaformatter
         solargraph
+        nodePackages.fixjson
 
         kwbauson-cfg.better-comma
 
         openssh
         openssl
         pinentry_mac
+
 
         /* fzf
             hadolint

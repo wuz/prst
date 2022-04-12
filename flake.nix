@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "unstable";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "unstable";
     };
 
@@ -54,7 +54,7 @@
           {
             nixpkgs.overlays = with inputs; [ neovim.overlay pkgs-wuz.overlay ];
           }
-          home-manager.darwinModule
+          home-manager.darwinModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
@@ -85,6 +85,9 @@
             };
           })
           ./modules/home.nix
+          ./modules/git.nix
+          ./modules/zsh.nix
+          ./modules/tmux.nix
           ./modules/packages.nix
           ./modules/optout.nix
         ];
