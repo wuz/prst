@@ -17,6 +17,12 @@ in {
     programs.zoxide.enable = true;
     # programs.starship = {
     #   enable = true;
+    #   # Starship is broken on the current version for mac
+    #   package = (import (builtins.fetchGit {
+    #       name = "nixpkgs-starship-old";
+    #       url = https://github.com/nixos/nixpkgs/;
+    #       rev = "cc2a7c2943364eee1be6c6eb2c83a856b7f39f34";
+    #     }) {}).starship;
     # };
     programs.gpg = {
       enable = true;
