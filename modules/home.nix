@@ -15,9 +15,9 @@ in {
       keyScheme = "vim";
     };
     programs.zoxide.enable = true;
-    programs.starship = {
-      enable = true;
-    };
+    # programs.starship = {
+    #   enable = true;
+    # };
     programs.gpg = {
       enable = true;
     };

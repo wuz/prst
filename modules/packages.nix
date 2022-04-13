@@ -6,7 +6,7 @@ let
     owner = "kwbauson";
     repo = "cfg";
     rev = "main";
-    sha256 = "sha256-2M+rTi81t6u6S2KCmXpQ39tVc4hcyFO0wvBjJoKOIvY=";
+    sha256 = "sha256-q0O1AI1G1M68PLU0pW9fZU3BdEITaCIM3iThcgxbwWg=";
   });
   pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
 
@@ -75,6 +75,7 @@ in {
         bottom
         hyperfine
         du-dust
+        procs
         fd
         figlet
         pup
@@ -118,7 +119,6 @@ in {
             ninja
             nnn
             pkg-config
-            procs
             pssh
             ssh-copy-id
             # thefuck

@@ -44,9 +44,6 @@ in {
         drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
         drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
       };
-      initExtraFirst = ''
-        [ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
-      '';
       initExtra = ''
         export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
         eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -56,7 +53,6 @@ in {
         COMPLETION_WAITING_DOTS=true
         DISABLE_UNTRACKED_FILES_DIRTY=true
         export PATH="$PATH:/etc/profiles/per-user/wuz/bin:/usr/local/bin"
-        [ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
       '';
     };
   };
