@@ -30,68 +30,34 @@
   outputs = { self, nixpkgs, darwin, neovim, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
-      # Recursively constructs an attrset of a given folder, recursing on directories, value of attrs is the filetype
-      getDir = dir:
-        mapAttrs (file: type:
-          if type == "directory" then getDir "${dir}/${file}" else type)
-        (builtins.readDir dir);
-
-      # Collects all files of a directory as a list of strings of paths
-      files = dir:
-        collect isString
-        (mapAttrsRecursive (path: type: concatStringsSep "/" path)
-          (getDir dir));
-
-      # Filters out directories that don't end with .nix or are this file, also makes the strings absolute
-      nixFilesIn = dir:
-        map (file: dir + "/${file}")
-        (filter (file: hasSuffix ".nix" file && file != "default.nix")
-          (files dir));
+      inherit (darwin.lib) darwinSystem;
+      inherit (inputs.nixpkgs.lib) attrValues makeOverridable optionalAttrs singleton;
     in {
-      darwinConfigurations."prst" = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          {
-            nixpkgs.overlays = with inputs; [ neovim.overlay pkgs-wuz.overlay ];
-          }
-          home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-            };
-          }
-          ({ pkgs, lib, ... }: {
-            environment.shells = [ pkgs.zsh ];
-
-            environment.systemPackages = with pkgs; [ zsh ];
-
-            users.users.wuz = {
-              name = "wuz";
-              home = "/Users/wuz";
-              shell = pkgs.zsh;
-            };
-
-            services = { nix-daemon.enable = true; };
-            nixpkgs = { config = { allowUnfree = true; }; };
-            nix = {
-              package = pkgs.nix;
-              extraOptions = ''
-                system = aarch64-darwin
-                max-jobs = auto
-                extra-platforms = aarch64-darwin x86_64-darwin
-                experimental-features = nix-command flakes
-              '';
-            };
-          })
-          ./modules/home.nix
-          ./modules/git.nix
-          ./modules/zsh.nix
-          ./modules/tmux.nix
-          ./modules/packages.nix
-          ./modules/optout.nix
-        ];
-
+      darwinConfigurations = rec {
+        prst = darwinSystem {
+          system = "aarch64-darwin";
+          modules = attrValues self.darwinModules ++ [
+            {
+              nixpkgs.overlays = with inputs; [ neovim.overlay pkgs-wuz.overlay ];
+            }
+            ./modules/configuration.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+              };
+            }
+            ./modules/home.nix
+            ./modules/git.nix
+            ./modules/zsh.nix
+            ./modules/tmux.nix
+            ./modules/packages.nix
+            ./modules/optout.nix
+          ];
+        };
       };
+      darwinModules = {};
+      darwinPackages = self.darwinConfigurations."prst".pkgs;
     };
 }

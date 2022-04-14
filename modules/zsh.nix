@@ -45,7 +45,6 @@ in {
         drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
       };
       initExtra = ''
-        export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
         eval "$(/opt/homebrew/bin/brew shellenv)"
         source /Users/wuz/.iterm2_shell_integration.zsh
         DISABLE_MAGIC_FUNCTIONS=true

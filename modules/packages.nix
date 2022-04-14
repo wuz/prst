@@ -6,7 +6,7 @@ let
     owner = "kwbauson";
     repo = "cfg";
     rev = "main";
-    sha256 = "sha256-q0O1AI1G1M68PLU0pW9fZU3BdEITaCIM3iThcgxbwWg=";
+    sha256 = "sha256-E4L7s/B6C0EQpxwHeUEsHCFIlSFT4rmk9r4Q1L5hUms=";
   });
   pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
 
