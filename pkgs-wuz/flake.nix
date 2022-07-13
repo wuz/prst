@@ -4,11 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
 
-    neovide-src = {
-      url = "github:neovide/neovide";
-      flake = false;
-    };
-
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,7 +18,7 @@
   outputs = args@{ self, flake-utils, nixpkgs, rust-nightly, ... }:
     {
       overlay = final: prev: {
-        inherit (self.packages.${final.system}) neovide-git writeBashBinChecked;
+        inherit (self.packages.${final.system}) writeBashBinChecked nix-hash-unstable git-pull-status;
       };
     } // flake-utils.lib.eachSystem [
       "aarch64-darwin"
@@ -33,19 +28,17 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ rust-nightly.overlay ];
-          allowBroken = true;
-          allowUnsupportedSystem = true;
+          overlays = [ rust-nightly.overlays.default ];
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
         };
         version = "999-unstable";
       in {
         packages = rec {
-          neovide-git = (pkgs.neovide.overrideAttrs (old: {
-            inherit version;
-            src = args.neovide-src;
-            buildInputs = (old.buildInputs or [ ])
-              ++ (with pkgs; [ rust-bin.nightly.latest.default ]);
-          }));
+
           writeBashBinChecked = name: text:
             pkgs.stdenv.mkDerivation {
               inherit name text;
@@ -59,6 +52,32 @@
                 ${pkgs.shellcheck}/bin/shellcheck $out/bin/${name}
               '';
             };
+
+          nix-hash-unstable = writeBashBinChecked "nix-hash-unstable" ''
+            ${pkgs.nix-prefetch-git}/bin/nix-prefetch-git \
+            --quiet \
+            --no-deepClone \
+            --branch-name nixpkgs-unstable \
+            https://github.com/NixOS/nixpkgs.git | \
+            ${pkgs.jq}/bin/jq '{ rev: .rev, sha256: .sha256 }'
+          '';
+
+          git-pull-status = writeBashBinChecked "git-pull-status" ''
+            UPSTREAM=$1
+            LOCAL=$(git rev-parse @)
+            REMOTE=$(git rev-parse "$UPSTREAM")
+            BASE=$(git merge-base @ "$UPSTREAM")
+
+            if [ "$LOCAL" = "$REMOTE" ]; then
+                echo "Up-to-date"
+            elif [ "$LOCAL" = "$BASE" ]; then
+                echo "Need to pull"
+            elif [ "$REMOTE" = "$BASE" ]; then
+                echo "Need to push"
+            else
+                echo "Diverged"
+            fi
+          '';
         };
       });
 }

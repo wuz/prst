@@ -16,10 +16,10 @@
       inputs.nixpkgs.follows = "unstable";
     };
 
-    neovim = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "unstable";
-    };
+    # neovim = {
+    #   url = "github:nix-community/neovim-nightly-overlay";
+    #   inputs.nixpkgs.url = "github:nixos/nixpkgs?rev=fad51abd42ca17a60fc1d4cb9382e2d79ae31836";
+    # };
 
     pkgs-wuz = {
       url = "./pkgs-wuz";
@@ -27,37 +27,47 @@
     };
   };
 
-  outputs = { self, nixpkgs, darwin, neovim, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
       inherit (darwin.lib) darwinSystem;
-      inherit (inputs.nixpkgs.lib) attrValues makeOverridable optionalAttrs singleton;
-    in {
-      darwinConfigurations = rec {
+      inherit (inputs.nixpkgs.lib)
+        attrValues makeOverridable optionalAttrs singleton;
+      overlays = with inputs;
+        [
+          # neovim.overlay
+          pkgs-wuz.overlay
+        ];
+    in
+    {
+      darwinConfigurations = {
         prst = darwinSystem {
           system = "aarch64-darwin";
-          modules = attrValues self.darwinModules ++ [
-            {
-              nixpkgs.overlays = with inputs; [ neovim.overlay pkgs-wuz.overlay ];
-            }
-            ./modules/configuration.nix
-            home-manager.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-              };
-            }
-            ./modules/home.nix
-            ./modules/git.nix
-            ./modules/zsh.nix
-            ./modules/tmux.nix
-            ./modules/packages.nix
-            ./modules/optout.nix
-          ];
+          modules = self.sharedModules ++ [ ];
+        };
+        "PS-MAC-CDURBIN" = darwinSystem {
+          system = "aarch64-darwin";
+          modules = self.sharedModules ++ [ ];
         };
       };
-      darwinModules = {};
+      sharedModules = [
+        { nixpkgs.overlays = overlays; }
+        ./modules/configuration.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+          };
+        }
+        ./modules/home.nix
+        ./modules/git.nix
+        ./modules/email.nix
+        ./modules/zsh.nix
+        # ./modules/tmux.nix
+        ./modules/packages.nix
+        ./modules/optout.nix
+      ];
       darwinPackages = self.darwinConfigurations."prst".pkgs;
     };
 }

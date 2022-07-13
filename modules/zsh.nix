@@ -1,7 +1,8 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
 let
   inherit (pkgs) fetchFromGithub;
-in {
+in
+{
   home-manager.users.wuz = {
     programs.zsh = {
       enable = true;
@@ -27,13 +28,12 @@ in {
         b64 = "base64 -w 0 | pbcopy";
         cat = "bat";
         nixclean = "nix-collect-garbage -d";
+        nixsearch = "nix-env -qaP | grep -i $1";
         strip = ''
           sed -E 's#^\s+|\s+$##g'
         '';
 
-        # nix
-        nix_hash = "nix-prefetch-url";
-        nix_hash_git = "nix-prefetch-git";
+        # nix nix_hash = "nix-prefetch-url"; nix_hash_git = "nix-prefetch-git";
 
         # docker
         d = "docker";
@@ -45,8 +45,8 @@ in {
         drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
       };
       initExtra = ''
+        ulimit -n 10240
         eval "$(/opt/homebrew/bin/brew shellenv)"
-        source /Users/wuz/.iterm2_shell_integration.zsh
         DISABLE_MAGIC_FUNCTIONS=true
         ZSH_AUTOSUGGEST_MANUAL_REBIND=1
         COMPLETION_WAITING_DOTS=true

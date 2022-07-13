@@ -7,13 +7,25 @@ let
   username = "wuz";
 in {
   home-manager.users.wuz = {
-    programs.gh.enable = true;
+    programs.gh = {
+      enable = true;
+      settings = {
+        prompt = "enabled";
+        git_protocol = "ssh";
+        editor = "vim";
+        aliases = {
+          co = "pr checkout";
+          pv = "pr view";
+        };
+      };
+    };
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
       userName = "${username}";
       userEmail = if isDarwin then workEmail else personalEmail;
       delta = { enable = true; };
+      lfs = { enable = true; };
       signing = {
         key = "CAA69BFC5EF24C40";
         gpgPath = "gpg";
