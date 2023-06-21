@@ -3,12 +3,12 @@ let
   inherit (pkgs)
     fetchFromGitHub writeBashBinChecked nix-hash-unstable git-pull-status;
 
-  kwbauson-cfg = import (fetchFromGitHub {
-    owner = "kwbauson";
-    repo = "cfg";
-    rev = "main";
-    sha256 = "sha256-NAohJAV4W3OFsEojxFdGEEcWSsUCdEUweg1F+KrJFhQ=";
-  });
+  # kwbauson-cfg = import (fetchFromGitHub {
+  #   owner = "kwbauson";
+  #   repo = "cfg";
+  #   rev = "main";
+  #   sha256 = "sha256-MNXvHKBCnuIoj5RMqvoVfPw8mWE8sQrqWHl/KuebVT0=";
+  # });
 
   pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
 
@@ -92,7 +92,6 @@ in
         w3m
 
         # neovim-nightly
-        neovim
         tree-sitter
 
         bitwarden-cli
@@ -103,7 +102,7 @@ in
         solargraph
         nodePackages.fixjson
 
-        kwbauson-cfg.better-comma
+        # kwbauson-cfg.better-comma
 
         openssh
         openssl

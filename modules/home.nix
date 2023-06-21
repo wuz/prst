@@ -22,6 +22,9 @@ in
       keyScheme = "vim";
     };
     programs.zoxide.enable = true;
+    programs.neovim = {
+      enable = true;
+    };
     programs.starship = {
       enable = true;
       settings = {
