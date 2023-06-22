@@ -1,12 +1,12 @@
 {
   description = "prst - wuz's configurator";
 
-  # nixConfig.extra-substituters = "https://nix-community.cachix.org";
-  # nixConfig.extra-trusted-public-keys =
-  #   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
+  nixConfig.extra-substituters = "https://nix-community.cachix.org";
+  nixConfig.extra-trusted-public-keys =
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
 
   inputs = {
-    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    unstable.url = "github:nixos/nixpkgs";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "unstable";
@@ -28,20 +28,21 @@
       inherit (darwin.lib) darwinSystem;
       inherit (inputs.nixpkgs.lib)
         attrValues makeOverridable optionalAttrs singleton;
-      overlays = with inputs;
-        [
-          pkgs-wuz.overlay
-        ];
-    in
-    {
-      darwinConfigurations = {
-        prst = darwinSystem {
-          system = "aarch64-darwin";
-          modules = self.sharedModules ++ [ ];
-        };
-        "PS-MAC-CDURBIN" = darwinSystem {
-          system = "aarch64-darwin";
-          modules = self.sharedModules ++ [ ];
+      overlays = with inputs; [ pkgs-wuz.overlay ];
+      configuration = { pkgs, ... }: {
+        system.stateVersion = 4;
+        homebrew = {
+          casks = [
+            "setapp"
+            "affinity-designer"
+            "affinity-photo"
+            "appcleaner"
+            "obsidian"
+            "muzzle"
+            "elgato-wave-link"
+            "little-snitch"
+            "micro-snitch"
+          ];
         };
       };
       sharedModules = [
@@ -58,10 +59,18 @@
         ./modules/git.nix
         ./modules/email.nix
         ./modules/zsh.nix
-        # ./modules/tmux.nix
         ./modules/packages.nix
         ./modules/optout.nix
       ];
+    in {
+      darwinConfigurations."prst" = darwinSystem {
+        system = "aarch64-darwin";
+        modules = sharedModules ++ [ configuration ];
+      };
+      darwinConfigurations."PS-MAC-CDURBIN" = darwinSystem {
+        system = "aarch64-darwin";
+        modules = sharedModules ++ [ configuration ];
+      };
       darwinPackages = self.darwinConfigurations."prst".pkgs;
     };
 }

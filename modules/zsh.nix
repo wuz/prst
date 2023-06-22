@@ -1,9 +1,53 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
-let
-  inherit (pkgs) fetchFromGithub;
-in
-{
+let inherit (pkgs) fetchFromGithub;
+in {
   home-manager.users.wuz = {
+    programs.starship = {
+      enable = true;
+      settings = {
+        format = lib.concatStrings [
+          "$all"
+          "$username"
+          "$hostname"
+          "$directory"
+          "$git_branch"
+          "$git_state"
+          "$git_status"
+          "$cmd_duration"
+          "$line_break"
+          "$character"
+        ];
+        directory = { style = "blue"; };
+        character = {
+          success_symbol = "[❯](purple)";
+          error_symbol = "[❯](red)";
+          vimcmd_symbol = "[❮](green)";
+        };
+        git_branch = {
+          format = "[$branch]($style)";
+          style = "bright-black";
+        };
+        git_status = {
+          format =
+            "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
+          style = "cyan";
+        };
+        git_state = {
+          format = "([$state( $progress_current/$progress_total)]($style))";
+          style = "bright-black";
+        };
+        cmd_duration = {
+          format = "[$duration]($style) ";
+          style = "yellow";
+        };
+      };
+      # Starship is broken on the current version for mac
+      # package = (import (builtins.fetchGit {
+      #     name = "nixpkgs-starship-old";
+      #     url = https://github.com/nixos/nixpkgs/;
+      #     rev = "cc2a7c2943364eee1be6c6eb2c83a856b7f39f34";
+      #   }) {}).starship;
+    };
     programs.zsh = {
       enable = true;
       enableAutosuggestions = true;
@@ -32,8 +76,6 @@ in
         strip = ''
           sed -E 's#^\s+|\s+$##g'
         '';
-
-        # nix nix_hash = "nix-prefetch-url"; nix_hash_git = "nix-prefetch-git";
 
         # docker
         d = "docker";

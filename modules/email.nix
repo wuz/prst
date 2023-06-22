@@ -2,19 +2,14 @@
 let
   inherit (pkgs) fetchFromGithub;
   inherit (pkgs.stdenv) isDarwin;
-in
-{
+in {
   home-manager.users.wuz = {
-    programs.mbsync = {
-      enable = true;
-    };
+    programs.mbsync = { enable = true; };
     programs.offlineimap.enable = true;
     programs.msmtp.enable = true;
     programs.notmuch = {
       enable = true;
-      hooks = {
-        preNew = "mbsync --all";
-      };
+      hooks = { preNew = "mbsync --all"; };
     };
 
     xdg.configFile.".config/neomutt" = {
@@ -70,37 +65,28 @@ in
       accounts.work = {
         address = "conlin.durbin@payscale.com";
         userName = "conlin.durbin@payscale.com";
-        passwordCommand = "security find-generic-password -a conlin.durbin@payscale.com -l email -w";
+        passwordCommand =
+          "security find-generic-password -a conlin.durbin@payscale.com -l email -w";
         # flavor = "outlook.office365.com";
         imap = {
           host = "localhost";
           port = 1143;
-          tls = {
-            enable = false;
-          };
+          tls = { enable = false; };
         };
         smtp = {
           host = "localhost";
           port = 1025;
-          tls = {
-            enable = false;
-          };
+          tls = { enable = false; };
         };
         offlineimap = {
           enable = true;
           postSyncHookCommand = "notmuch new";
-          extraConfig.account = {
-            autorefresh = 20;
-          };
+          extraConfig.account = { autorefresh = 20; };
         };
         mbsync = {
           enable = true;
           create = "imap";
-          extraConfig = {
-            account = {
-              AuthMechs = "LOGIN";
-            };
-          };
+          extraConfig = { account = { AuthMechs = "LOGIN"; }; };
         };
         msmtp = {
           enable = true;
@@ -112,14 +98,12 @@ in
         notmuch.enable = true;
         neomutt = {
           enable = true;
-          extraConfig = ''
-          '';
+          extraConfig = "";
         };
         primary = true;
         realName = "Conlin Durbin";
         signature = {
-          text = ''
-        '';
+          text = "";
           showSignature = "none";
         };
       };
@@ -127,5 +111,4 @@ in
     };
   };
 }
-
 

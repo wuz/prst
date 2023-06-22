@@ -1,16 +1,10 @@
-{ pkgs, lib, ... }:
-{
+{ pkgs, lib, ... }: {
   # Nix configuration ------------------------------------------------------------------------------
 
-  nix.settings.substituters = [
-    "https://cache.nixos.org/"
-  ];
-  nix.settings.trusted-public-keys = [
-    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-  ];
-  nix.settings.trusted-users = [
-    "@admin"
-  ];
+  nix.settings.substituters = [ "https://cache.nixos.org/" ];
+  nix.settings.trusted-public-keys =
+    [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+  nix.settings.trusted-users = [ "@admin" ];
   nix.configureBuildUsers = true;
 
   # Create /etc/bashrc that loads the nix-darwin environment.
@@ -69,7 +63,33 @@
 
   environment.shells = [ pkgs.zsh ];
 
-  environment.systemPackages = with pkgs; [ zsh ];
+  environment.systemPackages = with pkgs; [
+    gcc
+    msgpack
+    libiconv
+    coreutils-full
+    findutils
+    diffutils
+    moreutils
+    libuv
+    gnupg
+    zsh
+    spotify
+    discord
+    wezterm
+    pinentry_mac
+    nodejs_20
+    shellcheck
+    shellharden
+    shfmt
+    yarn
+    rustc
+    rustfmt
+    cargo
+    go
+    ruby_3_0
+    rubocop
+  ];
 
   users.users.wuz = {
     name = "wuz";
@@ -90,11 +110,8 @@
     '';
   };
 
-
   # https://github.com/nix-community/home-manager/issues/423
-  environment.variables = {
-    OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
-  };
+  environment.variables = { OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES"; };
   programs.nix-index.enable = true;
 
   # Fonts
