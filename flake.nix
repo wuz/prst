@@ -31,6 +31,7 @@
       overlays = with inputs; [ pkgs-wuz.overlay ];
       configuration = { pkgs, ... }: {
         system.stateVersion = 4;
+	documentation.enable = false;
         homebrew = {
           casks = [
             "setapp"
@@ -57,7 +58,7 @@
         }
         ./modules/home.nix
         ./modules/git.nix
-        ./modules/email.nix
+        # ./modules/email.nix
         ./modules/zsh.nix
         ./modules/packages.nix
         ./modules/optout.nix
