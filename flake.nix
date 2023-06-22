@@ -1,12 +1,12 @@
 {
   description = "prst - wuz's configurator";
 
-  nixConfig.extra-substituters = "https://nix-community.cachix.org";
-  nixConfig.extra-trusted-public-keys =
-    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
+  # nixConfig.extra-substituters = "https://nix-community.cachix.org";
+  # nixConfig.extra-trusted-public-keys =
+  #   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=";
 
   inputs = {
-    unstable.url = "github:nixos/nixpkgs/master";
+    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "unstable";
@@ -15,11 +15,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "unstable";
     };
-
-    # neovim = {
-    #   url = "github:nix-community/neovim-nightly-overlay";
-    #   inputs.nixpkgs.url = "github:nixos/nixpkgs?rev=fad51abd42ca17a60fc1d4cb9382e2d79ae31836";
-    # };
 
     pkgs-wuz = {
       url = "./pkgs-wuz";
@@ -35,7 +30,6 @@
         attrValues makeOverridable optionalAttrs singleton;
       overlays = with inputs;
         [
-          # neovim.overlay
           pkgs-wuz.overlay
         ];
     in

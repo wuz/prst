@@ -56,7 +56,7 @@ in
         shellcheck
         shellharden
         shfmt
-        nodejs-19_x
+        nodejs_20
         yarn
         rustc
         rustfmt
