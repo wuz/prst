@@ -17,7 +17,7 @@ let
 
   optList = conditional: list: if conditional then list else [ ];
 in {
-  home-manager.users.wuz = {
+  home-manager.users."conlin.durbin" = {
     home.packages = with pkgs;
       lib.flatten [
         (optList stdenv.isDarwin [ reattach-to-user-namespace ])

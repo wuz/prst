@@ -6,7 +6,7 @@ let
   workEmail = "conlin@getagora.com";
   username = "wuz";
 in {
-  home-manager.users.wuz = {
+  home-manager.users."conlin.durbin" = {
     home = {
       stateVersion = "22.11";
       sessionVariables = { EDITOR = "vim"; };

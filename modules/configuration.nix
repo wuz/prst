@@ -91,7 +91,7 @@
     rubocop
   ];
 
-  users.users.wuz = {
+  users.users."conlin.durbin" = {
     name = "wuz";
     home = "/Users/wuz";
     shell = pkgs.zsh;

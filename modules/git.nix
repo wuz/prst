@@ -6,7 +6,7 @@ let
   workEmail = "conlin@figurehr.com";
   username = "wuz";
 in {
-  home-manager.users.wuz = {
+  home-manager.users."conlin.durbin" = {
     programs.gh = {
       enable = true;
       settings = {
