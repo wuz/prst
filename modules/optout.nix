@@ -17,7 +17,7 @@ let
   python-with-global-packages =
     pkgs.python3.withPackages (ps: with ps; [ pip botocore setuptools pynvim ]);
 in with pkgs.hax; {
-    home-manager.users.wuz = {
+    home-manager.users."conlin.durbin" = {
         home.sessionVariables = {
             ET_NO_TELEMETRY = "ANY_VALUE";
             HOMEBREW_NO_ANALYTICS = "1";

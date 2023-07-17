@@ -13,6 +13,8 @@
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
 
+  environment.pathsToLink = [ "/share/zsh" ];
+
   environment.etc = {
     "davmail.properties" = {
       enable = true;
@@ -76,7 +78,6 @@
     zsh
     spotify
     discord
-    wezterm
     pinentry_mac
     nodejs_20
     shellcheck
@@ -92,8 +93,8 @@
   ];
 
   users.users."conlin.durbin" = {
-    name = "wuz";
-    home = "/Users/wuz";
+    name = "conlin.durbin";
+    home = "/Users/conlin.durbin";
     shell = pkgs.zsh;
   };
 

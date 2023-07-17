@@ -1,9 +1,10 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
 let inherit (pkgs) fetchFromGithub;
 in {
-  home-manager.users.wuz = {
+  home-manager.users."conlin.durbin" = {
     programs.starship = {
       enable = true;
+      enableZshIntegration = true;
       settings = {
         format = lib.concatStrings [
           "$all"
@@ -52,13 +53,11 @@ in {
       enable = true;
       enableAutosuggestions = true;
       enableSyntaxHighlighting = true;
-      enableCompletion = false;
+      enableCompletion = true;
       shellAliases = {
         ".s" = "source ~/.zshrc";
         hm = "home-manager";
         dr = "darwin-rebuild";
-        vim = "nvim";
-        vi = "nvim";
         add = "git add -A";
         cm = "git cm";
         l = "exa -alFT --header -L 1";
@@ -86,14 +85,8 @@ in {
         drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
         drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
       };
-      initExtra = ''
+      initExtraFirst = ''
         ulimit -n 10240
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        DISABLE_MAGIC_FUNCTIONS=true
-        ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-        COMPLETION_WAITING_DOTS=true
-        DISABLE_UNTRACKED_FILES_DIRTY=true
-        export PATH="$PATH:/etc/profiles/per-user/wuz/bin:/usr/local/bin"
       '';
     };
   };

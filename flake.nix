@@ -31,7 +31,7 @@
       overlays = with inputs; [ pkgs-wuz.overlay ];
       configuration = { pkgs, ... }: {
         system.stateVersion = 4;
-	documentation.enable = false;
+        documentation.enable = false;
         homebrew = {
           casks = [
             "setapp"

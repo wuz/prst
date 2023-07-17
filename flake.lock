@@ -102,11 +102,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-TNJFXThiV4/G/Erw3fYHDJP9GdPE6CUjIylnHY1+3mw=",
-        "path": "/nix/store/wwvv0sv3cm9n436cihkhvlkgsxykc1cp-source/pkgs-wuz",
+        "path": "/nix/store/7jvhhni0q0ysf0szyhqhmhbpgz5hgc7i-source/pkgs-wuz",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/wwvv0sv3cm9n436cihkhvlkgsxykc1cp-source/pkgs-wuz",
+        "path": "/nix/store/7jvhhni0q0ysf0szyhqhmhbpgz5hgc7i-source/pkgs-wuz",
         "type": "path"
       }
     },
