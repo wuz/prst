@@ -59,7 +59,7 @@
         ./modules/home.nix
         ./modules/git.nix
         # ./modules/email.nix
-        ./modules/zsh.nix
+        ./modules/shell.nix
         ./modules/packages.nix
         ./modules/optout.nix
       ];

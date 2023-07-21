@@ -66,6 +66,7 @@
   environment.shells = [ pkgs.zsh ];
 
   environment.systemPackages = with pkgs; [
+    bash
     gcc
     msgpack
     libiconv

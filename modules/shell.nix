@@ -1,10 +1,33 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
 let inherit (pkgs) fetchFromGithub;
+      shellAliases = {
+        ".s" = "source ~/.zshrc";
+        add = "git add -A";
+        cm = "git cm";
+        l = "exa -alFT --header -L 1";
+        lg = "exa -alT -L 1 --header --git";
+        ll = "exa -al";
+        ls = "exa";
+        lsd = "exa -lF | grep --color=never '^d'";
+        cleanup = "find . -type f -name '*.DS_Store' -ls -delete";
+        b64 = "base64 -w 0 | pbcopy";
+        nixclean = "nix-collect-garbage -d";
+        nixsearch = "nix-env -qaP | grep -i $1";
+
+        # docker
+        d = "docker";
+        dall = "docker ps -a";
+        dimg = "docker images";
+        dexc = "docker exec -it";
+        drun = "docker run --rm -it";
+        drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
+        drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
+      };
 in {
   home-manager.users."conlin.durbin" = {
     programs.starship = {
       enable = true;
-      enableZshIntegration = true;
+      enableBashIntegration = true;
       settings = {
         format = lib.concatStrings [
           "$all"
@@ -49,42 +72,17 @@ in {
       #     rev = "cc2a7c2943364eee1be6c6eb2c83a856b7f39f34";
       #   }) {}).starship;
     };
-    programs.zsh = {
+    programs.bash = {
       enable = true;
-      enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
       enableCompletion = true;
-      shellAliases = {
-        ".s" = "source ~/.zshrc";
-        hm = "home-manager";
-        dr = "darwin-rebuild";
-        add = "git add -A";
-        cm = "git cm";
-        l = "exa -alFT --header -L 1";
-        lg = "exa -alT -L 1 --header --git";
-        ll = "exa -al";
-        ls = "exa";
-        lsd = "exa -lF | grep --color=never '^d'";
-        cleanup = "find . -type f -name '*.DS_Store' -ls -delete";
-        gogh =
-          "wget -O gogh https://git.io/vQgMr && chmod +x gogh && ./gogh && rm gogh";
-        b64 = "base64 -w 0 | pbcopy";
-        cat = "bat";
-        nixclean = "nix-collect-garbage -d";
-        nixsearch = "nix-env -qaP | grep -i $1";
-        strip = ''
-          sed -E 's#^\s+|\s+$##g'
-        '';
-
-        # docker
-        d = "docker";
-        dall = "docker ps -a";
-        dimg = "docker images";
-        dexc = "docker exec -it";
-        drun = "docker run --rm -it";
-        drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
-        drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
-      };
+      shellAliases = shellAliases;
+    };
+    programs.zsh = {
+      enable = false;
+      # enableAutosuggestions = true;
+      # enableSyntaxHighlighting = true;
+      # enableCompletion = true;
+      shellAliases = shellAliases;
       initExtraFirst = ''
         ulimit -n 10240
       '';

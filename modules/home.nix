@@ -13,16 +13,16 @@ in {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
-      enableZshIntegration = true;
+      enableBashIntegration = true;
     };
     programs.mcfly = {
       enable = true;
-      enableZshIntegration = true;
+      enableBashIntegration = true;
       keyScheme = "vim";
     };
     programs.zoxide = {
       enable = true;
-      enableZshIntegration = true;
+      enableBashIntegration = true;
     };
     programs.neovim = {
       enable = true;
@@ -34,7 +34,7 @@ in {
     };
     programs.wezterm = {
       enable = true;
-      enableZshIntegration = true;
+      enableBashIntegration = true;
       colorSchemes = {
         tokyonight_night = {
           foreground = "#c0caf5";
