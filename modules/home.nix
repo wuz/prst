@@ -2,9 +2,6 @@
 let
   inherit (pkgs) fetchFromGithub;
   inherit (pkgs.stdenv) isDarwin;
-  personalEmail = "c@wuz.sh";
-  workEmail = "conlin@getagora.com";
-  username = "wuz";
 in {
   home-manager.users."conlin.durbin" = {
     home = {
@@ -88,8 +85,6 @@ in {
       config.font = wezterm.font_with_fallback({ "Cartograph CF", "RecMonoLinear Nerd Font" })
       config.font_size = 13.5
       config.line_height = 0.8
-      -- How many lines of scrollback you want to retain per tab
-      config.scrollback_lines = 81920
       config.tab_max_width = tab_max_width
       config.window_padding = {
         left = padding_h,

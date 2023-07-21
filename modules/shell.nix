@@ -1,7 +1,6 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
 let inherit (pkgs) fetchFromGithub;
       shellAliases = {
-        ".s" = "source ~/.zshrc";
         add = "git add -A";
         cm = "git cm";
         l = "exa -alFT --header -L 1";
@@ -27,7 +26,6 @@ in {
   home-manager.users."conlin.durbin" = {
     programs.starship = {
       enable = true;
-      enableBashIntegration = true;
       settings = {
         format = lib.concatStrings [
           "$all"
@@ -65,27 +63,11 @@ in {
           style = "yellow";
         };
       };
-      # Starship is broken on the current version for mac
-      # package = (import (builtins.fetchGit {
-      #     name = "nixpkgs-starship-old";
-      #     url = https://github.com/nixos/nixpkgs/;
-      #     rev = "cc2a7c2943364eee1be6c6eb2c83a856b7f39f34";
-      #   }) {}).starship;
     };
     programs.bash = {
       enable = true;
       enableCompletion = true;
       shellAliases = shellAliases;
-    };
-    programs.zsh = {
-      enable = false;
-      # enableAutosuggestions = true;
-      # enableSyntaxHighlighting = true;
-      # enableCompletion = true;
-      shellAliases = shellAliases;
-      initExtraFirst = ''
-        ulimit -n 10240
-      '';
     };
   };
 }

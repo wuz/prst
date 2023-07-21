@@ -24,17 +24,10 @@ in {
 
         nix-prefetch-git
         statix.defaultPackage.aarch64-darwin
-        nixfmt
 
         fontforge
         fontforge-fonttools
         google-fonts
-
-        curl
-        gnugrep
-        gnupg
-        gnused
-        gawk
 
         python-with-global-packages
 

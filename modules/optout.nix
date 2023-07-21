@@ -1,22 +1,5 @@
-{ pkgs, lib, config, home-manager, nix-darwin, inputs, ... }: 
-let
-  inherit (pkgs.hax) isDarwin fetchFromGitHub;
-  kwbauson-cfg = import (fetchFromGitHub {
-    owner = "kwbauson";
-    repo = "cfg";
-    rev = "main";
-    sha256 = "sha256-T/yKpgfgfTzA2xeM4sshBZMDXCDZlHhpMTVADLV0Xb8";
-  });
-  pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
-  statix = import (fetchFromGitHub {
-    owner = "nerdypepper";
-    repo = "statix";
-    rev = "4e063b2abc402ac4d6902647e821978269025c7d";
-    sha256 = "0k5zgf1vssjzikbkknl0czv43kai48nvr1krhjs65w2gfwygqikf";
-  });
-  python-with-global-packages =
-    pkgs.python3.withPackages (ps: with ps; [ pip botocore setuptools pynvim ]);
-in with pkgs.hax; {
+{ pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
+{
     home-manager.users."conlin.durbin" = {
         home.sessionVariables = {
             ET_NO_TELEMETRY = "ANY_VALUE";
@@ -45,7 +28,6 @@ in with pkgs.hax; {
             CARBON_TELEMETRY_DISABLED = "1";
             CHOOSENIM_NO_ANALYTICS = "1";
             COCOAPODS_DISABLE_STATS = "true";
-            CI = "ANY_VALUE";
             CUBEJS_TELEMETRY = "false";
             DAGSTER_DISABLE_TELEMETRY = "ANY_VALUE";
             DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT = "1";

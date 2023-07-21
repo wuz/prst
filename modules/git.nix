@@ -3,7 +3,7 @@ let
   inherit (pkgs) fetchFromGithub;
   inherit (pkgs.stdenv) isDarwin;
   personalEmail = "c@wuz.sh";
-  workEmail = "conlin@figurehr.com";
+  workEmail = "conlin.durbin@payscale.com";
   username = "wuz";
 in {
   home-manager.users."conlin.durbin" = {
