@@ -19,9 +19,17 @@ in {
         };
       };
     };
+    # programs.gh-dash = {
+    #   enable = true;
+    #   settings = {
+    #     prSections = [{
+    #       title = "My Pull Requests";
+    #       filters = "is:open author:@me";
+    #     }];
+    #   };
+    # };
     programs.git = {
       enable = true;
-      package = pkgs.gitAndTools.gitFull;
       userName = "${username}";
       userEmail = if isDarwin then workEmail else personalEmail;
       delta = { enable = true; };
