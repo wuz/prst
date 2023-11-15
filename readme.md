@@ -6,10 +6,11 @@
 
 ### install and configure nix
 
-```bash
-# install in one command
-curl -L https://nixos.org/nix/install | sh
+First, [install nix](https://nixos.org/download#nix-install-macos)
 
+Then:
+
+```bash
 # warlock's first nix config
 mkdir -p ~/.config/nix/
 echo -e 'max-jobs = auto\ntarball-ttl = 0\nexperimental-features = nix-command flakes' >>~/.config/nix/nix.conf
