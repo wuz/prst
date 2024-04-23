@@ -1,6 +1,6 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
 {
-    home-manager.users."wuz" = {
+    home-manager.users."conlin.durbin" = {
         home.sessionVariables = {
             ET_NO_TELEMETRY = "ANY_VALUE";
             HOMEBREW_NO_ANALYTICS = "1";

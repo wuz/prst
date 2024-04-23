@@ -2,10 +2,10 @@
 let
   inherit (pkgs.stdenv) isDarwin;
   personalEmail = "conlindurbin@protonmail.com";
-  workEmail = "";
+  workEmail = "conlin.durbin@whatnot.com";
   username = "wuz";
 in {
-  home-manager.users."wuz" = {
+  home-manager.users."conlin.durbin" = {
     programs.gh = {
       enable = true;
       settings = {
@@ -30,7 +30,7 @@ in {
     programs.git = {
       enable = true;
       userName = "${username}";
-      userEmail = personalEmail;
+      userEmail = workEmail;
       delta = { enable = true; };
       lfs = { enable = true; };
       signing = {

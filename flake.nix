@@ -37,7 +37,7 @@
         gnused
         gawk
         msgpack
-        libiconv
+        libiconvReal
         coreutils-full
         findutils
         diffutils
@@ -62,11 +62,14 @@
         nixfmt
       ];
 
-      environment.shells = [ pkgs.bashInteractive ];
+	  environment.pathsToLink = [ "/share/bash-completion" ];
 
-      users.users."wuz" = {
-        name = "wuz";
-        home = "/Users/wuz";
+	  environment.shells = [ pkgs.bashInteractive ];
+
+
+      users.users."conlin.durbin" = {
+        name = "conlin.durbin";
+        home = "/Users/conlin.durbin";
         shell = pkgs.bashInteractive;
       };
 
@@ -118,6 +121,7 @@
           "micro-snitch"
           "docker"
 	  "keybase"
+          "discord"
         ];
       };
     };
@@ -143,6 +147,10 @@
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#prst
     darwinConfigurations."prst" = darwinSystem {
+      system = "aarch64-darwin";
+      modules = sharedModules ++ [ configuration ];
+    };
+    darwinConfigurations."Whatnot-MacBook-Pro-16-inch-2023-T521X73XYX" = darwinSystem {
       system = "aarch64-darwin";
       modules = sharedModules ++ [ configuration ];
     };

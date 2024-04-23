@@ -23,7 +23,7 @@ let
     drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
   };
 in {
-  home-manager.users."wuz" = {
+  home-manager.users."conlin.durbin" = {
     programs.starship = {
       enable = true;
       settings = {

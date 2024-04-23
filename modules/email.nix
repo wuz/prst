@@ -3,7 +3,7 @@ let
   inherit (pkgs) fetchFromGithub;
   inherit (pkgs.stdenv) isDarwin;
 in {
-  home-manager.users.wuz = {
+  home-manager.users."conlin.durbin = {
     programs.mbsync = { enable = true; };
     programs.offlineimap.enable = true;
     programs.msmtp.enable = true;

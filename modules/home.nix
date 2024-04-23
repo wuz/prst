@@ -3,9 +3,12 @@ let
   inherit (pkgs) fetchFromGithub;
   inherit (pkgs.stdenv) isDarwin;
 in {
-  home-manager.users.wuz = {
+  home-manager.users."conlin.durbin" = {
     home = {
       stateVersion = "23.11";
+	    sessionPath = [
+	      "$HOME/github/whatnot/scripts"
+	    ];
     };
     programs.direnv = {
       enable = true;
@@ -129,12 +132,15 @@ in {
         style = "numbers,changes";
       };
       themes = {
-        DankNeon = builtins.readFile (pkgs.fetchFromGitHub {
-          owner = "DankNeon";
-          repo = "sublime"; # Bat uses sublime syntax for its themes
-          rev = "31dd0216c33225cde3968f882dca0ad1375bc4e3";
-          sha256 = "1xla6qln6fj123q92si59va90syn3fjkn4ynps42fvawyx1n4rld";
-        } + "/Dank_Neon.tmTheme");
+        DankNeon = {
+          src = pkgs.fetchFromGitHub {
+            owner = "DankNeon";
+            repo = "sublime"; # Bat uses sublime syntax for its themes
+            rev = "31dd0216c33225cde3968f882dca0ad1375bc4e3";
+            sha256 = "1xla6qln6fj123q92si59va90syn3fjkn4ynps42fvawyx1n4rld";
+          };
+          file = "Dank_Neon.tmTheme";
+        };
       };
     };
   };
