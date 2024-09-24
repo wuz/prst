@@ -1,7 +1,8 @@
 { pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
 let
   inherit (pkgs)
-    fetchFromGitHub writeBashBinChecked nix-hash-unstable git-pull-status;
+    fetchFromGitHub writeBashBinChecked nix-hash-unstable git-pull-status
+    git-town-status;
 
   # pkgsX86 = import <nixpkgs> { localSystem = "x86_64-darwin"; };
 
@@ -31,6 +32,7 @@ in {
 
         python-with-global-packages
 
+        darwin.trash
         eza
         jq
         bottom
@@ -53,6 +55,8 @@ in {
         rsync
         tealdeer
         heroku
+        melt
+        git-town
 
         w3m
 
@@ -63,17 +67,21 @@ in {
         luaformatter
         solargraph
         nodePackages.fixjson
-        corepack_21
         vscode
+        # zed-editor
         scc
 
         openssh
         openssl
         libsecret
         dbus
+        fastfetch
+        btop
+        lazydocker
 
         # GUI programs
         # davmail
+        # wezterm
 
         /* fzf
            hadolint
@@ -91,6 +99,7 @@ in {
         # bash scripts
         nix-hash-unstable
         git-pull-status
+        git-town-status
       ];
   };
 }

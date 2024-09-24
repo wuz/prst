@@ -26,51 +26,25 @@ in {
   home-manager.users."conlin.durbin" = {
     programs.starship = {
       enable = true;
-      settings = {
-        format = lib.concatStrings [
-          "$all"
-          "$username"
-          "$hostname"
-          "$directory"
-          "$git_branch"
-          "$git_state"
-          "$git_status"
-          "$cmd_duration"
-          "$line_break"
-          "$character"
-        ];
-	battery = { disabled = true; };
-        directory = { style = "blue"; };
-        character = {
-          success_symbol = "[❯](purple)";
-          error_symbol = "[❯](red)";
-          vimcmd_symbol = "[❮](green)";
-        };
-        git_branch = {
-          format = "[$branch]($style)";
-          style = "bright-black";
-        };
-        git_status = {
-          format =
-            "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
-          style = "cyan";
-        };
-        git_state = {
-          format = "([$state( $progress_current/$progress_total)]($style))";
-          style = "bright-black";
-        };
-        cmd_duration = {
-          format = "[$duration]($style) ";
-          style = "yellow";
-        };
-      };
+      settings =
+        (builtins.fromTOML (builtins.readFile ./configs/starship.toml));
+    };
+    programs.zsh = {
+      enable = true;
+      enableCompletion = true;
+      shellAliases = shellAliases;
+      initExtra = ''
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      '';
     };
     programs.bash = {
-      enable = true;
+      enable = false;
       enableCompletion = true;
       shellAliases = shellAliases;
       bashrcExtra = ''
         eval "$(/opt/homebrew/bin/brew shellenv)"
+        source "$(blesh-share)"/ble.sh --attach=none
+        [[ ! $\{BLE_VERSION-\} ]] || ble-attach
       '';
     };
   };

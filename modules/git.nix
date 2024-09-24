@@ -27,11 +27,210 @@ in {
     #     }];
     #   };
     # };
+    programs.lazygit = {
+      enable = true;
+      settings = {
+        git = {
+          paging = {
+            colorArg = "always";
+            pager = "diff-so-fancy";
+          };
+          disableForcePushing = true;
+        };
+        gui = {
+          language = "en";
+          mouseEvents = false;
+          sidePanelWidth = 0.3;
+          mainPanelSplitMode =
+            "flexible"; # one of "horizontal" | "flexible" | "vertical"
+          showFileTree = false; # ` to toggle
+          nerdFontsVersion = "3";
+          commitHashLength = 6;
+          showDivergenceFromBaseBranch = "arrowAndNumber";
+          theme = {
+            activeBorderColor = [ "#ff966c" "bold" ];
+            inactiveBorderColor = [ "#589ed7" ];
+            searchingActiveBorderColor = [ "#ff966c" "bold" ];
+            optionsTextColor = [ "#82aaff" ];
+            selectedLineBgColor = [ "#2d3f76" ];
+            cherryPickedCommitFgColor = [ "#82aaff" ];
+            cherryPickedCommitBgColor = [ "#c099ff" ];
+            markedBaseCommitFgColor = [ "#82aaff" ];
+            markedBaseCommitBgColor = [ "#ffc777" ];
+            unstagedChangesColor = [ "#c53b53" ];
+            defaultFgColor = [ "#c8d3f5" ];
+          };
+        };
+        quitOnTopLevelReturn = true;
+        disableStartupPopups = true;
+        promptToReturnFromSubprocess = false;
+        os = {
+          edit = "nvim";
+          editAtLine = "{{editor}} +{{line}} {{filename}}";
+        };
+        keybinding = {
+          files = {
+            stashAllChanges =
+              "<c-a>"; # instead of just 's' which I typod for 'c'
+          };
+          universal = {
+            prevItem = "e";
+            nextItem = "n";
+            scrollUpMain = "<up>"; # main panel scroll up
+            scrollDownMain = "<down>"; # main panel scroll down
+            nextMatch = "j";
+            prevMatch = "J";
+            new = "<c-a>";
+            edit = "<c-r>";
+          };
+        };
+        customCommands = [
+          {
+            key = "Y";
+            context = "global";
+            description = "Git-Town sYnc";
+            command = "git-town sync --all";
+            stream = true;
+            loadingText = "Syncing";
+          }
+          {
+            key = "U";
+            context = "global";
+            description = "Git-Town Undo (undo the last git-town command)";
+            command = "git-town undo";
+            prompts = [{
+              type = "confirm";
+              title = "Undo Last Command";
+              body = "Are you sure you want to Undo the last git-town command?";
+            }];
+            stream = true;
+            loadingText = "Undoing Git-Town Command";
+          }
+          {
+            key = "!";
+            context = "global";
+            description = "Git-Town Repo (opens the repo link)";
+            command = "git-town repo";
+            stream = true;
+            loadingText = "Opening Repo Link";
+          }
+          {
+            key = "a";
+            context = "localBranches";
+            description = "Git-Town Append";
+            prompts = [{
+              type = "input";
+              title = ''
+                Enter name of new child branch. Branches off of
+                      "{{.CheckedOutBranch.Name}}"'';
+              key = "BranchName";
+            }];
+            command = "git-town append {{.Form.BranchName}}";
+            stream = true;
+            loadingText = "Appending";
+          }
+          {
+            key = "h";
+            context = "localBranches";
+            description = "Git-Town Hack (creates a new branch)";
+            prompts = [{
+              type = "input";
+              title = ''Enter name of new branch. Branches off of "Main"'';
+              key = "BranchName";
+            }];
+            command = "git-town hack {{.Form.BranchName}}";
+            stream = true;
+            loadingText = "Hacking";
+          }
+          {
+            key = "K";
+            context = "localBranches";
+            description =
+              "Git-Town Kill (deletes the current feature branch and sYnc)";
+            command = "git-town kill";
+            prompts = [{
+              type = "confirm";
+              title = "Delete current feature branch";
+              body =
+                "Are you sure you want to delete the current feature branch?";
+            }];
+            stream = true;
+            loadingText = "Killing Feature Branch";
+          }
+          {
+            key = "p";
+            context = "localBranches";
+            description = "Git-Town Propose (creates a pull request)";
+            command = "git-town propose";
+            stream = true;
+            loadingText = "Creating pull request";
+          }
+          {
+            key = "P";
+            context = "localBranches";
+            description = ''
+              Git-Town Prepend (creates a branch between the curent branch
+                and its parent)'';
+            prompts = [{
+              type = "input";
+              title = ''
+                Enter name of the for child branch between
+                      "{{.CheckedOutBranch.Name}}" and its parent'';
+              key = "BranchName";
+            }];
+            command = "git-town prepend {{.Form.BranchName}}";
+            stream = true;
+            loadingText = "Prepending";
+          }
+          {
+            key = "S";
+            context = "localBranches";
+            description =
+              "Git-Town Skip (skip branch with merge conflicts when syncing)";
+            command = "git-town skip";
+            stream = true;
+            loadingText = "Skipping";
+          }
+          {
+            key = "G";
+            context = "files";
+            description = ''
+              Git-Town GO aka =continue (continue after resolving merge
+                            conflicts)'';
+            command = "git-town continue";
+            stream = true;
+            loadingText = "Continuing";
+          }
+        ];
+      };
+    };
     programs.git = {
       enable = true;
       userName = "${username}";
       userEmail = workEmail;
-      delta = { enable = true; };
+      delta = {
+        enable = true;
+        options = {
+          decorations = {
+            commit-decoration-style = "bold yellow box ul";
+            file-decoration-style = "none";
+            file-style = "bold yellow ul";
+          };
+          features = "decorations";
+          whitespace-error-style = "22 reverse";
+          minus-style = ''syntax "#3a273a"'';
+          minus-non-emph-style = ''syntax "#3a273a"'';
+          minus-emph-style = ''syntax "#6b2e43"'';
+          minus-empty-line-marker-style = ''syntax "#3a273a"'';
+          line-numbers-minus-style = ''"#e26a75"'';
+          plus-style = ''syntax "#273849"'';
+          plus-non-emph-style = ''syntax "#273849"'';
+          plus-emph-style = ''syntax "#305f6f"'';
+          plus-empty-line-marker-style = ''syntax "#273849"'';
+          line-numbers-plus-style = ''"#b8db87"'';
+          line-numbers-zero-style = ''"#3b4261"'';
+        };
+      };
       lfs = { enable = true; };
       signing = {
         key = "CAA69BFC5EF24C40";
@@ -95,6 +294,21 @@ in {
           !f() { git branch -a -vv --color=always --format='%(refname)' | sed "s_refs/heads/__" | sed "s_refs/remotes/__" | fzf --query="$@" --height=40% --ansi --tac --color=16 --border | awk '{print $1}' | xargs git co; }; f'';
         lb =
           "!git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37      m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'";
+        append = "town append";
+        compress = "town compress";
+        contribute = "town contribute";
+        diff-parent = "town diff-parent";
+        hack = "town hack";
+        kill = "town kill";
+        observe = "town observe";
+        park = "town park";
+        prepend = "town prepend";
+        propose = "town propose";
+        rename-branch = "town rename-branch";
+        repo = "town repo";
+        set-parent = "town set-parent";
+        ship = "town ship";
+        sync = "town sync";
       };
       extraConfig = {
         color.ui = true;
@@ -105,7 +319,10 @@ in {
         core = { editor = "nvim"; };
         rebase.instructionFormat = "<%ae >%s";
         commit = { gpgsign = true; };
-        merge = { tool = "vimConflicted"; };
+        merge = {
+          tool = "vimConflicted";
+          conflictStyle = "diff3";
+        };
         mergetool = { vimConflicted = { cmd = "vim +Conflicted"; }; };
       };
     };

@@ -4,9 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
 
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-    };
+    flake-utils = { url = "github:numtide/flake-utils"; };
 
     rust-nightly = {
       url = "github:oxalica/rust-overlay";
@@ -17,7 +15,8 @@
   outputs = args@{ self, flake-utils, nixpkgs, rust-nightly, ... }:
     {
       overlay = final: prev: {
-        inherit (self.packages.${final.system}) writeBashBinChecked nix-hash-unstable git-pull-status;
+        inherit (self.packages.${final.system})
+          writeBashBinChecked nix-hash-unstable git-pull-status git-town-status;
       };
     } // flake-utils.lib.eachSystem [
       "aarch64-darwin"
@@ -51,6 +50,13 @@
                 ${pkgs.shellcheck}/bin/shellcheck $out/bin/${name}
               '';
             };
+
+          git-town-status = writeBashBinChecked "git-town-status" ''
+            pending_gittown_command=$(git town status --pending)
+            if [ -n "$pending_gittown_command" ]; then
+              echo -e "$pending_gittown_command"
+            fi
+          '';
 
           nix-hash-unstable = writeBashBinChecked "nix-hash-unstable" ''
             ${pkgs.nix-prefetch-git}/bin/nix-prefetch-git \
