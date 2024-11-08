@@ -19,14 +19,4 @@
       email = "conlin.durbin@whatnot.com";
     };
   };
-  # kitty.enable = true;
-  # node.enable = true;
-  # python.enable = true;
-  # shell = {
-  #   bash.enable = true;
-  #   zsh.enable = true;
-  #   fish.enable = true;
-  # };
-  # tools.enable = true;
-  # wget.enable = true;
 }
