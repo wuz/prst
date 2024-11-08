@@ -1,5 +1,6 @@
-{ pkgs, lib, config, home-manager, nix-darwin, inputs, ... }: {
-  home-manager.users."conlin.durbin" = {
+{ lib, ... }: {
+  options.optout = lib.mkEnableOption "optout";
+  config = {
     home.sessionVariables = {
       ET_NO_TELEMETRY = "ANY_VALUE";
       HOMEBREW_NO_ANALYTICS = "1";

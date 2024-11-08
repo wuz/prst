@@ -33,7 +33,6 @@
             allowUnsupportedSystem = true;
           };
         };
-        version = "999-unstable";
       in {
         packages = rec {
 
@@ -50,13 +49,6 @@
                 ${pkgs.shellcheck}/bin/shellcheck $out/bin/${name}
               '';
             };
-
-          git-town-status = writeBashBinChecked "git-town-status" ''
-            pending_gittown_command=$(git town status --pending)
-            if [ -n "$pending_gittown_command" ]; then
-              echo -e "$pending_gittown_command"
-            fi
-          '';
 
           nix-hash-unstable = writeBashBinChecked "nix-hash-unstable" ''
             ${pkgs.nix-prefetch-git}/bin/nix-prefetch-git \

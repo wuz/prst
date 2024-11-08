@@ -1,11 +1,23 @@
-{ pkgs, lib, config, home-manager, nix-darwin, inputs, ... }:
-let
-  inherit (pkgs.stdenv) isDarwin;
-  personalEmail = "conlindurbin@protonmail.com";
-  workEmail = "conlin.durbin@whatnot.com";
-  username = "wuz";
+{ config, lib, ... }:
+let signingEnabled = config.git.user.key != null;
 in {
-  home-manager.users."conlin.durbin" = {
+  options.git.enable = lib.mkEnableOption "git";
+  options.git.user = {
+    name = lib.mkOption {
+      type = lib.types.str;
+      description = "The name to use for git commits";
+    };
+    email = lib.mkOption {
+      type = lib.types.str;
+      description = "The email to use for git commits";
+    };
+    key = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "The GPG key to use for signing commits";
+    };
+  };
+  config = lib.mkIf config.git.enable {
     programs.gh = {
       enable = true;
       settings = {
@@ -18,15 +30,6 @@ in {
         };
       };
     };
-    # programs.gh-dash = {
-    #   enable = true;
-    #   settings = {
-    #     prSections = [{
-    #       title = "My Pull Requests";
-    #       filters = "is:open author:@me";
-    #     }];
-    #   };
-    # };
     programs.lazygit = {
       enable = true;
       settings = {
@@ -206,8 +209,8 @@ in {
     };
     programs.git = {
       enable = true;
-      userName = "${username}";
-      userEmail = workEmail;
+      userName = config.git.user.name;
+      userEmail = config.git.user.email;
       delta = {
         enable = true;
         options = {
@@ -233,10 +236,10 @@ in {
       };
       lfs = { enable = true; };
       signing = {
-        key = "CAA69BFC5EF24C40";
-        gpgPath = "gpg";
-        signByDefault = true;
+        key = config.git.user.key;
+        signByDefault = signingEnabled;
       };
+      ignores = [ ".DS_Store" ];
       aliases = {
         A = "add -A";
         cam = "commit -am";
@@ -264,7 +267,7 @@ in {
           !sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && git checkout master && git merge "$1" && echo Done and ready to do: git pom && exit 0 || echo "usage: git rem <branch>" >&2 && exit 1' -'';
         rpom =
           "!git pull --rebase && git pom # rebase and push to origin/master";
-        new = "checkout -b";
+        new = "hack";
         lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
         lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
         getr = "!git-pull-r";
@@ -309,6 +312,7 @@ in {
         set-parent = "town set-parent";
         ship = "town ship";
         sync = "town sync";
+        tc = "town continue";
       };
       extraConfig = {
         color.ui = true;

@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    pog.url = "github:jpetrucciani/pog";
+    nur.url = "github:nix-community/NUR";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,162 +21,64 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    firefox-darwin = {
+      url = "github:atahanyorganci/nixpkgs-firefox-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    kwb = {
+      url = "github:kwbauson/cfg";
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, darwin, home-manager, ... }:
+  outputs = inputs@{ self, darwin, home-manager, nur, firefox-addons, pkgs-wuz
+    , neovim-nightly-overlay, ... }:
     let
       inherit (darwin.lib) darwinSystem;
-      inherit (inputs.nixpkgs.lib)
-        attrValues makeOverridable optionalAttrs singleton;
-      overlays = with inputs; [
+      overlays = [
         pkgs-wuz.overlay
-        inputs.neovim-nightly-overlay.overlays.default
+        neovim-nightly-overlay.overlays.default
+        nur.overlay
       ];
-      configuration = { pkgs, lib, ... }: {
-        nixpkgs = { config = { allowUnfree = true; }; };
-        environment.systemPackages = with pkgs; [
-          bash-completion
-          bashInteractive
-          blesh
-          gcc
-          curl
-          gnugrep
-          gnupg
-          gnused
-          gawk
-          msgpack
-          libiconvReal
-          coreutils-full
-          findutils
-          diffutils
-          moreutils
-          libuv
-          gnupg
-          zsh
-          # spotify
-          # discord
-          pinentry_mac
-          nodejs_22
-          corepack_22
-          shellcheck
-          shellharden
-          shfmt
-          yarn
-          rustc
-          rustfmt
-          cargo
-          go
-          ruby_3_3
-          rubocop
-          nixfmt
-        ];
-
-        environment.pathsToLink = [ "/share/bash-completion" "/share/zsh" ];
-
-        environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
-
-        users.users."conlin.durbin" = {
-          name = "conlin.durbin";
-          home = "/Users/conlin.durbin";
-          shell = pkgs.zsh;
-        };
-
-        programs.bash.enable = false;
-        programs.zsh.enable = true;
-        programs.nix-index.enable = true;
-
-        # Set Git commit hash for darwin-version.
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-
-        # Used for backwards compatibility, please read the changelog before changing.
-        # $ darwin-rebuild changelog
-        system.stateVersion = 4;
-
-        system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
-        system.defaults.NSGlobalDomain.KeyRepeat = 2;
-
-        nix = {
-          configureBuildUsers = true;
-          settings = {
-            experimental-features = "nix-command flakes";
-            trusted-users = [ "@admin" ];
-          };
-          extraOptions = ''
-            system = aarch64-darwin
-            max-jobs = auto
-            auto-optimise-store = true
-            experimental-features = nix-command flakes
-          '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
-            extra-platforms = x86_64-darwin aarch64-darwin
-          '';
-        };
-
-        services.nix-daemon.enable = true;
-
-        security.pam.enableSudoTouchIdAuth = true;
-        documentation.enable = false;
-        homebrew = {
-          enable = true;
-          brews = [ "libiconv" ];
-          casks = [
-            # "arc"
-            "setapp"
-            "affinity-designer"
-            "affinity-photo"
-            "affinity-publisher"
-            "betterdisplay"
-            "figma"
-            "appcleaner"
-            "obsidian"
-            "muzzle"
-            "karabiner-elements"
-            "notion-calendar"
-            "obsidian"
-            "protonvpn"
-            "spotify"
-            # "wezterm"
-            "whatsapp"
-            "transmission"
-            "elgato-control-center"
-            "elgato-wave-link"
-            "little-snitch"
-            "micro-snitch"
-            "docker"
-            "keybase"
-            "discord"
-          ];
-        };
+      user = {
+        name = "Conlin Durbin";
+        email = "c@wuz.sh";
+        username = "conlin.durbin";
+        shell = "zsh";
+        key = "CAA69BFC5EF24C40";
       };
-      sharedModules = [
-        {
-          nixpkgs.overlays = overlays;
-        }
-        # ./modules/configuration.nix
+      specialArgs = { inherit user inputs firefox-addons; };
+      darwinModules = [
+        nur.nixosModules.nur
+        ./hosts/spellbook
         home-manager.darwinModules.home-manager
+        { nixpkgs.overlays = overlays; }
         {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.verbose = true;
+          home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
+          home-manager.extraSpecialArgs = specialArgs;
         }
-        ./modules/home.nix
-        ./modules/git.nix
-        # ./modules/email.nix
-        ./modules/shell.nix
-        ./modules/packages.nix
-        ./modules/optout.nix
       ];
     in {
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#prst
       darwinConfigurations."prst" = darwinSystem {
         system = "aarch64-darwin";
-        modules = sharedModules ++ [ configuration ];
+        modules = darwinModules;
+        specialArgs = specialArgs;
       };
       darwinConfigurations."Whatnot-MacBook-Pro-16-inch-2023-T521X73XYX-2" =
         darwinSystem {
           system = "aarch64-darwin";
-          modules = sharedModules ++ [ configuration ];
+          modules = darwinModules;
+          specialArgs = specialArgs;
         };
 
       # Expose the package set, including overlays, for convenience.
