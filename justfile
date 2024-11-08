@@ -1,2 +1,2 @@
 all:
-	darwin-rebuild switch --flake ~/.config/darwin
+  nix run nix-darwin -- switch --flake ~/.config/darwin
