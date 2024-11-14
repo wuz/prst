@@ -3,6 +3,8 @@ on: { workflow_dispatch, schedule: [cron: '0 0 * * *'] }
 jobs:
   check-for-updates:
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4.2.2
       - uses: cachix/install-nix-action@v30
