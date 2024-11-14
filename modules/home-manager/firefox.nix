@@ -6,6 +6,7 @@ let
     rev = "main";
     sha256 = "sha256-x0QwgFc8yzHttA3gD7J3OyEDMn+LiJur6rNvmKqcAXA=";
   };
+  # https://nur.nix-community.org/repos/rycee/
   extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
     sidebery
     react-devtools

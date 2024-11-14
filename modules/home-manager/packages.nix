@@ -53,6 +53,8 @@ in {
       solargraph
       nodePackages.fixjson
       vscode
+      lua
+      luajitPackages.luarocks
       # sniffnet
       # zed-editor
       scc
@@ -66,6 +68,7 @@ in {
       atac
       just
       nixd
+      cachix
       # GUI programs
       # davmail
       # wezterm

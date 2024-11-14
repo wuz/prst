@@ -1,0 +1,18 @@
+name: Update flake
+on: { workflow_dispatch, schedule: [cron: '0 0 * * *'] }
+jobs:
+  check-for-updates:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: cachix/install-nix-action@v30
+      - run: nix flake update
+      - uses: peter-evans/create-pull-request@v7.0.5
+        id: pr
+        with:
+          delete-branch: true
+          author: Conlin Durbin <c@wuz.sh>
+          title: flake.nix update
+          commit-message: flake.nix update
+          branch: automatic-update
+      - run: gh pr merge --auto --squash ${{ steps.pr.outputs.pull-request-url }}

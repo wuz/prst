@@ -12,6 +12,11 @@ config.set_environment_variables = {
 	PATH = "/opt/homebrew/bin:/etc/profiles/per-user/conlin.durbin/bin:" .. os.getenv("PATH"),
 }
 
+config.swallow_mouse_click_on_window_focus = true
+config.adjust_window_size_when_changing_font_size = false
+config.selection_word_boundary = " \t\n{}[]()\"'`,;:@│┃*…$"
+config.audible_bell = "Disabled"
+
 local colors = {
 	gray = "#1B1B1B",
 	red = "#D17589",
