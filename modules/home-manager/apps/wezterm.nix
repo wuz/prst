@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   programs.wezterm = {
     enable = true;
     enableBashIntegration = false;
@@ -6,6 +7,6 @@
   };
   xdg.configFile."wezterm" = {
     recursive = true;
-    source = ../../configs/wezterm;
+    source = ../../../configs/wezterm;
   };
 }

@@ -1,0 +1,42 @@
+{
+  pkgs,
+  lib,
+  ...
+}:
+let
+in
+{
+  home.packages =
+    with pkgs;
+    lib.flatten [
+      darwin.trash
+      eza
+      jq
+      bottom
+      hyperfine
+      du-dust
+      procs
+      fd
+      figlet
+      sd
+      pup
+      ranger
+      time
+      tokei
+      tree
+      unzip
+      wget
+      rename
+      bandwhich
+      grex
+      ripgrep
+      rsync
+      tealdeer
+      heroku
+      melt
+      broot
+      cloak
+      vegeta
+      w3m
+    ];
+}

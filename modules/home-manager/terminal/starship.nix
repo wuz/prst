@@ -1,5 +1,6 @@
-{ ... }:
+{ inputs, pkgs, ... }:
 let
+  cobihax = inputs.jacobi.packages.${pkgs.system}.hax;
   shellAliases = {
     add = "git add -A";
     cm = "git cm";
@@ -14,25 +15,24 @@ let
     nixsearch = "nix-env -qaP | grep -i $1";
 
     # docker
-    d = "docker";
-    dall = "docker ps -a";
-    dimg = "docker images";
-    dexc = "docker exec -it";
-    drun = "docker run --rm -it";
-    drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
-    drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
-    proxyman = ''
-      set -a && source "/Users/conlin.durbin/.proxyman/proxyman_env_automatic_setup.sh" && set +a'';
+    # d = "docker";
+    # dall = "docker ps -a";
+    # dimg = "docker images";
+    # dexc = "docker exec -it";
+    # drun = "docker run --rm -it";
+    # drma = "docker stop $(docker ps -aq) && docker rm -f $(docker ps -aq)";
+    # drmi = "di | grep none | awk '{print $3}' | sponge | xargs docker rmi";
+    proxyman = ''set -a && source "/Users/conlin.durbin/.proxyman/proxyman_env_automatic_setup.sh" && set +a'';
 
     # git
     g = "git";
     gtc = "git tc";
-  };
-in {
+  } // cobihax.docker_aliases // cobihax.kubernetes_aliases;
+in
+{
   programs.starship = {
     enable = true;
-    settings = (builtins.fromTOML
-      (builtins.readFile ../../configs/starship/starship.toml));
+    settings = (builtins.fromTOML (builtins.readFile ../../../configs/starship/starship.toml));
   };
   programs.zsh = {
     enable = true;

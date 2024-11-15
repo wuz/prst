@@ -1,6 +1,11 @@
 { pkgs, ... }:
-let shells = with pkgs; [ bashInteractive zsh ];
-in {
+let
+  shells = with pkgs; [
+    bashInteractive
+    zsh
+  ];
+in
+{
   environment.shells = shells;
   environment.systemPackages = shells;
   programs.bash.enable = true;

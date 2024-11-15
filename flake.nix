@@ -14,8 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pkgs-wuz = {
-      url = "./pkgs-wuz";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:wuz/prst?dir=pkgs-wuz";
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -29,6 +28,12 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    jacobi = {
+      url = "github:jpetrucciani/nix";
+      # inputs = {
+      #   nixpkgs.follows = "nixpkgs";
+      # };
+    };
     kwb = {
       url = "github:kwbauson/cfg";
       inputs = {
@@ -38,8 +43,18 @@
     };
   };
 
-  outputs = inputs@{ self, darwin, home-manager, nur, firefox-addons, pkgs-wuz
-    , neovim-nightly-overlay, ... }:
+  outputs =
+    inputs@{
+      self,
+      darwin,
+      home-manager,
+      nur,
+      firefox-addons,
+      pkgs-wuz,
+      neovim-nightly-overlay,
+      jacobi,
+      ...
+    }:
     let
       inherit (darwin.lib) darwinSystem;
       overlays = [
@@ -54,7 +69,14 @@
         shell = "zsh";
         key = "CAA69BFC5EF24C40";
       };
-      specialArgs = { inherit user inputs firefox-addons; };
+      specialArgs = {
+        inherit
+          user
+          inputs
+          firefox-addons
+          jacobi
+          ;
+      };
       darwinModules = [
         nur.nixosModules.nur
         ./hosts/spellbook
@@ -68,18 +90,18 @@
           home-manager.extraSpecialArgs = specialArgs;
         }
       ];
-    in {
+    in
+    {
       darwinConfigurations."prst" = darwinSystem {
         system = "aarch64-darwin";
         modules = darwinModules;
         specialArgs = specialArgs;
       };
-      darwinConfigurations."Whatnot-MacBook-Pro-16-inch-2023-T521X73XYX-2" =
-        darwinSystem {
-          system = "aarch64-darwin";
-          modules = darwinModules;
-          specialArgs = specialArgs;
-        };
+      darwinConfigurations."Whatnot-MacBook-Pro-16-inch-2023-T521X73XYX-2" = darwinSystem {
+        system = "aarch64-darwin";
+        modules = darwinModules;
+        specialArgs = specialArgs;
+      };
 
       # Expose the package set, including overlays, for convenience.
       darwinPackages = self.darwinConfigurations."prst".pkgs;

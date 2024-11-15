@@ -1,6 +1,13 @@
-{ config, lib, ... }:
-let signingEnabled = config.git.user.key != null;
-in {
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  signingEnabled = config.git.user.key != null;
+in
+{
   options.git.enable = lib.mkEnableOption "git";
   options.git.user = {
     name = lib.mkOption {
@@ -30,6 +37,10 @@ in {
         };
       };
     };
+    home.packages = with pkgs; [
+      git-town
+      git-pull-status
+    ];
     programs.lazygit = {
       enable = true;
       settings = {
@@ -44,16 +55,21 @@ in {
           language = "en";
           mouseEvents = false;
           sidePanelWidth = 0.3;
-          mainPanelSplitMode =
-            "flexible"; # one of "horizontal" | "flexible" | "vertical"
+          mainPanelSplitMode = "flexible"; # one of "horizontal" | "flexible" | "vertical"
           showFileTree = false; # ` to toggle
           nerdFontsVersion = "3";
           commitHashLength = 6;
           showDivergenceFromBaseBranch = "arrowAndNumber";
           theme = {
-            activeBorderColor = [ "#ff966c" "bold" ];
+            activeBorderColor = [
+              "#ff966c"
+              "bold"
+            ];
             inactiveBorderColor = [ "#589ed7" ];
-            searchingActiveBorderColor = [ "#ff966c" "bold" ];
+            searchingActiveBorderColor = [
+              "#ff966c"
+              "bold"
+            ];
             optionsTextColor = [ "#82aaff" ];
             selectedLineBgColor = [ "#2d3f76" ];
             cherryPickedCommitFgColor = [ "#82aaff" ];
@@ -73,8 +89,7 @@ in {
         };
         keybinding = {
           files = {
-            stashAllChanges =
-              "<c-a>"; # instead of just 's' which I typod for 'c'
+            stashAllChanges = "<c-a>"; # instead of just 's' which I typod for 'c'
           };
           universal = {
             prevItem = "e";
@@ -101,11 +116,13 @@ in {
             context = "global";
             description = "Git-Town Undo (undo the last git-town command)";
             command = "git-town undo";
-            prompts = [{
-              type = "confirm";
-              title = "Undo Last Command";
-              body = "Are you sure you want to Undo the last git-town command?";
-            }];
+            prompts = [
+              {
+                type = "confirm";
+                title = "Undo Last Command";
+                body = "Are you sure you want to Undo the last git-town command?";
+              }
+            ];
             stream = true;
             loadingText = "Undoing Git-Town Command";
           }
@@ -121,13 +138,15 @@ in {
             key = "a";
             context = "localBranches";
             description = "Git-Town Append";
-            prompts = [{
-              type = "input";
-              title = ''
-                Enter name of new child branch. Branches off of
-                      "{{.CheckedOutBranch.Name}}"'';
-              key = "BranchName";
-            }];
+            prompts = [
+              {
+                type = "input";
+                title = ''
+                  Enter name of new child branch. Branches off of
+                        "{{.CheckedOutBranch.Name}}"'';
+                key = "BranchName";
+              }
+            ];
             command = "git-town append {{.Form.BranchName}}";
             stream = true;
             loadingText = "Appending";
@@ -136,11 +155,13 @@ in {
             key = "h";
             context = "localBranches";
             description = "Git-Town Hack (creates a new branch)";
-            prompts = [{
-              type = "input";
-              title = ''Enter name of new branch. Branches off of "Main"'';
-              key = "BranchName";
-            }];
+            prompts = [
+              {
+                type = "input";
+                title = ''Enter name of new branch. Branches off of "Main"'';
+                key = "BranchName";
+              }
+            ];
             command = "git-town hack {{.Form.BranchName}}";
             stream = true;
             loadingText = "Hacking";
@@ -148,15 +169,15 @@ in {
           {
             key = "K";
             context = "localBranches";
-            description =
-              "Git-Town Kill (deletes the current feature branch and sYnc)";
+            description = "Git-Town Kill (deletes the current feature branch and sYnc)";
             command = "git-town kill";
-            prompts = [{
-              type = "confirm";
-              title = "Delete current feature branch";
-              body =
-                "Are you sure you want to delete the current feature branch?";
-            }];
+            prompts = [
+              {
+                type = "confirm";
+                title = "Delete current feature branch";
+                body = "Are you sure you want to delete the current feature branch?";
+              }
+            ];
             stream = true;
             loadingText = "Killing Feature Branch";
           }
@@ -174,13 +195,15 @@ in {
             description = ''
               Git-Town Prepend (creates a branch between the curent branch
                 and its parent)'';
-            prompts = [{
-              type = "input";
-              title = ''
-                Enter name of the for child branch between
-                      "{{.CheckedOutBranch.Name}}" and its parent'';
-              key = "BranchName";
-            }];
+            prompts = [
+              {
+                type = "input";
+                title = ''
+                  Enter name of the for child branch between
+                        "{{.CheckedOutBranch.Name}}" and its parent'';
+                key = "BranchName";
+              }
+            ];
             command = "git-town prepend {{.Form.BranchName}}";
             stream = true;
             loadingText = "Prepending";
@@ -188,8 +211,7 @@ in {
           {
             key = "S";
             context = "localBranches";
-            description =
-              "Git-Town Skip (skip branch with merge conflicts when syncing)";
+            description = "Git-Town Skip (skip branch with merge conflicts when syncing)";
             command = "git-town skip";
             stream = true;
             loadingText = "Skipping";
@@ -234,7 +256,9 @@ in {
           line-numbers-zero-style = ''"#3b4261"'';
         };
       };
-      lfs = { enable = true; };
+      lfs = {
+        enable = true;
+      };
       signing = {
         key = config.git.user.key;
         signByDefault = signingEnabled;
@@ -251,52 +275,37 @@ in {
         br = "branch -v";
         unstage = "reset HEAD --";
         find = "!sh -c 'git ls-tree -r --name-only HEAD | grep --color $1' -";
-        g =
-          "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-        sl =
-          "stash list --pretty='format:%<(13)%C(auto)%gd %C(green)%s %C(auto)|%C(yellow) %ar'";
-        h =
-          "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline #pretty oneline graph of what is different from origin/master";
-        pom =
-          "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master' -";
-        pomt =
-          "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master && git push origin master --tags' -";
-        purm = ''
-          !sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && exit 0 || echo "usage: git purm <branch>" >&2 && exit 1' -'';
-        rem = ''
-          !sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && git checkout master && git merge "$1" && echo Done and ready to do: git pom && exit 0 || echo "usage: git rem <branch>" >&2 && exit 1' -'';
-        rpom =
-          "!git pull --rebase && git pom # rebase and push to origin/master";
+        g = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+        sl = "stash list --pretty='format:%<(13)%C(auto)%gd %C(green)%s %C(auto)|%C(yellow) %ar'";
+        h = "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline #pretty oneline graph of what is different from origin/master";
+        pom = "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master' -";
+        pomt = "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master && git push origin master --tags' -";
+        purm = ''!sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && exit 0 || echo "usage: git purm <branch>" >&2 && exit 1' -'';
+        rem = ''!sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && git checkout master && git merge "$1" && echo Done and ready to do: git pom && exit 0 || echo "usage: git rem <branch>" >&2 && exit 1' -'';
+        rpom = "!git pull --rebase && git pom # rebase and push to origin/master";
         new = "hack";
         lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
         lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
         getr = "!git-pull-r";
         wipe = "!git-wipe";
         cmas = ''!f() { git commit -m "$1" --author="$2"; }; f'';
-        coco = ''
-          !f() { git commit -m ""$1" $(for i in "''${@:2}"; do echo "Co-authored-by: $i"; done);"; }; f'';
+        coco = ''!f() { git commit -m ""$1" $(for i in "''${@:2}"; do echo "Co-authored-by: $i"; done);"; }; f'';
         rbc = "rebase --continue";
         rba = "rebase --abort";
         branchr = "!git-branch-r";
-        track-upstream =
-          "!sh -c 'git branch -u origin/$(git branch --show-current)'";
+        track-upstream = "!sh -c 'git branch -u origin/$(git branch --show-current)'";
         lt = "!git describe $(git rev-list --tags --max-count=1) #list tags";
-        ri =
-          "!f() { if [ -z $1 ]; then val=$(git --no-pager log origin/master..HEAD --pretty=oneline | wc -l); else val=$1; fi; git rebase -i HEAD~$val; }; f";
+        ri = "!f() { if [ -z $1 ]; then val=$(git --no-pager log origin/master..HEAD --pretty=oneline | wc -l); else val=$1; fi; git rebase -i HEAD~$val; }; f";
         qc = "!git commit -a -m '____QUICK COMMIT - REMOVE WITH REBASE'";
         branch-name = "!git rev-parse --abbrev-ref HEAD";
         put = "!git push origin $(git branch-name)";
         pufl = "!git push origin $(git branch-name) --force-with-lease";
         get = "!git pull --ff-only";
-        got =
-          "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git checkout $2 && git pull origin $1 --ff-only && git checkout $CURRENT_BRANCH;  }; f";
+        got = "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git checkout $2 && git pull origin $1 --ff-only && git checkout $CURRENT_BRANCH;  }; f";
         who = "shortlog -n -s --no-merges";
-        cleanup =
-          "!git remote prune origin && git branch -vv | grep ': gone]' | cut -d ' ' -f 3 | xargs -n 1 git branch -D";
-        fco = ''
-          !f() { git branch -a -vv --color=always --format='%(refname)' | sed "s_refs/heads/__" | sed "s_refs/remotes/__" | fzf --query="$@" --height=40% --ansi --tac --color=16 --border | awk '{print $1}' | xargs git co; }; f'';
-        lb =
-          "!git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37      m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'";
+        cleanup = "!git remote prune origin && git branch -vv | grep ': gone]' | cut -d ' ' -f 3 | xargs -n 1 git branch -D";
+        fco = ''!f() { git branch -a -vv --color=always --format='%(refname)' | sed "s_refs/heads/__" | sed "s_refs/remotes/__" | fzf --query="$@" --height=40% --ansi --tac --color=16 --border | awk '{print $1}' | xargs git co; }; f'';
+        lb = "!git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37      m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'";
         append = "town append";
         compress = "town compress";
         contribute = "town contribute";
@@ -320,14 +329,22 @@ in {
         pull.ff = "only";
         init.defaultBranch = "main";
         checkout.defaultRemote = "origin";
-        core = { editor = "nvim"; };
+        core = {
+          editor = "nvim";
+        };
         rebase.instructionFormat = "<%ae >%s";
-        commit = { gpgsign = true; };
+        commit = {
+          gpgsign = true;
+        };
         merge = {
           tool = "vimConflicted";
           conflictStyle = "diff3";
         };
-        mergetool = { vimConflicted = { cmd = "vim +Conflicted"; }; };
+        mergetool = {
+          vimConflicted = {
+            cmd = "vim +Conflicted";
+          };
+        };
       };
     };
   };
