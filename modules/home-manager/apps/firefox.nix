@@ -4,7 +4,7 @@ let
     owner = "nuclearcodecat";
     repo = "shimmer";
     rev = "main";
-    sha256 = "sha256-x0QwgFc8yzHttA3gD7J3OyEDMn+LiJur6rNvmKqcAXA=";
+    sha256 = "sha256-oinnP7CBQQaSv+q2FAhO3WdIEc5XSWg58JRWD3Ko6no=";
   };
   # https://nur.nix-community.org/repos/rycee/
   extensions = with inputs.firefox-addons.packages.${pkgs.system}; [

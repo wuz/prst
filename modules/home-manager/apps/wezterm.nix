@@ -1,7 +1,8 @@
-{ ... }:
+{ pkgs, inputs, ... }:
 {
   programs.wezterm = {
     enable = true;
+    package = inputs.wezterm.packages.${pkgs.system}.default;
     enableBashIntegration = false;
     enableZshIntegration = true;
   };

@@ -2,7 +2,7 @@
   description = "wuz's stash of fresh packages";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -29,6 +29,7 @@
           nix-hash-unstable
           git-pull-status
           git-town-status
+          ccmenu
           # homebrew
           ;
       };
@@ -55,6 +56,8 @@
           in
           {
             packages = rec {
+
+              ccmenu = pkgs.callPackage ./packages/ccmenu.nix { inherit pkgs; };
 
               # homebrew = pkgs.callPackage ./tools/homebrew.nix {
               #   inherit pkgs;

@@ -38,5 +38,7 @@ in
       cloak
       vegeta
       w3m
+      gowall
+      jujutsu
     ];
 }

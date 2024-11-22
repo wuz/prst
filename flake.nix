@@ -2,19 +2,24 @@
   description = "prst - wuz's configurator";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
     darwin = {
-      url = "github:LnL7/nix-darwin/master";
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # pkgs-wuz = {
+    #   url = "github:wuz/prst/main?dir=pkgs-wuz";
+    # };
     pkgs-wuz = {
-      url = "github:wuz/prst?dir=pkgs-wuz";
+      url = "./pkgs-wuz";
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -33,6 +38,10 @@
       # inputs = {
       #   nixpkgs.follows = "nixpkgs";
       # };
+    };
+    wezterm = {
+      url = "github:wez/wezterm/main?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     kwb = {
       url = "github:kwbauson/cfg";
