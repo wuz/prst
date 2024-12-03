@@ -41,6 +41,7 @@ in
     initExtra = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
       source <(${pkgs.just}/bin/just --completions zsh)
+      source <(${pkgs.jj}/bin/jj util completion zsh)
     '';
   };
   programs.bash = {

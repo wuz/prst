@@ -1872,11 +1872,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-vfODLwZqki7zS3isb/ykBP6ZBKY0QDq6k+xdDQ1tEKQ=",
-        "path": "/nix/store/8j8bsz3wvhb1kk9bmikx7y1d6f1h5lly-source/pkgs-wuz",
+        "path": "/nix/store/iglydfak2z6avf503fsyc7cd96wly3x0-source/pkgs-wuz",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/8j8bsz3wvhb1kk9bmikx7y1d6f1h5lly-source/pkgs-wuz",
+        "path": "/nix/store/iglydfak2z6avf503fsyc7cd96wly3x0-source/pkgs-wuz",
         "type": "path"
       }
     },

@@ -8,6 +8,7 @@ inputs: {
   # Individual imports
   imports = [
     ./packages.nix
+    ./jj.nix
     ./git.nix
     # Languages
     ./languages/nix.nix
