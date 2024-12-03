@@ -5,7 +5,7 @@ in {
   config = {
     home.shellAliases = aliases;
     programs.neovim = {
-      package = pkgs.neovim;
+      # package = pkgs.neovim;
       enable = true;
       defaultEditor = true;
       vimAlias = true;

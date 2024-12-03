@@ -12,9 +12,12 @@ inputs: {
     # Languages
     ./languages/nix.nix
     ./languages/lua.nix
+    ./languages/node.nix
+    ./languages/rust.nix
+    # ./languages/ruby.nix
     ./languages/linters.nix
     # Apps
-    ./apps/firefox.nix
+    ./apps/floorp.nix
     ./apps/neovim.nix
     ./apps/wezterm.nix
     ./apps/gui.nix

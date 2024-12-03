@@ -1,9 +1,29 @@
-{ user, inputs, ... }: {
+{ user, inputs, ... }:
+{
   imports = [
-    inputs.firefox-darwin.darwinModules.home-manager
+    # inputs.floorp-darwin.darwinModules.home-manager
     ../../modules/home-manager
   ];
-  firefox.enable = true;
+  home.sessionVariables = {
+    USER = user.username;
+    PATH = "/opt/homebrew/bin:/etc/profiles/per-user/conlin.durbin/bin:$PATH";
+  };
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+    extraConfig = ''
+      IgnoreUnknown UseKeychain
+      UseKeychain yes
+
+      Host linux-builder
+        User builder
+        Hostname localhost
+        HostKeyAlias linux-builder
+        IdentityFile /etc/nix/builder_ed25519
+        Port 31022
+    '';
+  };
+  floorp.enable = true;
   direnv.enable = true;
   zoxide.enable = true;
   mcfly.enable = true;

@@ -2,30 +2,32 @@
   description = "prst - wuz's configurator";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
     darwin = {
-      url = "github:LnL7/nix-darwin/master";
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # pkgs-wuz = {
+    #   url = "github:wuz/prst/main?dir=pkgs-wuz";
+    # };
     pkgs-wuz = {
-      url = "github:wuz/prst?dir=pkgs-wuz";
+      url = "./pkgs-wuz";
     };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    firefox-darwin = {
-      url = "github:atahanyorganci/nixpkgs-firefox-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    floorp-darwin = {
+      url = "github:wuz/floorp-nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jacobi = {
@@ -34,12 +36,21 @@
       #   nixpkgs.follows = "nixpkgs";
       # };
     };
+    wezterm = {
+      url = "github:wez/wezterm/main?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     kwb = {
       url = "github:kwbauson/cfg";
       inputs = {
         home-manager.follows = "home-manager";
         nixpkgs.follows = "nixpkgs";
       };
+    };
+
+    liminix = {
+      flake = false;
+      url = "https://gti.telent.net/dan/liminix";
     };
   };
 
@@ -49,18 +60,18 @@
       darwin,
       home-manager,
       nur,
-      firefox-addons,
       pkgs-wuz,
       neovim-nightly-overlay,
       jacobi,
+      nixos-wsl,
       ...
     }:
     let
       inherit (darwin.lib) darwinSystem;
       overlays = [
-        pkgs-wuz.overlay
         neovim-nightly-overlay.overlays.default
         nur.overlay
+        pkgs-wuz.overlay
       ];
       user = {
         name = "Conlin Durbin";
@@ -73,14 +84,12 @@
         inherit
           user
           inputs
-          firefox-addons
           jacobi
           ;
       };
-      darwinModules = [
+      sharedModules = [
         nur.nixosModules.nur
-        ./hosts/spellbook
-        home-manager.darwinModules.home-manager
+        nur.hmModules.nur
         { nixpkgs.overlays = overlays; }
         {
           home-manager.useGlobalPkgs = true;
@@ -90,20 +99,34 @@
           home-manager.extraSpecialArgs = specialArgs;
         }
       ];
+      wslModules = [
+        nixos-wsl.nixosModules.default
+      ];
+      darwinModules = [
+        home-manager.darwinModules.home-manager
+      ];
     in
     {
-      darwinConfigurations."prst" = darwinSystem {
-        system = "aarch64-darwin";
-        modules = darwinModules;
-        specialArgs = specialArgs;
+      darwinConfigurations = {
+        spellbook = darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/spellbook
+          ] ++ sharedModules ++ darwinModules;
+          specialArgs = specialArgs;
+        };
       };
-      darwinConfigurations."Whatnot-MacBook-Pro-16-inch-2023-T521X73XYX-2" = darwinSystem {
-        system = "aarch64-darwin";
-        modules = darwinModules;
-        specialArgs = specialArgs;
+      nixosConfigurations = {
+        tower = {
+          modules = [ ./hosts/tower ] ++ sharedModules ++ wslModules;
+        };
+
       };
+      # liminixConfigurations = {
+      #   aether = { config, lib, pkgs, ... }: {};
+      # };
 
       # Expose the package set, including overlays, for convenience.
-      darwinPackages = self.darwinConfigurations."prst".pkgs;
+      darwinPackages = self.darwinConfigurations."spellbook".pkgs;
     };
 }

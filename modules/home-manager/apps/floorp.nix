@@ -1,41 +1,61 @@
-{ pkgs, lib, inputs, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 let
-  shimmer = pkgs.fetchFromGitHub {
-    owner = "nuclearcodecat";
-    repo = "shimmer";
-    rev = "main";
-    sha256 = "sha256-x0QwgFc8yzHttA3gD7J3OyEDMn+LiJur6rNvmKqcAXA=";
-  };
-  # https://nur.nix-community.org/repos/rycee/
-  extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-    sidebery
-    react-devtools
-    adnauseam
-    clearurls
-    stylus
-    proton-pass
-    sponsorblock
-    kagi-search
-    privacy-badger
-    decentraleyes
-  ];
-in {
-  options.firefox = lib.mkEnableOption "firefox";
+  # edgyarc = pkgs.fetchFromGitHub {
+  #   owner = "artsyfriedchicken";
+  #   repo = "EdgyArc-fr";
+  #   rev = "main";
+  #   sha256 = "sha256-KvzYDTMHZom9kDCGL9NMBH76s4kIgtOVG8hb88VfREY=";
+  # };
+  extensions =
+    with pkgs.nur.repos.rycee.firefox-addons;
+    [
+      sidebery
+      react-devtools
+      adnauseam
+      clearurls
+      stylus
+      proton-pass
+      sponsorblock
+      kagi-search
+      privacy-possum
+      decentraleyes
+      tampermonkey
+      temporary-containers
+      raindropio
+      canvasblocker
+      don-t-fuck-with-paste
+      facebook-container
+    ]
+    ++ (with pkgs.firefox-addons; [
+      google-container
+      microsoft-container
+      libraryextension
+      container-script
+      let-s-get-color-blind
+    ]);
+in
+{
+  options.floorp = lib.mkEnableOption "floorp";
   config = {
     home.sessionVariables = {
       MOZ_LEGACY_PROFILES = 1;
       MOZ_ALLOW_DOWNGRADE = 1;
     };
-    home.file."sidebery.json" = {
-      enable = true;
-      source = "${shimmer}/sidebery.json";
-    };
-    home.file."Library/Application Support/Firefox/Profiles/wuz/chrome/assets" =
-      {
-        enable = true;
-        source = "${shimmer}/assets";
-      };
-    programs.firefox = {
+    # home.file."sidebery.json" = {
+    #   enable = true;
+    #   source = "${edgyarc}/Sidebery/sidebery-settings.json";
+    # };
+    # home.file."Library/Application Support/Firefox/Profiles/wuz/chrome" = {
+    #   recursive = true;
+    #   enable = true;
+    #   source = "${edgyarc}/chrome";
+    # };
+    programs.floorp = {
+      package = null;
       enable = true;
       policies = {
         AppAutoUpdate = false;
@@ -47,23 +67,27 @@ in {
         DisableTelemetry = true;
         OfferToSaveLogins = false;
         PromptForDownloadLocation = true;
-        ExtensionSettings = builtins.listToAttrs (builtins.map (e:
-          lib.nameValuePair e.addonId {
-            installation_mode = "force_installed";
-            install_url = "file://${e.src}";
-            updates_disabled = true;
-          }) extensions);
+        ExtensionSettings = builtins.listToAttrs (
+          builtins.map (
+            e:
+            lib.nameValuePair e.addonId {
+              installation_mode = "force_installed";
+              install_url = "file://${e.src}";
+              updates_disabled = true;
+            }
+          ) extensions
+        );
       };
       profiles.wuz = {
         isDefault = true;
         extensions = extensions;
-        userChrome = ''
-          ${builtins.readFile "${shimmer}/userChrome.css"}
-          .tab-context-line {
-              background-image: linear-gradient(45deg, transparent, var(--identity-icon-color), var(--identity-icon-color), transparent) !important;
-          }
-        '';
-        userContent = builtins.readFile "${shimmer}/userContent.css";
+        # userChrome = ''
+        #   ${builtins.readFile "${edgyarc}/chrome/userChrome.css"}
+        #   .tab-context-line {
+        #       background-image: linear-gradient(45deg, transparent, var(--identity-icon-color), var(--identity-icon-color), transparent) !important;
+        #   }
+        # '';
+        # userContent = builtins.readFile "${edgyarc}/userContent.css";
         containers = {
           work = {
             color = "yellow";
@@ -77,43 +101,48 @@ in {
           };
         };
         containersForce = true;
-        search.force = true;
+        # search.force = true;
         search.engines = {
           "Bing".metaData.hidden = true;
           "Google".metaData.hidden = true;
           "Wikipedia (en)".metaData.hidden = true;
           "GitHub Code" = {
-            urls = [{
-              template = "https://github.com/search?q={searchTerms}&type=code";
-            }];
+            urls = [
+              {
+                template = "https://github.com/search?q={searchTerms}&type=code";
+              }
+            ];
             definedAliases = [ "@gc" ];
           };
           "GitHub Issues" = {
-            urls = [{
-              template =
-                "https://github.com/search?q={searchTerms}&type=issues";
-            }];
+            urls = [
+              {
+                template = "https://github.com/search?q={searchTerms}&type=issues";
+              }
+            ];
             definedAliases = [ "@gi" ];
           };
           "NPM" = {
-            urls =
-              [{ template = "https://www.npmjs.com/search?q={searchTerms}"; }];
+            urls = [ { template = "https://www.npmjs.com/search?q={searchTerms}"; } ];
             definedAliases = [ "@npm" ];
           };
           "Pkg Size" = {
-            urls = [{ template = "https://pkg-size.dev/{searchTerms}"; }];
+            urls = [ { template = "https://pkg-size.dev/{searchTerms}"; } ];
             definedAliases = [ "@pkg" ];
           };
           "Home Manager NixOs" = {
-            urls = [{
-              template = "https://home-manager-options.extranix.com/";
-              params = [{
-                name = "query";
-                value = "{searchTerms}";
-              }];
-            }];
-            icon =
-              "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            urls = [
+              {
+                template = "https://home-manager-options.extranix.com/";
+                params = [
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@hm" ];
           };
         };
