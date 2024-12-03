@@ -8,6 +8,8 @@
       url = "github:numtide/flake-utils";
     };
 
+    pog.url = "github:jpetrucciani/pog";
+
     rust-nightly = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,11 +17,12 @@
   };
 
   outputs =
-    args@{
+    {
       self,
       flake-utils,
       nixpkgs,
       rust-nightly,
+      pog,
       ...
     }:
     {
@@ -30,8 +33,10 @@
           git-pull-status
           git-town-status
           ccmenu
-          # homebrew
+          deskpad
           ;
+        inherit (final.nur.repos.rycee.firefox-addons) buildFirefoxXpiAddon;
+        firefox-addons = final.callPackage ./packages/firefox-addons { };
       };
     }
     //
@@ -46,7 +51,10 @@
           let
             pkgs = import nixpkgs {
               inherit system;
-              overlays = [ rust-nightly.overlays.default ];
+              overlays = [
+                rust-nightly.overlays.default
+                pog.overlays.${system}.default
+              ];
               config = {
                 allowUnfree = true;
                 allowBroken = true;
@@ -55,55 +63,69 @@
             };
           in
           {
-            packages = rec {
+            packages =
+              flake-utils.lib.flattenTree (
+                import ./packages {
+                  inherit
+                    pkgs
+                    ;
+                }
+              )
+              // rec {
+                writeBashBinChecked =
+                  name: text:
+                  pkgs.stdenv.mkDerivation {
+                    inherit name text;
+                    dontUnpack = true;
+                    passAsFile = "text";
+                    installPhase = ''
+                      mkdir -p $out/bin
+                      echo '#!/bin/bash' > $out/bin/${name}
+                      cat $textPath >> $out/bin/${name}
+                      chmod +x $out/bin/${name}
+                      ${pkgs.shellcheck}/bin/shellcheck $out/bin/${name}
+                    '';
+                  };
 
-              ccmenu = pkgs.callPackage ./packages/ccmenu.nix { inherit pkgs; };
-
-              # homebrew = pkgs.callPackage ./tools/homebrew.nix {
-              #   inherit pkgs;
-              # };
-
-              writeBashBinChecked =
-                name: text:
-                pkgs.stdenv.mkDerivation {
-                  inherit name text;
-                  dontUnpack = true;
-                  passAsFile = "text";
-                  installPhase = ''
-                    mkdir -p $out/bin
-                    echo '#!/bin/bash' > $out/bin/${name}
-                    cat $textPath >> $out/bin/${name}
-                    chmod +x $out/bin/${name}
-                    ${pkgs.shellcheck}/bin/shellcheck $out/bin/${name}
+                nix-hash-unstable = pkgs.pog.pog {
+                  name = "nix-hash-unstable";
+                  description = "Hash nix-unstable and pin to file";
+                  arguments = [ { name = "FILE"; } ];
+                  script = helpers: ''
+                    path="$1"
+                    out=$(${pkgs.nix-prefetch-git}/bin/nix-prefetch-git \
+                      --quiet \
+                      --no-deepClone \
+                      --branch-name nixpkgs-unstable \
+                      https://github.com/NixOS/nixpkgs.git | \
+                    ${pkgs.jq}/bin/jq '{ rev: .rev, sha256: .sha256 }')
+                    echo "$path"
+                    echo "$out"
+                    # if [ -n "$path" ]; then
+                    #   echo "$out" > "$path"
+                    # else
+                    #   echo "$out"
+                    # fi
                   '';
                 };
 
-              nix-hash-unstable = writeBashBinChecked "nix-hash-unstable" ''
-                ${pkgs.nix-prefetch-git}/bin/nix-prefetch-git \
-                --quiet \
-                --no-deepClone \
-                --branch-name nixpkgs-unstable \
-                https://github.com/NixOS/nixpkgs.git | \
-                ${pkgs.jq}/bin/jq '{ rev: .rev, sha256: .sha256 }'
-              '';
+                git-pull-status = writeBashBinChecked "git-pull-status" ''
+                  UPSTREAM=$1
+                  LOCAL=$(git rev-parse @)
+                  REMOTE=$(git rev-parse "$UPSTREAM")
+                  BASE=$(git merge-base @ "$UPSTREAM")
 
-              git-pull-status = writeBashBinChecked "git-pull-status" ''
-                UPSTREAM=$1
-                LOCAL=$(git rev-parse @)
-                REMOTE=$(git rev-parse "$UPSTREAM")
-                BASE=$(git merge-base @ "$UPSTREAM")
-
-                if [ "$LOCAL" = "$REMOTE" ]; then
-                    echo "Up-to-date"
-                elif [ "$LOCAL" = "$BASE" ]; then
-                    echo "Need to pull"
-                elif [ "$REMOTE" = "$BASE" ]; then
-                    echo "Need to push"
-                else
-                    echo "Diverged"
-                fi
-              '';
-            };
+                  if [ "$LOCAL" = "$REMOTE" ]; then
+                      echo "Up-to-date"
+                  elif [ "$LOCAL" = "$BASE" ]; then
+                      echo "Need to pull"
+                  elif [ "$REMOTE" = "$BASE" ]; then
+                      echo "Need to push"
+                  else
+                      echo "Diverged"
+                  fi
+                '';
+              };
           }
         );
 }

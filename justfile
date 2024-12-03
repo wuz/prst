@@ -1,5 +1,5 @@
-all:
-  nix run nix-darwin -- switch --flake ~/.config/darwin#prst
+spellbook:
+  nix run nix-darwin -- switch --flake .#spellbook
 
-verbose:
-  nix run nix-darwin -- switch --flake ~/.config/darwin#prst -vvv
+tower:
+  nix build .#tower

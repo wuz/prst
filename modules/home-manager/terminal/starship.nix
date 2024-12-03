@@ -40,6 +40,7 @@ in
     shellAliases = shellAliases;
     initExtra = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
+      source <(${pkgs.just}/bin/just --completions zsh)
     '';
   };
   programs.bash = {

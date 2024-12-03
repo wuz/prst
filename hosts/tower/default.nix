@@ -8,6 +8,7 @@ let
   uid = 502;
 in
 {
+  wsl.enable = true;
   ids.gids.nixbld = 350;
   imports =
     [
@@ -56,8 +57,6 @@ in
     shfmt
     go
     ccmenu
-    deskpad
-    nur.repos.rycee.mozilla-addons-to-nix
   ];
 
   environment.pathsToLink = [

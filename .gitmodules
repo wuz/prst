@@ -1,0 +1,3 @@
+[submodule "nix-private"]
+	path = nix-private
+	url = git@github.com:wuz/nix-private.git

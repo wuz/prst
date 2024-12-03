@@ -27,7 +27,10 @@ in
       user.username
       "@admin"
     ];
-    netrc-file = "/Users/${user.username}/.config/nix/netrc";
+    system-features = [
+      "nixos-test"
+      "apple-virt"
+    ];
     substituters = [
       "https://cache.nixos.org"
       "https://whatnot-inc.cachix.org"
@@ -42,19 +45,16 @@ in
     ];
   };
   nix.linux-builder = {
-    package = pkgs.darwin.linux-builder;
-    enable = false;
-    ephemeral = true;
-    maxJobs = 4;
-    config = {
-      virtualisation = {
-        darwin-builder = {
-          diskSize = 40 * 1024;
-          memorySize = 8 * 1024;
-        };
-        cores = 6;
-      };
-    };
+    # package = pkgs.darwin.linux-builder-x86_64;
+    enable = true;
+    # config = {
+    #   virtualisation = {
+    #     darwin-builder = {
+    #       diskSize = 40 * 1024;
+    #       memorySize = 8 * 1024;
+    #     };
+    #   };
+    # };
   };
 
   # Enable logging for the linux builder

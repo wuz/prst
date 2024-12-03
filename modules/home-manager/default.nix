@@ -17,7 +17,7 @@ inputs: {
     # ./languages/ruby.nix
     ./languages/linters.nix
     # Apps
-    ./apps/firefox.nix
+    ./apps/floorp.nix
     ./apps/neovim.nix
     ./apps/wezterm.nix
     ./apps/gui.nix

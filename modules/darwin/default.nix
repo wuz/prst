@@ -1,6 +1,6 @@
 [
   ./homebrew.nix
   ./nix.nix
-  ./firefox.nix
+  ./floorp.nix
   ./shell.nix
 ]

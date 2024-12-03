@@ -1,7 +1,7 @@
 { user, inputs, ... }:
 {
   imports = [
-    inputs.firefox-darwin.darwinModules.home-manager
+    # inputs.floorp-darwin.darwinModules.home-manager
     ../../modules/home-manager
   ];
   home.sessionVariables = {
@@ -23,7 +23,7 @@
         Port 31022
     '';
   };
-  firefox.enable = true;
+  floorp.enable = true;
   direnv.enable = true;
   zoxide.enable = true;
   mcfly.enable = true;

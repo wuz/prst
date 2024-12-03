@@ -39,6 +39,6 @@ in
       vegeta
       w3m
       gowall
-      jujutsu
+      devenv
     ];
 }
