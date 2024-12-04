@@ -1,7 +1,13 @@
-{ user, inputs, ... }:
+{
+  user,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [
     # inputs.floorp-darwin.darwinModules.home-manager
+    inputs.pkgs-wuz.darwinModules.hm-zen-browser
     ../../modules/home-manager
   ];
   home.sessionVariables = {
@@ -23,7 +29,7 @@
         Port 31022
     '';
   };
-  floorp.enable = true;
+  browser.enable = true;
   direnv.enable = true;
   zoxide.enable = true;
   mcfly.enable = true;

@@ -1,19 +1,19 @@
 {
   pkgs,
   lib,
+  user,
   ...
 }:
 let
-  # edgyarc = pkgs.fetchFromGitHub {
-  #   owner = "artsyfriedchicken";
-  #   repo = "EdgyArc-fr";
-  #   rev = "main";
-  #   sha256 = "sha256-KvzYDTMHZom9kDCGL9NMBH76s4kIgtOVG8hb88VfREY=";
-  # };
+  style = pkgs.fetchFromGitHub {
+    owner = "lunar-os";
+    repo = "ZenCss";
+    rev = "main";
+    sha256 = "sha256-jV9s/XwJYbeRRys5fAjkPVYIuNzWoZBAPoNfhC5wpa8=";
+  };
   extensions =
     with pkgs.nur.repos.rycee.firefox-addons;
     [
-      sidebery
       react-devtools
       adnauseam
       clearurls
@@ -39,7 +39,7 @@ let
     ]);
 in
 {
-  options.floorp = lib.mkEnableOption "floorp";
+  options.browser = lib.mkEnableOption "browser";
   config = {
     home.sessionVariables = {
       MOZ_LEGACY_PROFILES = 1;
@@ -54,8 +54,8 @@ in
     #   enable = true;
     #   source = "${edgyarc}/chrome";
     # };
-    programs.floorp = {
-      package = null;
+    programs.zen-browser = {
+      package = pkgs.zen-browser-bin;
       enable = true;
       policies = {
         AppAutoUpdate = false;
@@ -81,13 +81,10 @@ in
       profiles.wuz = {
         isDefault = true;
         extensions = extensions;
-        # userChrome = ''
-        #   ${builtins.readFile "${edgyarc}/chrome/userChrome.css"}
-        #   .tab-context-line {
-        #       background-image: linear-gradient(45deg, transparent, var(--identity-icon-color), var(--identity-icon-color), transparent) !important;
-        #   }
-        # '';
-        # userContent = builtins.readFile "${edgyarc}/userContent.css";
+        userChrome = ''
+          ${builtins.readFile "${style}/userChrome.css"}
+        '';
+        # userContent = builtins.readFile "${style}/userContent.css";
         containers = {
           work = {
             color = "yellow";

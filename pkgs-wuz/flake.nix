@@ -34,10 +34,12 @@
           git-town-status
           ccmenu
           deskpad
+          hm-zen-browser
           ;
         inherit (final.nur.repos.rycee.firefox-addons) buildFirefoxXpiAddon;
         firefox-addons = final.callPackage ./packages/firefox-addons { };
       };
+      darwinModules.hm-zen-browser = import ./home-manager/hm-zen-browser;
     }
     //
       flake-utils.lib.eachSystem

@@ -28,7 +28,7 @@ in
       discord = mkCaskOption "Discord" false;
       elgato-control-center = mkCaskOption "Elgato Control Center" true;
       elgato-wave-link = mkCaskOption "Elgato Wave Link" true;
-      floorp = mkCaskOption "Floorp" true;
+      floorp = mkCaskOption "Floorp" false;
       # "arc"
       # "wezterm"
       # "setapp"

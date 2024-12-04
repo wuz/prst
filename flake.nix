@@ -26,10 +26,7 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    floorp-darwin = {
-      url = "github:wuz/floorp-nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
     jacobi = {
       url = "github:jpetrucciani/nix";
       # inputs = {
@@ -64,6 +61,7 @@
       neovim-nightly-overlay,
       jacobi,
       nixos-wsl,
+      nix-darwin-browsers,
       ...
     }:
     let
@@ -72,6 +70,7 @@
         neovim-nightly-overlay.overlays.default
         nur.overlay
         pkgs-wuz.overlay
+        nix-darwin-browsers.overlays.default
       ];
       user = {
         name = "Conlin Durbin";
