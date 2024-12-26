@@ -1141,7 +1141,7 @@
     "liminix": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Mrb+hWL55Z1Y20tFJwHWddNeUAbRZ+Xl9jZ41Rm6PyA=",
+        "narHash": "sha256-JGvbgsiU1qXforEfqiBMOmMjiXHntF2vanRblNbIFKY=",
         "type": "file",
         "url": "https://gti.telent.net/dan/liminix"
       },
@@ -1163,11 +1163,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1734999862,
-        "narHash": "sha256-CJ3dXoCQzbSR/b8kbswlf/JIGKIN/6c9ywRw2rQAIYY=",
+        "lastModified": 1735172062,
+        "narHash": "sha256-Ru+5fwMqXEoc6G1PbuTppAzxtqvj0322cBAWCb0Yhbo=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "0d0beafd94c34915fb951b31e165be5cf1cf3a7c",
+        "rev": "d05e1d754812bcd89925d845992f377faf6c4944",
         "type": "github"
       },
       "original": {
@@ -1179,11 +1179,11 @@
     "neovim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1734989976,
-        "narHash": "sha256-DVlI7ua+VOkqC70WpSbJO+FjQyBEarGZnKoql7I7Unk=",
+        "lastModified": 1735157560,
+        "narHash": "sha256-ndlWdGm61W3uObi8cowWqnPdJwq2FsH4GHGOQYeNSOM=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "c51bf5a6b24928ac04d0bb129b1b424d4c78f28d",
+        "rev": "487c48ec8689b865bad04fdb87b61f5ada25da97",
         "type": "github"
       },
       "original": {
@@ -1697,11 +1697,11 @@
     },
     "nixpkgs_13": {
       "locked": {
-        "lastModified": 1735074510,
-        "narHash": "sha256-Re47GcZLxDcX26hX8rgBbMsJ8XfFPhsgvB4pAeak3T8=",
+        "lastModified": 1735171749,
+        "narHash": "sha256-UA56kDQSztRWbpsG9bK+jIGyZ0YZAcIsYAhXDHIr8zs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0f7fdb2ef5a6182601b9ba528b45f43822bb72aa",
+        "rev": "03b02bb3356e29e9d4d1200f9b1f5f36bf3780f0",
         "type": "github"
       },
       "original": {
@@ -1906,11 +1906,11 @@
         "treefmt-nix": "treefmt-nix_4"
       },
       "locked": {
-        "lastModified": 1735070725,
-        "narHash": "sha256-NSKvAqkgOvf74Lxh5kUVV4pFYTPjdGRtuks7hgwczHo=",
+        "lastModified": 1735155985,
+        "narHash": "sha256-FCc7Ow6gB1b1Q5klGwdQKFZroZWSyLB1NZ1yV1cXxBY=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "2fb4eca072cf867a338f11016906345716519db1",
+        "rev": "fff50315d620a788edd5e198ef741c08c4ec80a1",
         "type": "github"
       },
       "original": {
@@ -1929,11 +1929,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-H25dy7s85p7kMuN13WdFnHYachzq3ckG5hF4TCYEjbY=",
-        "path": "/nix/store/jlaxranv9fn39bhaxzb2vhn7bdblgyp3-source/pkgs-wuz",
+        "path": "/nix/store/bkswwy0r9qjb1iiajpxm983nk6f4hi6l-source/pkgs-wuz",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/jlaxranv9fn39bhaxzb2vhn7bdblgyp3-source/pkgs-wuz",
+        "path": "/nix/store/bkswwy0r9qjb1iiajpxm983nk6f4hi6l-source/pkgs-wuz",
         "type": "path"
       }
     },
@@ -2204,11 +2204,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1735007320,
-        "narHash": "sha256-NdhUgB9BkLGW9I+Q1GyUUCc3CbDgsg7HLWjG7WZBR5Q=",
+        "lastModified": 1735093658,
+        "narHash": "sha256-eIUYGDtairggo7+JXSwN7b6Zr03BJ7tsZL/U0NkDr0s=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "fb5fdba697ee9a2391ca9ceea3b853b4e3ce37a5",
+        "rev": "ca249a1d98eff27e92665ac462b9d47f58141925",
         "type": "github"
       },
       "original": {
@@ -2525,11 +2525,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1734982074,
-        "narHash": "sha256-N7M37KP7cHWoXicuE536GrVvU8nMDT/gpI1kja2hkdg=",
+        "lastModified": 1735135567,
+        "narHash": "sha256-8T3K5amndEavxnludPyfj3Z1IkcFdRpR23q+T0BVeZE=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "e41e948cf097cbf96ba4dff47a30ea6891af9f33",
+        "rev": "9e09d30a644c57257715902efbb3adc56c79cf28",
         "type": "github"
       },
       "original": {
