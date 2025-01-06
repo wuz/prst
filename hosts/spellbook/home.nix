@@ -6,7 +6,7 @@
 }:
 {
   imports = [
-    # inputs.floorp-darwin.darwinModules.home-manager
+    inputs.nur.modules.homeManager.default
     inputs.pkgs-wuz.darwinModules.hm-zen-browser
     ../../modules/home-manager
   ];

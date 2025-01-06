@@ -29,9 +29,6 @@
     nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
     jacobi = {
       url = "github:jpetrucciani/nix";
-      # inputs = {
-      #   nixpkgs.follows = "nixpkgs";
-      # };
     };
     wezterm = {
       url = "github:wez/wezterm/main?dir=nix";
@@ -49,6 +46,8 @@
       flake = false;
       url = "https://gti.telent.net/dan/liminix";
     };
+
+    ghostty-hm.url = "github:clo4/ghostty-hm-module";
   };
 
   outputs =
@@ -62,15 +61,15 @@
       jacobi,
       nixos-wsl,
       nix-darwin-browsers,
+      ghostty-hm,
       ...
     }:
     let
       inherit (darwin.lib) darwinSystem;
       overlays = [
         neovim-nightly-overlay.overlays.default
-        nur.overlay
+        nur.overlays.default
         pkgs-wuz.overlay
-        nix-darwin-browsers.overlays.default
       ];
       user = {
         name = "Conlin Durbin";
@@ -87,21 +86,28 @@
           ;
       };
       sharedModules = [
-        nur.nixosModules.nur
-        nur.hmModules.nur
-        { nixpkgs.overlays = overlays; }
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.verbose = true;
           home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
           home-manager.extraSpecialArgs = specialArgs;
+          home-manager.sharedModules = [
+            ghostty-hm.homeModules.default
+          ];
         }
       ];
       wslModules = [
+        { nixpkgs.overlays = overlays; }
+        nur.modules.nixos.default
         nixos-wsl.nixosModules.default
       ];
       darwinModules = [
+        {
+          nixpkgs.overlays = [
+            nix-darwin-browsers.overlays.default
+          ] ++ overlays;
+        }
         home-manager.darwinModules.home-manager
       ];
     in
@@ -109,9 +115,12 @@
       darwinConfigurations = {
         spellbook = darwinSystem {
           system = "aarch64-darwin";
-          modules = [
-            ./hosts/spellbook
-          ] ++ sharedModules ++ darwinModules;
+          modules =
+            [
+              ./hosts/spellbook
+            ]
+            ++ sharedModules
+            ++ darwinModules;
           specialArgs = specialArgs;
         };
       };
@@ -121,11 +130,6 @@
         };
 
       };
-      # liminixConfigurations = {
-      #   aether = { config, lib, pkgs, ... }: {};
-      # };
-
-      # Expose the package set, including overlays, for convenience.
       darwinPackages = self.darwinConfigurations."spellbook".pkgs;
     };
 }

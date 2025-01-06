@@ -29,24 +29,28 @@ in
       elgato-control-center = mkCaskOption "Elgato Control Center" true;
       elgato-wave-link = mkCaskOption "Elgato Wave Link" true;
       floorp = mkCaskOption "Floorp" false;
+      # Ghostty on nix seems broken for darwin right now
+      ghostty = mkCaskOption "ghostty" false;
       # "arc"
       # "wezterm"
       # "setapp"
-      # "affinity-designer"
-      # "affinity-photo"
-      # "affinity-publisher"
-      # "betterdisplay"
+
+      betterdisplay = mkCaskOption "betterdisplay" false;
+      affinity-designer = mkCaskOption "affinity-designer" false;
+      affinity-photo = mkCaskOption "affinity-photo" false;
+      affinity-publisher = mkCaskOption "affinity-publisher" false;
+
+      karabiner-elements = mkCaskOption "karabiner-elements" false;
+      transmission = mkCaskOption "transmission" false;
+      notion-calendar = mkCaskOption "notion-calendar" false;
+
       # "figma"
       # "obsidian"
       # "muzzle"
-      # "karabiner-elements"
-      # "notion-calendar"
       # "obsidian"
-      # "transmission"
       # "little-snitch"
       # "micro-snitch"
       # "docker"
-      # "discord"
     };
   };
   config = {

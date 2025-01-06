@@ -45,18 +45,8 @@ in
     ];
   };
   nix.linux-builder = {
-    # package = pkgs.darwin.linux-builder-x86_64;
-    enable = true;
-    # config = {
-    #   virtualisation = {
-    #     darwin-builder = {
-    #       diskSize = 40 * 1024;
-    #       memorySize = 8 * 1024;
-    #     };
-    #   };
-    # };
+    enable = false;
   };
-
   # Enable logging for the linux builder
   launchd.daemons.linux-builder = {
     serviceConfig = {

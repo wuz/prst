@@ -5,7 +5,6 @@
   ...
 }:
 let
-  inherit (pkgs) nix-hash-unstable git-pull-status;
   cobiscripts = inputs.jacobi.packages.${pkgs.system};
 
   python-with-global-packages = pkgs.python3.withPackages (
@@ -38,24 +37,28 @@ in
       openssl
       libsecret
       dbus
+      ollama
       fastfetch
       just
-      /*
-        fzf
-        hadolint
-        ipfs
-        lolcat
-        pkgsX86.luajit
-        ninja
-        nnn
-        pkg-config
-        pssh
-        ssh-copy-id
-        # thefuck
-      */
+      # fzf
+      # hadolint
+      # ipfs
+      # lolcat
+      # pkgsX86.luajit
+      # ninja
+      # nnn
+      # pkg-config
+      # pssh
+      # ssh-copy-id
+      # thefuck
       lima
       onlykey-agent
       onlykey-cli
+
+      shellcheck
+      shellharden
+      shfmt
+      go
 
       # jacobi
       cobiscripts.docker_pog_scripts

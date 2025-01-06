@@ -9,10 +9,8 @@ let
 in
 {
   ids.gids.nixbld = 350;
-  imports =
-    [
-    ]
-    ++ (import ../../modules/darwin);
+  imports = [
+  ] ++ (import ../../modules/darwin);
   services.nix-daemon.enable = true;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
   system.stateVersion = 5;
@@ -31,9 +29,6 @@ in
     };
   };
   environment.systemPackages = with pkgs; [
-    bash-completion
-    bashInteractive
-    blesh
     gcc
     curl
     gnugrep
@@ -49,19 +44,11 @@ in
     libuv
     gnupg
     zsh
-
     pinentry_mac
-    shellcheck
-    shellharden
-    shfmt
-    go
-    ccmenu
-    deskpad
     nur.repos.rycee.mozilla-addons-to-nix
   ];
 
   environment.pathsToLink = [
-    "/share/bash-completion"
     "/share/zsh"
   ];
 
@@ -124,4 +111,10 @@ in
 
   security.pam.enableSudoTouchIdAuth = true;
   documentation.enable = false;
+
+  homebrew = {
+    apps = {
+      ghostty = true;
+    };
+  };
 }

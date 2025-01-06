@@ -21,6 +21,7 @@ inputs: {
     ./apps/browser.nix
     ./apps/neovim.nix
     ./apps/wezterm.nix
+    ./apps/ghostty.nix
     ./apps/gui.nix
     # Terminal
     ./terminal/starship.nix

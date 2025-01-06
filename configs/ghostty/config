@@ -1,0 +1,34 @@
+# Theme
+palette = 0=#1B1B1B
+palette = 8=#3f3b3e
+palette = 1=#e78284
+palette = 9=#BC566E
+palette = 2=#6A999D
+palette = 10=#87b988
+palette = 3=#b29452
+palette = 11=#d0bf70
+palette = 4=#535d92
+palette = 12=#878fb9
+palette = 5=#815392
+palette = 13=#ad87b9
+palette = 6=#538592
+palette = 14=#87b9b9
+palette = 7=#919191
+palette = 15=#ffffff
+background = #000000
+foreground = #e2e2e2
+
+font-family = Cartograph CF
+
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+macos-titlebar-style = transparent
+macos-auto-secure-input = true
+
+# Keybindings
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+
+# Manage updates with Nix
+auto-update = off
+
