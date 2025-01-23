@@ -1,11 +1,9 @@
 { pkgs, inputs, ... }:
 {
   programs.ghostty = {
-    enable = true;
-    shellIntegration = {
-      enable = true;
-    };
-    package = null;
+    enable = false;
+    enableZshIntegration = true;
+    # package = null;
   };
   xdg.configFile."ghostty" = {
     recursive = true;

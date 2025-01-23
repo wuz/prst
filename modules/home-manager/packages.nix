@@ -40,17 +40,20 @@ in
       ollama
       fastfetch
       just
-      # fzf
-      # hadolint
-      # ipfs
-      # lolcat
-      # pkgsX86.luajit
-      # ninja
-      # nnn
-      # pkg-config
-      # pssh
-      # ssh-copy-id
-      # thefuck
+      fzf
+      chafa
+      /*
+        hadolint
+        ipfs
+        lolcat
+        pkgsX86.luajit
+        ninja
+        nnn
+        pkg-config
+        pssh
+        ssh-copy-id
+        # thefuck
+      */
       lima
       onlykey-agent
       onlykey-cli

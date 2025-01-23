@@ -32,6 +32,7 @@
           nix-hash-unstable
           git-pull-status
           git-town-status
+          audio-switcher-d
           ccmenu
           deskpad
           hm-zen-browser
@@ -108,6 +109,19 @@
                     # else
                     #   echo "$out"
                     # fi
+                  '';
+                };
+
+                audio-switcher-d = pkgs.pog.pog {
+                  name = "audio-switcher-d";
+                  description = "Force audio switching";
+                  script = helpers: ''
+                    while true;
+                    do
+                     if [[ $(${pkgs.switchaudio-osx}/bin/SwitchAudioSource -t input -c) = "WH-1000XM5" ]]; then
+                       ${pkgs.switchaudio-osx}/bin/SwitchAudioSource -t input -s "Elgato Wave:3" || sleep 1;
+                     fi
+                    done
                   '';
                 };
 

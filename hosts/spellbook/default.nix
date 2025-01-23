@@ -29,6 +29,8 @@ in
     };
   };
   environment.systemPackages = with pkgs; [
+    switchaudio-osx
+    audio-switcher-d
     gcc
     curl
     gnugrep
@@ -45,6 +47,8 @@ in
     gnupg
     zsh
     pinentry_mac
+    # ccmenu
+    # deskpad
     nur.repos.rycee.mozilla-addons-to-nix
   ];
 
@@ -112,9 +116,17 @@ in
   security.pam.enableSudoTouchIdAuth = true;
   documentation.enable = false;
 
+  services.ollama = {
+    enable = true;
+  };
+
+  services.audioswitcher = {
+    enable = true;
+  };
+
   homebrew = {
     apps = {
-      ghostty = true;
+      ghostty = false;
     };
   };
 }

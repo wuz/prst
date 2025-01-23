@@ -1,5 +1,29 @@
 { buildFirefoxXpiAddon, fetchurl, lib, stdenv }:
   {
+    "arcfox" = buildFirefoxXpiAddon {
+      pname = "arcfox";
+      version = "2.5.3";
+      addonId = "{8a65567e-d1bc-4494-a266-b3d300c106f8}";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4352827/arcfox-2.5.3.xpi";
+      sha256 = "b986cab8a396833872cae8124f03a63b568efc623f62a79a521a511c0dc32e45";
+      meta = with lib;
+      {
+        homepage = "https://github.com/betterbrowser/arcfox";
+        description = "Make firefox flow like arc";
+        license = licenses.mit;
+        mozPermissions = [
+          "<all_urls>"
+          "webRequest"
+          "webRequestBlocking"
+          "activeTab"
+          "bookmarks"
+          "tabs"
+          "storage"
+          "search"
+        ];
+        platforms = platforms.all;
+      };
+    };
     "container-script" = buildFirefoxXpiAddon {
       pname = "container-script";
       version = "1.1";
@@ -47,6 +71,20 @@
         platforms = platforms.all;
       };
     };
+    "google-lighthouse" = buildFirefoxXpiAddon {
+      pname = "google-lighthouse";
+      version = "100.0.0.3";
+      addonId = "{cf3dba12-a848-4f68-8e2d-f9fadc0721de}";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4148676/google_lighthouse-100.0.0.3.xpi";
+      sha256 = "49cb8c94d536e1f49b76a3e75e8cd0c361961061da53039abbc5db755944afb9";
+      meta = with lib;
+      {
+        homepage = "https://github.com/GoogleChrome/lighthouse";
+        description = "Lighthouse is an open-source, automated tool for improving the performance, quality, and correctness of your web apps.";
+        mozPermissions = [ "activeTab" "storage" ];
+        platforms = platforms.all;
+      };
+    };
     "let-s-get-color-blind" = buildFirefoxXpiAddon {
       pname = "let-s-get-color-blind";
       version = "1.0.1resigned1";
@@ -69,10 +107,10 @@
     };
     "libraryextension" = buildFirefoxXpiAddon {
       pname = "libraryextension";
-      version = "2024.409.1";
+      version = "2025.113.1";
       addonId = "firefox@libraryextension.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4262179/libraryextension-2024.409.1.xpi";
-      sha256 = "2c10189642e43b961ac2f0027062cafc9be7c5c90783a395831a7e4ce5c8f4aa";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4418697/libraryextension-2025.113.1.xpi";
+      sha256 = "e98edc748d92aea46ffb4422f16524237308e56a9e5fa6c26fbc3705ad711a5b";
       meta = with lib;
       {
         homepage = "https://www.libraryextension.com/";
@@ -83,6 +121,26 @@
           "https://*/*"
           "https://www.libraryextension.com/*"
           "https://api.libraryextension.com/*"
+        ];
+        platforms = platforms.all;
+      };
+    };
+    "markdown-here" = buildFirefoxXpiAddon {
+      pname = "markdown-here";
+      version = "2.14.2";
+      addonId = "markdown-here-webext@adam.pritchard";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4385206/markdown_here-2.14.2.xpi";
+      sha256 = "410c603f5e13c1023bd4dbe185ff4f9d6e96abbf4e8fd0b91f9cb31fa288f9b5";
+      meta = with lib;
+      {
+        homepage = "https://github.com/adam-p/markdown-here";
+        description = "Write your email in Markdown, then make it pretty.";
+        license = licenses.mit;
+        mozPermissions = [
+          "contextMenus"
+          "storage"
+          "http://*/*"
+          "https://*/*"
         ];
         platforms = platforms.all;
       };
@@ -106,6 +164,24 @@
           "tabs"
           "webRequestBlocking"
           "webRequest"
+        ];
+        platforms = platforms.all;
+      };
+    };
+    "request-blocker-we" = buildFirefoxXpiAddon {
+      pname = "request-blocker-we";
+      version = "0.6.2";
+      addonId = "{8b0dd2c0-b9e8-46d5-b360-e2c53e43f2bc}";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4193619/request_blocker_we-0.6.2.xpi";
+      sha256 = "88a1bb807502c7fcc8f526b602298a8a71f9a44b85425f488e641afe1ef490e9";
+      meta = with lib;
+      {
+        description = "Block requests with URL match patterns";
+        mozPermissions = [
+          "storage"
+          "webRequest"
+          "webRequestBlocking"
+          "<all_urls>"
         ];
         platforms = platforms.all;
       };

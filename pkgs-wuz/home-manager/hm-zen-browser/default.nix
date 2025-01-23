@@ -17,9 +17,9 @@ in
         vendorPath = ".zen";
         configPath = "${vendorPath}";
       };
-      platforms.darwin = {
+      platforms.darwin = rec {
         vendorPath = "Library/Application Support/Zen";
-        configPath = "Library/Application Support/Zen";
+        configPath = "${vendorPath}";
       };
     })
   ];

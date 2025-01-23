@@ -781,21 +781,6 @@
         "type": "github"
       }
     },
-    "ghostty-hm": {
-      "locked": {
-        "lastModified": 1736826897,
-        "narHash": "sha256-i4bssUCEVLx4QfUa37rqXVEi7u0S0kubimdW8KS7NrI=",
-        "owner": "clo4",
-        "repo": "ghostty-hm-module",
-        "rev": "80a9c2a328a9610bcdeae9a03fff4a0a97effee3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "clo4",
-        "repo": "ghostty-hm-module",
-        "type": "github"
-      }
-    },
     "git-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_10",
@@ -1116,7 +1101,7 @@
     "liminix": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-kliLbFvaagrZkYT2GJbvTvWV7KWzMSduQSn/yYDIcgA=",
+        "narHash": "sha256-6lVjRhWEvreIDfiv8mRuULSYMelLZ+VK15a0gxTN6Pk=",
         "type": "file",
         "url": "https://gti.telent.net/dan/liminix"
       },
@@ -1670,16 +1655,16 @@
     },
     "nixpkgs_13": {
       "locked": {
-        "lastModified": 1737645791,
-        "narHash": "sha256-2onbvBnO0TiYZBRjzFkRwCIPWAm2pV/Vw/nU5kGic4g=",
+        "lastModified": 1737525964,
+        "narHash": "sha256-3wFonKmNRWKq1himW9N3TllbeGIHFACI5vmLpk6moF8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c1b1d405873fb8faff039e279bca710a00fc9710",
+        "rev": "5757bbb8bd7c0630a0cc4bb19c47e588db30b97c",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "release-24.11",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1903,12 +1888,12 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-H25dy7s85p7kMuN13WdFnHYachzq3ckG5hF4TCYEjbY=",
-        "path": "/nix/store/qv2q1qqzvgj8ylrgy75y3m6rrca6na4n-source/pkgs-wuz",
+        "narHash": "sha256-inRj3PejKSwwn+ILnbWz2Q5ARpTwUThH3nqqo3hz86E=",
+        "path": "/nix/store/cssbhygkry7i8lh78kl4ifhfgzhwj6pd-source/pkgs-wuz",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/qv2q1qqzvgj8ylrgy75y3m6rrca6na4n-source/pkgs-wuz",
+        "path": "/nix/store/cssbhygkry7i8lh78kl4ifhfgzhwj6pd-source/pkgs-wuz",
         "type": "path"
       }
     },
@@ -2157,7 +2142,6 @@
     "root": {
       "inputs": {
         "darwin": "darwin",
-        "ghostty-hm": "ghostty-hm",
         "home-manager": "home-manager",
         "jacobi": "jacobi",
         "kwb": "kwb_2",

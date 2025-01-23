@@ -43,7 +43,6 @@ in
       karabiner-elements = mkCaskOption "karabiner-elements" false;
       transmission = mkCaskOption "transmission" false;
       notion-calendar = mkCaskOption "notion-calendar" false;
-
       # "figma"
       # "obsidian"
       # "muzzle"

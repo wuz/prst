@@ -3,7 +3,7 @@
 
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
-    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     pog.url = "github:jpetrucciani/pog";
@@ -47,7 +47,6 @@
       url = "https://gti.telent.net/dan/liminix";
     };
 
-    ghostty-hm.url = "github:clo4/ghostty-hm-module";
   };
 
   outputs =
@@ -61,7 +60,6 @@
       jacobi,
       nixos-wsl,
       nix-darwin-browsers,
-      ghostty-hm,
       ...
     }:
     let
@@ -92,14 +90,13 @@
           home-manager.verbose = true;
           home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
           home-manager.extraSpecialArgs = specialArgs;
+          home-manager.backupFileExtension = "backup";
           home-manager.sharedModules = [
-            ghostty-hm.homeModules.default
           ];
         }
       ];
       wslModules = [
         { nixpkgs.overlays = overlays; }
-        nur.modules.nixos.default
         nixos-wsl.nixosModules.default
       ];
       darwinModules = [
