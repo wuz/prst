@@ -25,7 +25,10 @@ in
   home.packages =
     with pkgs;
     lib.flatten [
-      (optList stdenv.isDarwin [ reattach-to-user-namespace ])
+      (optList stdenv.isDarwin [
+        reattach-to-user-namespace
+        iina
+      ])
 
       fontforge
       fontforge-fonttools
@@ -42,6 +45,7 @@ in
       just
       fzf
       chafa
+      jira-cli-go
       /*
         hadolint
         ipfs
