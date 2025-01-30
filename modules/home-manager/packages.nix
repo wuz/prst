@@ -61,6 +61,7 @@ in
       lima
       onlykey-agent
       onlykey-cli
+      lapce
 
       shellcheck
       shellharden
