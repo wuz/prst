@@ -42,6 +42,8 @@
       };
     };
 
+    inputs.determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
+
     liminix = {
       flake = false;
       url = "https://gti.telent.net/dan/liminix";
@@ -60,6 +62,7 @@
       jacobi,
       nixos-wsl,
       nix-darwin-browsers,
+      determinate,
       ...
     }:
     let
@@ -105,6 +108,7 @@
             nix-darwin-browsers.overlays.default
           ] ++ overlays;
         }
+        determinate.darwinModules.default
         home-manager.darwinModules.home-manager
       ];
     in

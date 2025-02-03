@@ -253,7 +253,7 @@ in
       example = true;
       description = ''
         Whether to enable ${name}.${optionalString (description != null) " ${description}"}
-        ${optionalString (!visible) "See `programs.firefox` for more configuration options."}
+        ${optionalString (!visible) "See `programs.zen-browser` for more configuration options."}
       '';
     };
 
@@ -841,7 +841,7 @@ in
           {
             assertion = cfg.languagePacks == [ ] || cfg.package != null;
             message = ''
-              'programs.firefox.languagePacks' requires 'programs.firefox.package'
+              'programs.zen-browser.languagePacks' requires 'programs.zen-browser.package'
               to be set to a non-null value.
             '';
           }
@@ -859,7 +859,7 @@ in
         its example for how to do this.
       '';
 
-      programs.firefox.policies = {
+      programs.zen-browser.policies = {
         ExtensionSettings = listToAttrs (
           map (
             lang:

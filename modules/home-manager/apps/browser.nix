@@ -41,8 +41,8 @@ in
       package = pkgs.zen-browser-bin;
       enable = true;
       policies = {
-        AppAutoUpdate = false;
-        DisableAppUpdate = true;
+        # AppAutoUpdate = false;
+        # DisableAppUpdate = true;
         ExtensionSettings = builtins.listToAttrs (
           builtins.map (
             e:

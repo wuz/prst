@@ -5,15 +5,18 @@
 Magical system and home configuration using Nix.
 
 ## `configs/`
+
 Any configuration files that are easier to write in another language or that
 can't be easily configured in Nix.
 
 ## `hosts/`
+
 Host machines, by name.
 
 - `spellbook` - MacBook Pro, mostly for work
 
 ## `modules/`
+
 Modules for Nix configurations
 
 - `home-manager/` - all the modules that are managed by home-manager
@@ -22,6 +25,7 @@ Modules for Nix configurations
 - `shared/` - all the modules that are shared between configurations
 
 ## `pkgs-wuz/`
+
 Overlay for specific packages I use. In need of heavily modification, going to
 be migrating to [`pog`](https://pog.gemologic.dev/) soon for scripts.
 
@@ -30,7 +34,6 @@ be migrating to [`pog`](https://pog.gemologic.dev/) soon for scripts.
 ### install and configure nix
 
 First, [install nix](https://nixos.org/download#nix-install-macos)
-
 Then:
 
 ```bash
