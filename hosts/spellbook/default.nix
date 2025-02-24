@@ -11,7 +11,6 @@ in
   ids.gids.nixbld = 350;
   imports = [
   ] ++ (import ../../modules/darwin);
-  services.nix-daemon.enable = true;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
   system.stateVersion = 5;
   users.knownUsers = [ user.username ];
@@ -115,6 +114,8 @@ in
 
   security.pam.enableSudoTouchIdAuth = true;
   documentation.enable = false;
+
+  nix.enable = false;
 
   services.ollama = {
     enable = true;

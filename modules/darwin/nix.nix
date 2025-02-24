@@ -7,15 +7,6 @@
 let
 in
 {
-  nix.gc.automatic = true;
-  nix.gc.interval = [
-    {
-      Hour = 2;
-      Weekday = 0;
-    }
-  ];
-  nix.optimise.automatic = true;
-  nix.configureBuildUsers = true;
   nix.settings = {
     nix-path = [ "nixpkgs=flake:nixpkgs" ];
     experimental-features = "nix-command flakes";

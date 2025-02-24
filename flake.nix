@@ -42,7 +42,7 @@
       };
     };
 
-    inputs.determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
 
     liminix = {
       flake = false;
