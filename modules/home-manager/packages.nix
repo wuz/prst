@@ -30,6 +30,7 @@ in
         iina
       ])
 
+      llm
       fontforge
       fontforge-fonttools
       google-fonts
@@ -46,6 +47,7 @@ in
       fzf
       chafa
       jira-cli-go
+      mosh
       /*
         hadolint
         ipfs

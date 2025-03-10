@@ -1,15 +1,35 @@
 {
   description = "prst - wuz's configurator";
 
+  nixConfig = {
+    trusted-substituters = [
+      "https://wuz.cachix.org"
+      "https://jacobi.cachix.org"
+      "https://whatnot-inc.cachix.org"
+      "https://rycee.cachix.org"
+      "https://cachix.cachix.org"
+      "https://nixpkgs.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cachix.cachix.org-1:eWNHQldwUO7G2VkjpnjDbWwy4KQ/HNxht7H4SSoMckM="
+      "nixpkgs.cachix.org-1:q91R6hxbwFvDqTSDKwDAV4T5PxqXGxswD8vhONFMeOE="
+      "whatnot-inc.cachix.org-1:ypC6uahOlaZp+EYUmBD0wclRBlGwDBBnmFTesV4CgWs="
+      "wuz.cachix.org-1:cvFztsdv6usx0iXXs9tbskFTxaozacGaE4WG1uW6W1M="
+      "jacobi.cachix.org-1:JJghCz+ZD2hc9BHO94myjCzf4wS3DeBLKHOz3jCukMU="
+      "rycee.cachix.org-1:TiiXyeSk0iRlzlys4c7HiXLkP3idRf20oQ/roEUAh/A="
+    ];
+  };
+
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+    #nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
     darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -42,8 +62,6 @@
       };
     };
 
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
-
     liminix = {
       flake = false;
       url = "https://gti.telent.net/dan/liminix";
@@ -62,7 +80,6 @@
       jacobi,
       nixos-wsl,
       nix-darwin-browsers,
-      determinate,
       ...
     }:
     let
@@ -108,7 +125,6 @@
             nix-darwin-browsers.overlays.default
           ] ++ overlays;
         }
-        determinate.darwinModules.default
         home-manager.darwinModules.home-manager
       ];
     in

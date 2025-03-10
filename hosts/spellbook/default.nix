@@ -57,6 +57,8 @@ in
 
   programs.nix-index.enable = true;
 
+  nix.enable = false;
+
   system = {
     defaults = {
       CustomSystemPreferences = {
@@ -114,8 +116,6 @@ in
 
   security.pam.enableSudoTouchIdAuth = true;
   documentation.enable = false;
-
-  nix.enable = false;
 
   services.ollama = {
     enable = true;
