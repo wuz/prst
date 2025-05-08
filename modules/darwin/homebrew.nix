@@ -19,6 +19,7 @@ in
   options.homebrew = {
     apps = {
       raycast = mkCaskOption "Raycast" false;
+      raindropid = mkCaskOption "Raindrop.io" false;
       slack = mkCaskOption "Slack" false;
       spotify = mkCaskOption "Spotify" false;
       whatsapp = mkCaskOption "WhatsApp" true;
@@ -27,29 +28,34 @@ in
       keybase = mkCaskOption "keybase" false;
       discord = mkCaskOption "Discord" false;
       elgato-control-center = mkCaskOption "Elgato Control Center" true;
+      elgato-stream-deck = mkCaskOption "Elgato Stream Deck" true;
       elgato-wave-link = mkCaskOption "Elgato Wave Link" true;
-      floorp = mkCaskOption "Floorp" false;
       # Ghostty on nix seems broken for darwin right now
       ghostty = mkCaskOption "ghostty" false;
+      figma = mkCaskOption "Gigma" false;
+      obsidian = mkCaskOption "obsidian" false;
+
       # "arc"
-      # "wezterm"
-      # "setapp"
 
       betterdisplay = mkCaskOption "betterdisplay" false;
-      affinity-designer = mkCaskOption "affinity-designer" false;
-      affinity-photo = mkCaskOption "affinity-photo" false;
-      affinity-publisher = mkCaskOption "affinity-publisher" false;
+      affinity-designer = mkCaskOption "Affinity Designer" false;
+      affinity-photo = mkCaskOption "Affinity Photo" false;
+      affinity-publisher = mkCaskOption "Affinity Publisher" false;
 
-      karabiner-elements = mkCaskOption "karabiner-elements" false;
+      karabiner-elements = mkCaskOption "Karabiner Elements" false;
       transmission = mkCaskOption "transmission" false;
-      notion-calendar = mkCaskOption "notion-calendar" false;
-      # "figma"
-      # "obsidian"
-      # "muzzle"
-      # "obsidian"
-      # "little-snitch"
-      # "micro-snitch"
-      # "docker"
+
+      graphiql = mkCaskOption "GraphiQL" false;
+
+      notion = mkCaskOption "Notion" false;
+      notion-calendar = mkCaskOption "Notion Calendar" false;
+      notion-mail = mkCaskOption "Notion Mail" false;
+
+      # ca-certificates
+      # docker
+      # little-snitch
+      # micro-snitch
+      # muzzle
     };
   };
   config = {

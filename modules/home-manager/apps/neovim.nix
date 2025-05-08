@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   lib,
   user,
@@ -10,13 +11,18 @@ let
     vim = "nvim";
     cal = "nvim ${calendar_file}";
   };
+  neovim = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default.overrideAttrs (old: {
+    meta = old.meta or { } // {
+      maintainers = [ ];
+    };
+  });
 in
 {
   options.neovim = lib.mkEnableOption "neovim";
   config = {
     home.shellAliases = aliases;
     programs.neovim = {
-      # package = pkgs.neovim;
+      package = neovim;
       enable = true;
       defaultEditor = true;
       vimAlias = true;

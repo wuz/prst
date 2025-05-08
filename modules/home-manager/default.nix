@@ -7,13 +7,13 @@ inputs: {
   xdg.enable = true;
   # Individual imports
   imports = [
-    ./packages.nix
-    ./jj.nix
+    # ./packages.nix
+    # ./jj.nix
     ./git.nix
     # Languages
     ./languages/nix.nix
-    ./languages/lua.nix
-    ./languages/node.nix
+    # ./languages/lua.nix
+    # ./languages/node.nix
     ./languages/rust.nix
     # ./languages/ruby.nix
     ./languages/linters.nix

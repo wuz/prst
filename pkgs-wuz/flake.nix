@@ -33,6 +33,7 @@
           git-pull-status
           git-town-status
           audio-switcher-d
+          aipr
           ccmenu
           deskpad
           hm-zen-browser
@@ -110,6 +111,12 @@
                     #   echo "$out"
                     # fi
                   '';
+                };
+
+                aipr = pkgs.pog.pog {
+                  name = "aipr";
+                  description = "Write a git commit message using ollama";
+                  script = helpers: builtins.readFile ./scripts/aipr.sh;
                 };
 
                 audio-switcher-d = pkgs.pog.pog {

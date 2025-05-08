@@ -41,8 +41,8 @@ in
       package = pkgs.zen-browser-bin;
       enable = true;
       policies = {
-        # AppAutoUpdate = false;
-        # DisableAppUpdate = true;
+        AppAutoUpdate = false;
+        DisableAppUpdate = true;
         ExtensionSettings = builtins.listToAttrs (
           builtins.map (
             e:
@@ -76,6 +76,7 @@ in
         };
         containersForce = true;
         search.force = true;
+        search.default = "Kagi";
         search.engines = {
           "Bing".metaData.hidden = true;
           "Google".metaData.hidden = true;
@@ -105,6 +106,12 @@ in
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "svg.context-properties.content.enabled" = true;
           "extensions.autoDisableScopes" = 0;
+          "zen.sidebar.enabled" = true;
+          "zen.urlbar.behavior" = "floating-on-type";
+          "zen.workspaces.container-specific-essentials-enabled" = true;
+          "zen.workspaces.show-workspace-indicator" = false;
+          "zen.view.experimental-rounded-view" = true;
+
           # new tab page
           # "browser.newtabpage.activity-stream.feeds.topsites" = false;
           # "browser.newtabpage.activity-stream.feeds.section.topstories" = false;

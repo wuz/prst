@@ -321,6 +321,7 @@ in
         set-parent = "town set-parent";
         ship = "town ship";
         sync = "town sync";
+        switch = "town switch";
         tc = "town continue";
       };
       extraConfig = {
@@ -332,6 +333,10 @@ in
         core = {
           editor = "nvim";
         };
+        git-town = {
+          sync-feature-strategy = "rebase";
+          sync-perennial-strategy = "rebase";
+        };
         rebase.instructionFormat = "<%ae >%s";
         commit = {
           gpgsign = true;
@@ -342,7 +347,7 @@ in
         };
         mergetool = {
           vimConflicted = {
-            cmd = "vim +Conflicted";
+            cmd = "nvim +DiffviewOpen";
           };
         };
       };

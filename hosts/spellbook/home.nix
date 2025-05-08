@@ -38,14 +38,14 @@
   programs.xplr.enable = true;
   bat.enable = true;
   optout.enable = true;
-  jj = {
-    enable = true;
-    user = {
-      inherit (user) name key;
-      username = "wuz";
-      email = "conlin.durbin@whatnot.com";
-    };
-  };
+  # jj = {
+  #   enable = false;
+  #   user = {
+  #     inherit (user) name key;
+  #     username = "wuz";
+  #     email = "conlin.durbin@whatnot.com";
+  #   };
+  # };
   git = {
     enable = true;
     user = {

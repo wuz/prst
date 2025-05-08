@@ -38,16 +38,15 @@ in
     gawk
     msgpack
     libiconvReal
-    coreutils-full
-    findutils
-    diffutils
-    moreutils
+    # coreutils-full
+    # findutils
+    # diffutils
+    # moreutils
     libuv
     gnupg
     zsh
     pinentry_mac
-    # ccmenu
-    # deskpad
+    deskpad
     nur.repos.rycee.mozilla-addons-to-nix
   ];
 
@@ -56,8 +55,6 @@ in
   ];
 
   programs.nix-index.enable = true;
-
-  nix.enable = false;
 
   system = {
     defaults = {

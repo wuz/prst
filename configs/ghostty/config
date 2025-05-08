@@ -42,6 +42,29 @@ cursor-color = deeeed
 selection-background = 7a7a7a
 selection-foreground = 0a0a0a
 
+# apprentice
+# palette = 0=#1c1c1c
+# palette = 1=#af5f5f
+# palette = 2=#5f875f
+# palette = 3=#87875f
+# palette = 4=#5f87af
+# palette = 5=#5f5f87
+# palette = 6=#5f8787
+# palette = 7=#6c6c6c
+# palette = 8=#444444
+# palette = 9=#ff8700
+# palette = 10=#87af87
+# palette = 11=#ffffaf
+# palette = 12=#87afd7
+# palette = 13=#8787af
+# palette = 14=#5fafaf
+# palette = 15=#ffffff
+# background = 262626
+# foreground = bcbcbc
+# cursor-color = bcbcbc
+# selection-background = 626880
+# selection-foreground = c6d0f5
+
 font-family = Cartograph CF
 
 shell-integration = detect

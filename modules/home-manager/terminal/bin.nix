@@ -32,12 +32,10 @@ in
       ripgrep
       rsync
       tealdeer
-      heroku
       melt
       broot
       cloak
       vegeta
-      w3m
       gowall
       devenv
     ];

@@ -13,9 +13,9 @@ let
       botocore
       setuptools
       pynvim
-      fonttools
       brotli
       zopfli
+      llm
     ]
   );
 
@@ -27,43 +27,33 @@ in
     lib.flatten [
       (optList stdenv.isDarwin [
         reattach-to-user-namespace
-        iina
+        # iina
       ])
 
-      llm
+      scc
+
       fontforge
       fontforge-fonttools
       google-fonts
+
       python-with-global-packages
-      tree-sitter
-      scc
+
       openssh
       openssl
       libsecret
       dbus
-      ollama
       fastfetch
       just
       fzf
       chafa
-      jira-cli-go
-      mosh
-      /*
-        hadolint
-        ipfs
-        lolcat
-        pkgsX86.luajit
-        ninja
-        nnn
-        pkg-config
-        pssh
-        ssh-copy-id
-        # thefuck
-      */
       lima
       onlykey-agent
       onlykey-cli
+
+      ollama
+
       lapce
+      tree-sitter
 
       shellcheck
       shellharden
