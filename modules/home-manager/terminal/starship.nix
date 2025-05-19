@@ -41,7 +41,7 @@ in
     enable = true;
     enableCompletion = true;
     shellAliases = shellAliases;
-    initExtra = ''
+    initContent = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
       source <(${pkgs.just}/bin/just --completions zsh)
     '';

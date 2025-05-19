@@ -19,7 +19,7 @@ in
   options.homebrew = {
     apps = {
       raycast = mkCaskOption "Raycast" false;
-      raindropid = mkCaskOption "Raindrop.io" false;
+      zen = mkCaskOption "Zen" false;
       slack = mkCaskOption "Slack" false;
       spotify = mkCaskOption "Spotify" false;
       whatsapp = mkCaskOption "WhatsApp" true;
@@ -34,8 +34,10 @@ in
       ghostty = mkCaskOption "ghostty" false;
       figma = mkCaskOption "Gigma" false;
       obsidian = mkCaskOption "obsidian" false;
+      muzzle = mkCaskOption "muzzle" false;
 
-      # "arc"
+      little-snitch = mkCaskOption "little-snitch" false;
+      micro-snitch = mkCaskOption "micro-snitch" false;
 
       betterdisplay = mkCaskOption "betterdisplay" false;
       affinity-designer = mkCaskOption "Affinity Designer" false;
@@ -53,9 +55,6 @@ in
 
       # ca-certificates
       # docker
-      # little-snitch
-      # micro-snitch
-      # muzzle
     };
   };
   config = {

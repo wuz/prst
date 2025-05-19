@@ -1,11 +1,11 @@
 {
-  pkgs,
+  user,
   lib,
-  inputs,
+  pkgs,
   ...
 }:
 let
-  cobiscripts = inputs.jacobi.packages.${pkgs.system};
+  optList = conditional: list: if conditional then list else [ ];
 
   python-with-global-packages = pkgs.python3.withPackages (
     ps: with ps; [
@@ -15,19 +15,15 @@ let
       pynvim
       brotli
       zopfli
-      llm
     ]
   );
-
-  optList = conditional: list: if conditional then list else [ ];
 in
 {
-  home.packages =
+  environment.systemPackages =
     with pkgs;
     lib.flatten [
       (optList stdenv.isDarwin [
         reattach-to-user-namespace
-        # iina
       ])
 
       scc
@@ -43,26 +39,37 @@ in
       libsecret
       dbus
       fastfetch
-      just
       fzf
-      chafa
       lima
       onlykey-agent
       onlykey-cli
-
-      ollama
-
-      lapce
-      tree-sitter
 
       shellcheck
       shellharden
       shfmt
       go
 
-      # jacobi
-      cobiscripts.docker_pog_scripts
-      cobiscripts.k8s_pog_scripts
-      cobiscripts.nix_pog_scripts
+      gcc
+      curl
+      gnugrep
+      gnupg
+      gnused
+      gawk
+      msgpack
+      libiconvReal
+      coreutils-full
+      findutils
+      diffutils
+      moreutils
+      libuv
+      gnupg
+      zsh
+      pinentry_mac
+      nur.repos.rycee.mozilla-addons-to-nix
+      just
+
+      lapce
+      ollama
+      chafa
     ];
 }

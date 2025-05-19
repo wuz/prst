@@ -23,12 +23,12 @@ in
       "apple-virt"
     ];
     substituters = [
-      "https://wuz.cachix.org"
-      "https://jacobi.cachix.org"
-      "https://whatnot-inc.cachix.org"
+      # "https://wuz.cachix.org"
+      # "https://jacobi.cachix.org"
+      # "https://whatnot-inc.cachix.org"
       "https://rycee.cachix.org"
       "https://cachix.cachix.org"
-      "https://nixpkgs.cachix.org"
+      # "https://nixpkgs.cachix.org"
       "https://nix-community.cachix.org"
     ];
     trusted-public-keys = [

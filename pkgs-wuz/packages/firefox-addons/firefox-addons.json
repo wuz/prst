@@ -3,15 +3,6 @@
     "slug": "container-script"
   },
   {
-    "slug": "google-container"
-  },
-  {
-    "slug": "microsoft-container"
-  },
-  {
-    "slug": "rss-reader-extension-inoreader"
-  },
-  {
     "slug": "libraryextension"
   },
   {
@@ -31,5 +22,35 @@
   },
   {
     "slug": "enhanced-h264ify"
+  },
+  {
+    "slug": "youtube-addon"
+  },
+  {
+    "slug": "page-shadow"
+  },
+  {
+    "slug": "rss-reader-extension-inoreader"
+  },
+  {
+    "slug": "are-na"
+  },
+  {
+    "slug": "open-graph-preview-and-debug"
+  },
+  {
+    "slug": "openlink-structured-data-sniff"
+  },
+  {
+    "slug": "zen-internet"
+  },
+  {
+    "slug": "clicktabsort"
+  },
+  {
+    "slug": "adaptive-theme-creator"
+  },
+  {
+    "slug": "apollo-developer-tools"
   }
 ]

@@ -1,30 +1,27 @@
 {
   description = "prst - wuz's configurator";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
     darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+      url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # pkgs-wuz = {
     #   url = "github:wuz/prst/main?dir=pkgs-wuz";
     # };
     pkgs-wuz = {
-      url = "./pkgs-wuz";
-    };
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
+      url = "path:./pkgs-wuz";
     };
     nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     jacobi = {
       url = "github:jpetrucciani/nix";
     };
@@ -84,11 +81,8 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.verbose = true;
-          home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.backupFileExtension = "backup";
-          home-manager.sharedModules = [
-          ];
         }
       ];
       wslModules = [
@@ -100,6 +94,9 @@
           nixpkgs.overlays = [
             nix-darwin-browsers.overlays.default
           ] ++ overlays;
+        }
+        {
+          home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
         }
         home-manager.darwinModules.home-manager
       ];

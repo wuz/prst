@@ -27,36 +27,13 @@ in
       allowBroken = true;
     };
   };
-  environment.systemPackages = with pkgs; [
-    switchaudio-osx
-    audio-switcher-d
-    gcc
-    curl
-    gnugrep
-    gnupg
-    gnused
-    gawk
-    msgpack
-    libiconvReal
-    # coreutils-full
-    # findutils
-    # diffutils
-    # moreutils
-    libuv
-    gnupg
-    zsh
-    pinentry_mac
-    deskpad
-    nur.repos.rycee.mozilla-addons-to-nix
-  ];
 
   environment.pathsToLink = [
     "/share/zsh"
   ];
 
-  programs.nix-index.enable = true;
-
   system = {
+    primaryUser = user.username;
     defaults = {
       CustomSystemPreferences = {
         "com.apple.finder" = {
@@ -111,19 +88,21 @@ in
     };
   };
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local = {
+    enable = true;
+    reattach = true;
+    touchIdAuth = true;
+    watchIdAuth = true;
+  };
   documentation.enable = false;
 
   services.ollama = {
     enable = true;
   };
 
-  services.audioswitcher = {
-    enable = true;
-  };
-
   homebrew = {
     apps = {
+      zen = true;
       ghostty = false;
     };
   };
