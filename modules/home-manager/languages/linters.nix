@@ -10,6 +10,5 @@ in
     with pkgs;
     lib.flatten [
       solargraph
-      nodePackages.fixjson
     ];
 }

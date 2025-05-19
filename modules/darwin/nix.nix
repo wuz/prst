@@ -23,37 +23,26 @@ in
       "apple-virt"
     ];
     substituters = [
-      "https://cache.nixos.org"
-      "https://whatnot-inc.cachix.org"
-      "https://wuz.cachix.org"
-      "https://jacobi.cachix.org"
+      # "https://wuz.cachix.org"
+      # "https://jacobi.cachix.org"
+      # "https://whatnot-inc.cachix.org"
+      "https://rycee.cachix.org"
+      "https://cachix.cachix.org"
+      # "https://nixpkgs.cachix.org"
+      "https://nix-community.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cachix.cachix.org-1:eWNHQldwUO7G2VkjpnjDbWwy4KQ/HNxht7H4SSoMckM="
+      "nixpkgs.cachix.org-1:q91R6hxbwFvDqTSDKwDAV4T5PxqXGxswD8vhONFMeOE="
       "whatnot-inc.cachix.org-1:ypC6uahOlaZp+EYUmBD0wclRBlGwDBBnmFTesV4CgWs="
       "wuz.cachix.org-1:cvFztsdv6usx0iXXs9tbskFTxaozacGaE4WG1uW6W1M="
       "jacobi.cachix.org-1:JJghCz+ZD2hc9BHO94myjCzf4wS3DeBLKHOz3jCukMU="
+      "rycee.cachix.org-1:TiiXyeSk0iRlzlys4c7HiXLkP3idRf20oQ/roEUAh/A="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
   nix.linux-builder = {
     enable = false;
   };
-  # Enable logging for the linux builder
-  launchd.daemons.linux-builder = {
-    serviceConfig = {
-      StandardOutPath = "/var/log/darwin-builder.log";
-      StandardErrorPath = "/var/log/darwin-builder.log";
-    };
-  };
-  nix.extraOptions =
-    ''
-      builders-use-substitutes = true
-      system = aarch64-darwin
-      max-jobs = auto
-      auto-optimise-store = true
-      experimental-features = nix-command flakes
-    ''
-    + lib.optionalString (pkgs.system == "aarch64-darwin") ''
-      extra-platforms = x86_64-darwin aarch64-darwin
-    '';
 }

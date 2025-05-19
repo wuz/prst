@@ -1,32 +1,27 @@
 {
   description = "prst - wuz's configurator";
-
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
     darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # pkgs-wuz = {
     #   url = "github:wuz/prst/main?dir=pkgs-wuz";
     # };
     pkgs-wuz = {
-      url = "./pkgs-wuz";
-    };
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "path:./pkgs-wuz";
     };
     nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     jacobi = {
       url = "github:jpetrucciani/nix";
     };
@@ -42,8 +37,6 @@
       };
     };
 
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
-
     liminix = {
       flake = false;
       url = "https://gti.telent.net/dan/liminix";
@@ -58,17 +51,14 @@
       home-manager,
       nur,
       pkgs-wuz,
-      neovim-nightly-overlay,
       jacobi,
       nixos-wsl,
       nix-darwin-browsers,
-      determinate,
       ...
     }:
     let
       inherit (darwin.lib) darwinSystem;
       overlays = [
-        neovim-nightly-overlay.overlays.default
         nur.overlays.default
         pkgs-wuz.overlay
       ];
@@ -91,11 +81,8 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.verbose = true;
-          home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.backupFileExtension = "backup";
-          home-manager.sharedModules = [
-          ];
         }
       ];
       wslModules = [
@@ -108,7 +95,9 @@
             nix-darwin-browsers.overlays.default
           ] ++ overlays;
         }
-        determinate.darwinModules.default
+        {
+          home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
+        }
         home-manager.darwinModules.home-manager
       ];
     in

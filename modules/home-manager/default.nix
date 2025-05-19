@@ -7,32 +7,30 @@ inputs: {
   xdg.enable = true;
   # Individual imports
   imports = [
-    ./packages.nix
-    ./jj.nix
+    # ./jj.nix
     ./git.nix
     # Languages
     ./languages/nix.nix
-    ./languages/lua.nix
+    # ./languages/lua.nix
     ./languages/node.nix
     ./languages/rust.nix
     # ./languages/ruby.nix
     ./languages/linters.nix
-    # Apps
+    # # Apps
     ./apps/browser.nix
     ./apps/neovim.nix
     ./apps/wezterm.nix
     ./apps/ghostty.nix
     ./apps/gui.nix
-    # Terminal
+    # # Terminal
     ./terminal/starship.nix
     ./terminal/bat.nix
     ./terminal/zoxide.nix
     ./terminal/mcfly.nix
-    ./terminal/zoxide.nix
     ./terminal/bin.nix
     ./terminal/tui.nix
     ./terminal/direnv.nix
-    # Other
+    # # Other
     ./other/optout.nix
   ];
 }

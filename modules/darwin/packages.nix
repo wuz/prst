@@ -1,11 +1,11 @@
 {
-  pkgs,
+  user,
   lib,
-  inputs,
+  pkgs,
   ...
 }:
 let
-  cobiscripts = inputs.jacobi.packages.${pkgs.system};
+  optList = conditional: list: if conditional then list else [ ];
 
   python-with-global-packages = pkgs.python3.withPackages (
     ps: with ps; [
@@ -13,64 +13,63 @@ let
       botocore
       setuptools
       pynvim
-      fonttools
       brotli
       zopfli
     ]
   );
-
-  optList = conditional: list: if conditional then list else [ ];
 in
 {
-  home.packages =
+  environment.systemPackages =
     with pkgs;
     lib.flatten [
       (optList stdenv.isDarwin [
         reattach-to-user-namespace
-        iina
       ])
+
+      scc
 
       fontforge
       fontforge-fonttools
       google-fonts
+
       python-with-global-packages
-      tree-sitter
-      scc
+
       openssh
       openssl
       libsecret
       dbus
-      ollama
       fastfetch
-      just
       fzf
-      chafa
-      jira-cli-go
-      /*
-        hadolint
-        ipfs
-        lolcat
-        pkgsX86.luajit
-        ninja
-        nnn
-        pkg-config
-        pssh
-        ssh-copy-id
-        # thefuck
-      */
       lima
       onlykey-agent
       onlykey-cli
-      lapce
 
       shellcheck
       shellharden
       shfmt
       go
 
-      # jacobi
-      cobiscripts.docker_pog_scripts
-      cobiscripts.k8s_pog_scripts
-      cobiscripts.nix_pog_scripts
+      gcc
+      curl
+      gnugrep
+      gnupg
+      gnused
+      gawk
+      msgpack
+      libiconvReal
+      coreutils-full
+      findutils
+      diffutils
+      moreutils
+      libuv
+      gnupg
+      zsh
+      pinentry_mac
+      nur.repos.rycee.mozilla-addons-to-nix
+      just
+
+      lapce
+      ollama
+      chafa
     ];
 }

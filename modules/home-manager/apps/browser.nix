@@ -17,9 +17,16 @@ let
       kagi-search
       privacy-possum
       decentraleyes
-      tampermonkey
+      violentmonkey
       raindropio
       don-t-fuck-with-paste
+      ublock-origin
+      enhanced-h264ify
+      enhanced-github
+      enhancer-for-nebula
+      awesome-rss
+      wappalyzer
+      the-camelizer-price-history-ch
     ]
     ++ (with pkgs.firefox-addons; [
       libraryextension
@@ -27,7 +34,17 @@ let
       let-s-get-color-blind
       markdown-here
       google-lighthouse
+      apollo-developer-tools
       request-blocker-we
+      youtube-addon
+      page-shadow
+      are-na
+      rss-reader-extension-inoreader
+      open-graph-preview-and-debug
+      openlink-structured-data-sniff
+      zen-internet
+      clicktabsort
+      adaptive-theme-creator
     ]);
 in
 {
@@ -38,11 +55,11 @@ in
       MOZ_ALLOW_DOWNGRADE = 1;
     };
     programs.zen-browser = {
-      package = pkgs.zen-browser-bin;
+      package = null;
       enable = true;
       policies = {
-        # AppAutoUpdate = false;
-        # DisableAppUpdate = true;
+        AppAutoUpdate = false;
+        DisableAppUpdate = true;
         ExtensionSettings = builtins.listToAttrs (
           builtins.map (
             e:
@@ -59,7 +76,7 @@ in
         extensions = extensions;
         containers = {
           TTRPG = {
-            color = "purple";
+            color = "toolbar";
             icon = "fruit";
             id = 3;
           };
@@ -74,16 +91,18 @@ in
             id = 1;
           };
         };
-        containersForce = true;
         search.force = true;
+        search.default = "Kagi";
+        search.privateDefault = "Kagi";
+        search.order = [ "Kagi" ];
         search.engines = {
-          "Bing".metaData.hidden = true;
-          "Google".metaData.hidden = true;
-          "Wikipedia (en)".metaData.hidden = true;
           "Kagi" = {
             urls = [ { template = "https://kagi.com/search?q={searchTerms}"; } ];
             definedAliases = [ "@kagi" ];
           };
+          "Bing".metaData.hidden = true;
+          "Google".metaData.hidden = true;
+          "Wikipedia (en)".metaData.hidden = true;
           "Home Manager NixOs" = {
             urls = [
               {
@@ -105,6 +124,12 @@ in
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "svg.context-properties.content.enabled" = true;
           "extensions.autoDisableScopes" = 0;
+          "zen.sidebar.enabled" = true;
+          "zen.urlbar.behavior" = "floating-on-type";
+          "zen.workspaces.container-specific-essentials-enabled" = true;
+          "zen.workspaces.show-workspace-indicator" = false;
+          "zen.view.experimental-rounded-view" = true;
+
           # new tab page
           # "browser.newtabpage.activity-stream.feeds.topsites" = false;
           # "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
@@ -145,27 +170,9 @@ in
           #   "cookiebanners.service.mode" = 1;
           #   "cookiebanners.service.mode.privateBrowsing" = 1;
           #   "cookiebanners.service.enableGlobalRules" = true;
-          #   # disable welcome page
-          #   "browser.aboutwelcome.enabled" = false;
           #   # dark:0 light:1 system:2 browser:3
           #   "layout.css.prefers-color-scheme.content-override" = 0;
-          #   # telemetry
-          # "datareporting.policy.dataSubmissionEnabled" = false;
-          # "datareporting.healthreport.uploadEnabled" = false;
-          # "toolkit.telemetry.unified" = false;
-          # "toolkit.telemetry.enabled" = false;
-          # "toolkit.telemetry.server" = "data:,";
-          # "toolkit.telemetry.archive.enabled" = false;
-          # "toolkit.telemetry.newProfilePing.enabled" = false;
-          # "toolkit.telemetry.shutdownPingSender.enabled" = false;
-          # "toolkit.telemetry.updatePing.enabled" = false;
-          # "toolkit.telemetry.bhrPing.enabled" = false;
-          # "toolkit.telemetry.firstShutdownPing.enabled" = false;
-          # "toolkit.telemetry.coverage.opt-out" = true;
-          # "toolkit.coverage.opt-out" = true;
-          # "toolkit.coverage.endpoint.base" = "";
-          # "browser.ping-centre.telemetry" = false;
-          #   # passwords
+          # passwords
           "signon.rememberSignons" = false;
           "signon.formlessCapture.enabled" = false;
           "signon.privateBrowsingCapture.enabled" = false;
