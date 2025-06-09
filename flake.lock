@@ -786,7 +786,7 @@
     "liminix": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-6Zkeh3pBvv4w2pOQdAMhnChK15OLxuAMlMHbPCd+O0I=",
+        "narHash": "sha256-m/kzWzUDQkYlGV+9r9BMply0NdqrkbIQuR9myKln314=",
         "type": "file",
         "url": "https://gti.telent.net/dan/liminix"
       },
