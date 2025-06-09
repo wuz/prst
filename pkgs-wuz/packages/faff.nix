@@ -15,6 +15,7 @@ stdenv.mkDerivation rec {
   dontBuild = true;
   dontConfigure = true;
   installPhase = ''
+    mkdir -p $out/bin/
     ls -al
     cp ./faff.sh >> $out/bin/faff
     cat $textPath >> $out/bin/${name}
