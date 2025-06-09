@@ -16,11 +16,7 @@ stdenv.mkDerivation rec {
   dontConfigure = true;
   installPhase = ''
     mkdir -p $out/bin/
-    ls -al
-    ls -al $out
-    cp ./faff.sh >> $out/bin/faff
-    cat $textPath >> $out/bin/${name}
+    cp ./faff.sh $out/bin/${name}
     chmod +x $out/bin/${name}
-    ${pkgs.shellcheck}/bin/shellcheck $out/bin/${name}
   '';
 }
