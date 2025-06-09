@@ -26,7 +26,7 @@
       ...
     }:
     {
-      overlay = final: prev: {
+      overlays.default = final: prev: {
         inherit (self.packages.${final.system})
           writeBashBinChecked
           nix-hash-unstable

@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
   };
   dontBuild = true;
   dontConfigure = true;
-  # dontUnpack = true;
   installPhase = ''
+    ls -al
     cp ./faff.sh >> $out/bin/faff
     cat $textPath >> $out/bin/${name}
     chmod +x $out/bin/${name}

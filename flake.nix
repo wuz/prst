@@ -18,7 +18,7 @@
       url = "github:wuz/prst/main?dir=pkgs-wuz";
     };
     # pkgs-wuz = {
-    #   url = "path:./pkgs-wuz";
+    #   url = "git+file://~/.config/darwin?dir=pkgs-wuz";
     # };
     nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -60,7 +60,7 @@
       inherit (darwin.lib) darwinSystem;
       overlays = [
         nur.overlays.default
-        pkgs-wuz.overlay
+        pkgs-wuz.overlays.default
       ];
       user = {
         name = "Conlin Durbin";

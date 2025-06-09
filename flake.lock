@@ -786,7 +786,7 @@
     "liminix": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-dz0IsDArmNo1NxslnKzlxzIJC9y3hvcNKxoPdpn8bHc=",
+        "narHash": "sha256-H1DdLVUIuQpewGFpPiFZtOmoHI2fo+lt5pgx6gxiWcQ=",
         "type": "file",
         "url": "https://gti.telent.net/dan/liminix"
       },
@@ -1356,20 +1356,15 @@
       },
       "locked": {
         "dir": "pkgs-wuz",
-        "lastModified": 1749480670,
-        "narHash": "sha256-0Ydiu4hxSaBKDyZ5C52KJEAlyeTlszlB4W4kXIXUN/0=",
-        "owner": "wuz",
-        "repo": "prst",
-        "rev": "cf45556dfe446dcb99611fcd677356ca3f331745",
-        "type": "github"
+        "path": ".",
+        "type": "path"
       },
       "original": {
         "dir": "pkgs-wuz",
-        "owner": "wuz",
-        "ref": "main",
-        "repo": "prst",
-        "type": "github"
-      }
+        "path": ".",
+        "type": "path"
+      },
+      "parent": []
     },
     "pnpm2nix": {
       "inputs": {
