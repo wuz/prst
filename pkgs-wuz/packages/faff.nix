@@ -9,7 +9,7 @@ stdenv.mkDerivation rec {
   buildInputs = with pkgs; [ unzip ];
   src = pkgs.fetchurl {
     url = "https://github.com/wimpysworld/faff/archive/refs/tags/${version}.zip";
-    sha256 = "sha256-d9baQQb5Wg1mXEkiXM4j2t2EpXWQf+hfcLlndk+7ZVE=";
+    sha256 = "sha256-CAV9wlk7+yJnajPIfS5QU8MspQOCH3QfKHgJ7+GayMU=";
     # sha256 = lib.fakeSha256;
   };
   dontBuild = true;
