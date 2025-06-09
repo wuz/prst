@@ -7,4 +7,5 @@ in
 {
   ccmenu = callPackage ./ccmenu.nix { };
   deskpad = callPackage ./deskpad.nix { };
+  faff = callPackage ./faff.nix { };
 }

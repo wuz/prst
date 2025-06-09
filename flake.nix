@@ -14,12 +14,12 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # pkgs-wuz = {
-    #   url = "github:wuz/prst/main?dir=pkgs-wuz";
-    # };
     pkgs-wuz = {
-      url = "path:./pkgs-wuz";
+      url = "github:wuz/prst/main?dir=pkgs-wuz";
     };
+    # pkgs-wuz = {
+    #   url = "path:./pkgs-wuz";
+    # };
     nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     jacobi = {
@@ -96,6 +96,7 @@
           ] ++ overlays;
         }
         {
+          home-manager.backupFileExtension = "backup";
           home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
         }
         home-manager.darwinModules.home-manager

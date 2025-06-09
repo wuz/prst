@@ -193,7 +193,7 @@ in
             key = "P";
             context = "localBranches";
             description = ''
-              Git-Town Prepend (creates a branch between the curent branch
+              Git-Town Prepend (creates a branch between the current branch
                 and its parent)'';
             prompts = [
               {
@@ -233,8 +233,12 @@ in
       enable = true;
       userName = config.git.user.name;
       userEmail = config.git.user.email;
-      delta = {
+      difftastic = {
         enable = true;
+        enableAsDifftool = true;
+      };
+      delta = {
+        enable = false;
         options = {
           decorations = {
             commit-decoration-style = "bold yellow box ul";
@@ -277,7 +281,7 @@ in
         find = "!sh -c 'git ls-tree -r --name-only HEAD | grep --color $1' -";
         g = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
         sl = "stash list --pretty='format:%<(13)%C(auto)%gd %C(green)%s %C(auto)|%C(yellow) %ar'";
-        h = "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline #pretty oneline graph of what is different from origin/master";
+        h = "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline";
         pom = "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master' -";
         pomt = "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master && git push origin master --tags' -";
         purm = ''!sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && exit 0 || echo "usage: git purm <branch>" >&2 && exit 1' -'';

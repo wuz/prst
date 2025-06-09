@@ -75,22 +75,28 @@ in
         isDefault = true;
         extensions = extensions;
         containers = {
-          TTRPG = {
+          citadel = {
             color = "toolbar";
-            icon = "fruit";
+            icon = "fence";
             id = 3;
           };
-          Work = {
+          work = {
             color = "yellow";
             icon = "briefcase";
             id = 2;
           };
-          Personal = {
+          personal = {
             color = "blue";
-            icon = "chill";
+            icon = "circle";
             id = 1;
           };
+          reading = {
+            color = "purple";
+            icon = "chill";
+            id = 4;
+          };
         };
+        containersForce = true;
         search.force = true;
         search.default = "Kagi";
         search.privateDefault = "Kagi";

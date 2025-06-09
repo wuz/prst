@@ -36,6 +36,7 @@
           aipr
           ccmenu
           deskpad
+          faff
           hm-zen-browser
           ;
         inherit (final.nur.repos.rycee.firefox-addons) buildFirefoxXpiAddon;

@@ -2,10 +2,12 @@
   user,
   lib,
   pkgs,
+  jacobi,
   ...
 }:
 let
   optList = conditional: list: if conditional then list else [ ];
+  cobiscripts = jacobi.packages.${pkgs.system};
 
   python-with-global-packages = pkgs.python3.withPackages (
     ps: with ps; [
@@ -28,11 +30,19 @@ in
 
       scc
 
+      faff
+
       fontforge
       fontforge-fonttools
       google-fonts
 
       python-with-global-packages
+      kubernetes-helm
+
+      mergiraf
+      srgn
+      ast-grep
+      difftastic
 
       openssh
       openssl
@@ -71,5 +81,10 @@ in
       lapce
       ollama
       chafa
+
+      cobiscripts.docker_pog_scripts
+      cobiscripts.k8s_pog_scripts
+      cobiscripts.nix_pog_scripts
+
     ];
 }
