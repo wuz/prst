@@ -103,7 +103,11 @@ in
   homebrew = {
     apps = {
       zen = true;
-      ghostty = false;
+      ghostty = true;
+      fruit-screensaver = true;
+      peninsula = true;
+      moves = true;
+      brilliant = true;
     };
   };
 }

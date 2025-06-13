@@ -18,6 +18,9 @@
     enable = true;
     addKeysToAgent = "yes";
   };
+  programs.firefox = {
+    enable = true;
+  };
   browser.enable = true;
   direnv.enable = true;
   zoxide.enable = true;

@@ -53,6 +53,11 @@ in
       notion-calendar = mkCaskOption "Notion Calendar" false;
       notion-mail = mkCaskOption "Notion Mail" false;
 
+      brilliant = mkCaskOption "Brilliant" false;
+      moves = mkCaskOption "Moves" false;
+      peninsula = mkCaskOption "Peninsula" false;
+      fruit-screensaver = mkCaskOption "Fruit" false;
+
       # ca-certificates
       # docker
     };
