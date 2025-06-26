@@ -101,13 +101,17 @@ in
   };
 
   homebrew = {
+    brews = [
+      "ghalint"
+    ];
     apps = {
       zen = true;
       ghostty = true;
       fruit-screensaver = true;
       peninsula = true;
-      moves = true;
       brilliant = true;
+      tiny-shield = true;
+      music-presence = true;
     };
   };
 }

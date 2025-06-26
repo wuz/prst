@@ -50,6 +50,7 @@ let
       clicktabsort
       adaptive-theme-creator
       bluesky-sidebar
+      okta-browser-plugin
     ]);
 in
 {

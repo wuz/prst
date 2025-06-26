@@ -7,6 +7,7 @@ inputs: {
   xdg.enable = true;
   # Individual imports
   imports = [
+    ./accounts.nix
     # ./jj.nix
     ./git.nix
     # Languages
@@ -27,9 +28,11 @@ inputs: {
     ./terminal/bat.nix
     ./terminal/zoxide.nix
     ./terminal/mcfly.nix
+    ./terminal/zellij.nix
     ./terminal/bin.nix
     ./terminal/tui.nix
     ./terminal/direnv.nix
+    ./terminal/himalaya.nix
     # # Other
     ./other/optout.nix
   ];

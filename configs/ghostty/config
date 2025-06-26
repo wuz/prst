@@ -90,6 +90,7 @@ selection-foreground = 0a0a0a
 # selection-foreground = c6d0f5
 
 font-family = Cartograph CF
+font-feature = -liga
 
 window-padding-y = 2
 window-padding-x = 2
@@ -102,7 +103,3 @@ macos-icon = retro
 
 # Keybindings
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-
-# Manage updates with Nix
-# auto-update = off
-

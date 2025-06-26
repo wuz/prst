@@ -183,10 +183,10 @@
     };
     "libraryextension" = buildFirefoxXpiAddon {
       pname = "libraryextension";
-      version = "2025.224.1";
+      version = "2025.616.1";
       addonId = "firefox@libraryextension.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4442775/libraryextension-2025.224.1.xpi";
-      sha256 = "f4e5e1e2b27d24f1efee5895eb8f7b5df878ac84890362aec04d5b5d9fbf29d4";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4514284/libraryextension-2025.616.1.xpi";
+      sha256 = "3502ea2b20068626920dcec10f1216ec2a2a1c6c8fc2d621a3ed64d76d717079";
       meta = with lib;
       {
         homepage = "https://www.libraryextension.com/";
@@ -217,6 +217,30 @@
           "storage"
           "http://*/*"
           "https://*/*"
+        ];
+        platforms = platforms.all;
+      };
+    };
+    "okta-browser-plugin" = buildFirefoxXpiAddon {
+      pname = "okta-browser-plugin";
+      version = "6.39.0";
+      addonId = "plugin@okta.com";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4463689/okta_browser_plugin-6.39.0_yoxdr1j.xpi";
+      sha256 = "5bb545f2f67bc570abab5fdb32f38efa50ca02775d3059f6f9a930a2cabad47a";
+      meta = with lib;
+      {
+        homepage = "https://www.okta.com";
+        description = "Okta Browser Plugin";
+        mozPermissions = [
+          "tabs"
+          "cookies"
+          "https://*/"
+          "http://*/"
+          "storage"
+          "unlimitedStorage"
+          "webRequest"
+          "webRequestBlocking"
+          "webNavigation"
         ];
         platforms = platforms.all;
       };
@@ -261,10 +285,10 @@
     };
     "page-shadow" = buildFirefoxXpiAddon {
       pname = "page-shadow";
-      version = "2.11.3";
+      version = "2.11.4";
       addonId = "page-shadow@eliastiksofts.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4468899/page_shadow-2.11.3.xpi";
-      sha256 = "90b04ab11737a2caefabf95c0fa2634de455285561e3da2bfd64d6f4b84651fb";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4518871/page_shadow-2.11.4.xpi";
+      sha256 = "c64e5e34f73843eb0718e08f4c47cc08a87f88c75c651fc86b3a62372c49e004";
       meta = with lib;
       {
         homepage = "http://www.eliastiksofts.com/page-shadow/";
@@ -325,10 +349,10 @@
     };
     "youtube-addon" = buildFirefoxXpiAddon {
       pname = "youtube-addon";
-      version = "4.1280";
+      version = "4.1320";
       addonId = "{3c6bf0cc-3ae2-42fb-9993-0d33104fdcaf}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4507978/youtube_addon-4.1280.xpi";
-      sha256 = "0393b0db010fceafbf213f358751491dfafcdcd1654dcf429163a7cca6463723";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4515877/youtube_addon-4.1320.xpi";
+      sha256 = "76bbe4907d8e5c948ec182ed0bb431370caf9970cb6ff73a8b180cb01dd691d2";
       meta = with lib;
       {
         homepage = "https://github.com/code4charity/YouTube-Extension/";
@@ -344,10 +368,10 @@
     };
     "zen-internet" = buildFirefoxXpiAddon {
       pname = "zen-internet";
-      version = "2.3.1";
+      version = "2.6.1";
       addonId = "{91aa3897-2634-4a8a-9092-279db23a7689}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4507755/zen_internet-2.3.1.xpi";
-      sha256 = "eb50e4d65aa8f8060b47015eb12abb9c53b6b5c2fabde5566ba1e80f3d059552";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4517933/zen_internet-2.6.1.xpi";
+      sha256 = "2de6b81fb001e78fe9c9661d6f386f10c82d6b4cf0ddbd53f36bbc5792c8abee";
       meta = with lib;
       {
         homepage = "https://www.sameerasw.com";

@@ -58,6 +58,8 @@ in
       shellharden
       shfmt
       go
+      desed
+      kdlfmt
 
       gcc
       curl

@@ -57,6 +57,8 @@ in
       moves = mkCaskOption "Moves" false;
       peninsula = mkCaskOption "Peninsula" false;
       fruit-screensaver = mkCaskOption "Fruit" false;
+      tiny-shield = mkCaskOption "Tiny Shield" false;
+      music-presence = mkCaskOption "Discord Music Presence" false;
 
       # ca-certificates
       # docker
