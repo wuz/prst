@@ -17,10 +17,10 @@
     };
     "apollo-developer-tools" = buildFirefoxXpiAddon {
       pname = "apollo-developer-tools";
-      version = "4.19.13";
+      version = "4.21.8";
       addonId = "{a5260852-8d08-4979-8116-38f1129dfd22}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4471757/apollo_developer_tools-4.19.13.xpi";
-      sha256 = "43afa492f3e3445cb1dba4d6399534ced6706eeb9bd934c91b86ee1ba9f4d52d";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4588980/apollo_developer_tools-4.21.8.xpi";
+      sha256 = "325beb1d20aa9f020038d446b0b5921e066d021f9164f0d442d7e03312eb4608";
       meta = with lib;
       {
         homepage = "https://www.apollographql.com";
@@ -56,10 +56,10 @@
     };
     "are-na" = buildFirefoxXpiAddon {
       pname = "are-na";
-      version = "2.11.0";
+      version = "2.12.0";
       addonId = "{4245110a-2f3e-4f78-8303-10cae12384cc}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4501779/are_na-2.11.0.xpi";
-      sha256 = "d4c6b8dac0ae658175336838a1b469fb9942e9b83c76edc87ab0995f7a8a5983";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4574392/are_na-2.12.0.xpi";
+      sha256 = "a3575ac6500799fbc074e1609c44be95840cbaa9d471c8cce735dbe483d94566";
       meta = with lib;
       {
         homepage = "https://www.are.na";
@@ -71,10 +71,10 @@
     };
     "bluesky-sidebar" = buildFirefoxXpiAddon {
       pname = "bluesky-sidebar";
-      version = "0.0.10";
+      version = "0.0.11";
       addonId = "{42f52678-fbed-4a73-88dd-b01f94d06cdb}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4497122/bluesky_sidebar-0.0.10.xpi";
-      sha256 = "f6e6f6ef63a6860d191432d7b288b4d72c0f6a6352a7f28a209122afdfeacc3e";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4560201/bluesky_sidebar-0.0.11.xpi";
+      sha256 = "dfb24c072e2ffb12efd9da56bfc356a4df5862acd02c88c8b5e3a26466401601";
       meta = with lib;
       {
         homepage = "https://github.com/hzoo/extension-annotation-sidebar";
@@ -183,10 +183,10 @@
     };
     "libraryextension" = buildFirefoxXpiAddon {
       pname = "libraryextension";
-      version = "2025.616.1";
+      version = "2025.1005.1";
       addonId = "firefox@libraryextension.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4514284/libraryextension-2025.616.1.xpi";
-      sha256 = "3502ea2b20068626920dcec10f1216ec2a2a1c6c8fc2d621a3ed64d76d717079";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4591627/libraryextension-2025.1005.1.xpi";
+      sha256 = "92c6ec2962548a36d40ba62567dd8e96bf36c3790d394992cb84d83adec07ad7";
       meta = with lib;
       {
         homepage = "https://www.libraryextension.com/";
@@ -203,30 +203,25 @@
     };
     "markdown-here" = buildFirefoxXpiAddon {
       pname = "markdown-here";
-      version = "2.14.2";
+      version = "2.16.0";
       addonId = "markdown-here-webext@adam.pritchard";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4385206/markdown_here-2.14.2.xpi";
-      sha256 = "410c603f5e13c1023bd4dbe185ff4f9d6e96abbf4e8fd0b91f9cb31fa288f9b5";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4530942/markdown_here-2.16.0.xpi";
+      sha256 = "1009609bd560d71f8f35de86e288282e701ad003fc5a127f91e2fb3d23ea2e77";
       meta = with lib;
       {
         homepage = "https://github.com/adam-p/markdown-here";
         description = "Write your email in Markdown, then make it pretty.";
         license = licenses.mit;
-        mozPermissions = [
-          "contextMenus"
-          "storage"
-          "http://*/*"
-          "https://*/*"
-        ];
+        mozPermissions = [ "activeTab" "contextMenus" "storage" "scripting" ];
         platforms = platforms.all;
       };
     };
     "okta-browser-plugin" = buildFirefoxXpiAddon {
       pname = "okta-browser-plugin";
-      version = "6.39.0";
+      version = "6.44.0";
       addonId = "plugin@okta.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4463689/okta_browser_plugin-6.39.0_yoxdr1j.xpi";
-      sha256 = "5bb545f2f67bc570abab5fdb32f38efa50ca02775d3059f6f9a930a2cabad47a";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4583741/okta_browser_plugin-6.44.0.xpi";
+      sha256 = "fb88e080f94f0b5e9f8b823a1769a6b1a5c52e9450e05985fcc5951da85a4439";
       meta = with lib;
       {
         homepage = "https://www.okta.com";
@@ -261,10 +256,10 @@
     };
     "openlink-structured-data-sniff" = buildFirefoxXpiAddon {
       pname = "openlink-structured-data-sniff";
-      version = "3.4.8";
+      version = "3.4.27";
       addonId = "osds@openlinksw.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4386946/openlink_structured_data_sniff-3.4.8.xpi";
-      sha256 = "1cb2e2923162853354554647f683e4e4500c2b7f66120535ceee8059085fc8ae";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4558089/openlink_structured_data_sniff-3.4.27.xpi";
+      sha256 = "2820efb3671bcf6e203088c0f01e17c1f3f39dc92d6b6b56a338070f19d8aead";
       meta = with lib;
       {
         homepage = "http://osds.openlinksw.com/";
@@ -285,10 +280,10 @@
     };
     "page-shadow" = buildFirefoxXpiAddon {
       pname = "page-shadow";
-      version = "2.11.4";
+      version = "2.11.5";
       addonId = "page-shadow@eliastiksofts.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4518871/page_shadow-2.11.4.xpi";
-      sha256 = "c64e5e34f73843eb0718e08f4c47cc08a87f88c75c651fc86b3a62372c49e004";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4578914/page_shadow-2.11.5.xpi";
+      sha256 = "7204d58d57bb732b1cd7aa75c22b848d731c07ddaf60a76631a8978510031b9a";
       meta = with lib;
       {
         homepage = "http://www.eliastiksofts.com/page-shadow/";
@@ -305,6 +300,19 @@
           "ftp://*/*"
           "file:///*/*"
         ];
+        platforms = platforms.all;
+      };
+    };
+    "remove-paywall" = buildFirefoxXpiAddon {
+      pname = "remove-paywall";
+      version = "1.1";
+      addonId = "remove-paywall@example.com";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4428706/remove_paywall-1.1.xpi";
+      sha256 = "89194a6425bc4dfe41031c534a8b995e596f0d370345e4c21b1c8263229b8061";
+      meta = with lib;
+      {
+        description = "Remove paywalls from articles legally by searching public internet archives.";
+        mozPermissions = [ "activeTab" "contextMenus" ];
         platforms = platforms.all;
       };
     };
@@ -349,10 +357,10 @@
     };
     "youtube-addon" = buildFirefoxXpiAddon {
       pname = "youtube-addon";
-      version = "4.1320";
+      version = "4.1350";
       addonId = "{3c6bf0cc-3ae2-42fb-9993-0d33104fdcaf}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4515877/youtube_addon-4.1320.xpi";
-      sha256 = "76bbe4907d8e5c948ec182ed0bb431370caf9970cb6ff73a8b180cb01dd691d2";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4583940/youtube_addon-4.1350.xpi";
+      sha256 = "4ffb4231deecf25172bc7334bc2cb8ef3c58a57a501bf3d3fe4698aae9e003af";
       meta = with lib;
       {
         homepage = "https://github.com/code4charity/YouTube-Extension/";
@@ -368,10 +376,10 @@
     };
     "zen-internet" = buildFirefoxXpiAddon {
       pname = "zen-internet";
-      version = "2.6.1";
+      version = "2.7.0";
       addonId = "{91aa3897-2634-4a8a-9092-279db23a7689}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4517933/zen_internet-2.6.1.xpi";
-      sha256 = "2de6b81fb001e78fe9c9661d6f386f10c82d6b4cf0ddbd53f36bbc5792c8abee";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4537733/zen_internet-2.7.0.xpi";
+      sha256 = "3c43e841136388eea54a3bf9c993482b5eaa62025a7895a852abaa6c4651d35a";
       meta = with lib;
       {
         homepage = "https://www.sameerasw.com";
