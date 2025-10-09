@@ -11,7 +11,8 @@ in
   wsl.enable = true;
   ids.gids.nixbld = 350;
   imports = [
-  ];
+  ]
+  ++ (import ../../modules/shared);
   services.nix-daemon.enable = true;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
   system.stateVersion = 5;

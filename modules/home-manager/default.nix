@@ -22,17 +22,17 @@ inputs: {
     ./apps/neovim.nix
     ./apps/wezterm.nix
     ./apps/ghostty.nix
-    ./apps/gui.nix
     # # Terminal
     ./terminal/starship.nix
     ./terminal/bat.nix
     ./terminal/zoxide.nix
     ./terminal/mcfly.nix
-    ./terminal/zellij.nix
+    # ./terminal/zellij.nix
     ./terminal/bin.nix
     ./terminal/tui.nix
     ./terminal/direnv.nix
     ./terminal/himalaya.nix
+    # ./terminal/newsboat.nix
     # # Other
     ./other/optout.nix
   ];

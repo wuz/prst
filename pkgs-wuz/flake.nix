@@ -95,22 +95,13 @@
                 nix-hash-unstable = pkgs.pog.pog {
                   name = "nix-hash-unstable";
                   description = "Hash nix-unstable and pin to file";
-                  arguments = [ { name = "FILE"; } ];
+                  arguments = [ ];
                   script = helpers: ''
-                    path="$1"
-                    out=$(${pkgs.nix-prefetch-git}/bin/nix-prefetch-git \
-                      --quiet \
-                      --no-deepClone \
-                      --branch-name nixpkgs-unstable \
-                      https://github.com/NixOS/nixpkgs.git | \
+                    out=$(${pkgs.nix-prefetch-git}/bin/nix-prefetch-git --no-deepClone --branch-name nixpkgs-unstable \
+                    https://github.com/NixOS/nixpkgs.git | \
                     ${pkgs.jq}/bin/jq '{ rev: .rev, sha256: .sha256 }')
                     echo "$path"
                     echo "$out"
-                    # if [ -n "$path" ]; then
-                    #   echo "$out" > "$path"
-                    # else
-                    #   echo "$out"
-                    # fi
                   '';
                 };
 

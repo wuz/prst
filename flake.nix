@@ -10,6 +10,7 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-search.url = "github:diamondburned/nix-search";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +23,8 @@
     # };
     nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    claude-code.url = "github:sadjow/claude-code-nix";
     jacobi = {
       url = "github:jpetrucciani/nix";
     };
@@ -54,6 +57,7 @@
       jacobi,
       nixos-wsl,
       nix-darwin-browsers,
+      claude-code,
       ...
     }:
     let
@@ -61,6 +65,7 @@
       overlays = [
         nur.overlays.default
         pkgs-wuz.overlays.default
+        claude-code.overlays.default
       ];
       user = {
         name = "Conlin Durbin";
@@ -93,7 +98,8 @@
         {
           nixpkgs.overlays = [
             nix-darwin-browsers.overlays.default
-          ] ++ overlays;
+          ]
+          ++ overlays;
         }
         {
           home-manager.backupFileExtension = "backup";
@@ -106,12 +112,11 @@
       darwinConfigurations = {
         spellbook = darwinSystem {
           system = "aarch64-darwin";
-          modules =
-            [
-              ./hosts/spellbook
-            ]
-            ++ sharedModules
-            ++ darwinModules;
+          modules = [
+            ./hosts/spellbook
+          ]
+          ++ sharedModules
+          ++ darwinModules;
           specialArgs = specialArgs;
         };
       };

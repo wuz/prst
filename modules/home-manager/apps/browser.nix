@@ -2,9 +2,22 @@
   pkgs,
   lib,
   user,
+  inputs,
   ...
 }:
 let
+  fx-autoconfig = pkgs.fetchFromGitHub {
+    owner = "MrOtherGuy";
+    repo = "fx-autoconfig";
+    rev = "master";
+    sha256 = "sha256-ibtYuRv21s4T+PbV0o3jRAuG/6mlaLzwWhkEivL1sho=";
+  };
+  sine = pkgs.fetchFromGitHub {
+    owner = "CosmoCreeper";
+    repo = "Sine";
+    rev = "main";
+    sha256 = "sha256-a6ZDi0YIuccXC7yZr93wq94vj/aeOyUZ+4aKn6U/q1Q=";
+  };
   extensions =
     with pkgs.nur.repos.rycee.firefox-addons;
     [
@@ -19,14 +32,13 @@ let
       violentmonkey
       raindropio
       don-t-fuck-with-paste
-      ublock-origin
+      # ublock-origin
       enhanced-h264ify
       enhanced-github
       enhancer-for-nebula
       awesome-rss
       wappalyzer
       the-camelizer-price-history-ch
-      yang
       cookie-autodelete
       link-cleaner
       reddit-enhancement-suite
@@ -43,14 +55,12 @@ let
       youtube-addon
       page-shadow
       are-na
-      rss-reader-extension-inoreader
       open-graph-preview-and-debug
       openlink-structured-data-sniff
-      # zen-internet
       clicktabsort
-      adaptive-theme-creator
       bluesky-sidebar
       okta-browser-plugin
+      remove-paywall
     ]);
 in
 {
@@ -60,10 +70,45 @@ in
       MOZ_LEGACY_PROFILES = 1;
       MOZ_ALLOW_DOWNGRADE = 1;
     };
+    home.file."zen/config.js" = {
+      enable = true;
+      source = "${fx-autoconfig}/program/config.js";
+    };
+    home.file."zen/defaults/" = {
+      recursive = true;
+      enable = true;
+      source = "${fx-autoconfig}/program/defaults/";
+    };
+    home.file."Library/Application Support/Zen/Profiles/wuz/chrome" = {
+      recursive = true;
+      enable = true;
+      source = "${fx-autoconfig}/profile/chrome";
+    };
+    home.file."Library/Application Support/Zen/Profiles/wuz/chrome/JS/sine.us.mjs" = {
+      enable = true;
+      source = "${sine}/sine.us.mjs";
+    };
+    home.file."Library/Application Support/Zen/Profiles/wuz/chrome/JS/engine" = {
+      recursive = true;
+      enable = true;
+      source = "${sine}/engine";
+    };
     programs.zen-browser = {
       package = null;
       enable = true;
       policies = {
+        DisableFirefoxStudies = true;
+        DisablePocket = true;
+        DisableTelemetry = true;
+        DisplayBookmarksToolbar = "never";
+        DontCheckDefaultBrowser = true;
+        EnableTrackingProtection = {
+          Value = true;
+          Locked = true;
+          Cryptomining = true;
+          Fingerprinting = true;
+        };
+        HardwareAcceleration = true;
         AppAutoUpdate = false;
         DisableAppUpdate = true;
         ExtensionSettings = builtins.listToAttrs (
@@ -103,32 +148,35 @@ in
           };
         };
         containersForce = true;
-        search.force = true;
-        search.default = "Kagi";
-        search.privateDefault = "Kagi";
-        search.order = [ "Kagi" ];
-        search.engines = {
-          "Kagi" = {
-            urls = [ { template = "https://kagi.com/search?q={searchTerms}"; } ];
-            definedAliases = [ "@kagi" ];
-          };
-          "Bing".metaData.hidden = true;
-          "Google".metaData.hidden = true;
-          "Wikipedia (en)".metaData.hidden = true;
-          "Home Manager NixOs" = {
-            urls = [
-              {
-                template = "https://home-manager-options.extranix.com/";
-                params = [
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }
-            ];
-            icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "@hm" ];
+        search = {
+          force = true;
+          default = "Kagi";
+          privateDefault = "Kagi";
+          order = [ "Kagi" ];
+          engines = {
+            "Kagi" = {
+              urls = [ { template = "https://kagi.com/search?q={searchTerms}"; } ];
+              definedAliases = [ "@kagi" ];
+            };
+            "Bing".metaData.hidden = true;
+            "Google".metaData.hidden = true;
+            "DuckDuckGo".metaData.hidden = true;
+            "Wikipedia (en)".metaData.hidden = true;
+            "Home Manager NixOs" = {
+              urls = [
+                {
+                  template = "https://home-manager-options.extranix.com/";
+                  params = [
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "''${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@hm" ];
+            };
           };
         };
         settings = {
@@ -153,7 +201,7 @@ in
           "browser.startup.page" = 3; # Resume last session.
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.uidensity" = 1; # Dense.
-          "browser.urlbar.placeholderName" = "DuckDuckGo";
+          "browser.urlbar.placeholderName" = "Kagi";
           "browser.urlbar.speculativeConnect.enabled" = false;
           "dom.battery.enabled" = false;
           "dom.security.https_only_mode" = true;

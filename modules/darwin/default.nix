@@ -5,5 +5,4 @@
   ./shell.nix
   ./ollama.nix
   ./audioswitcher.nix
-  ./packages.nix
 ]

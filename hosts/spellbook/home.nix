@@ -12,7 +12,7 @@
   ];
   home.sessionVariables = {
     USER = user.username;
-    PATH = "/opt/homebrew/bin:/etc/profiles/per-user/conlin.durbin/bin:$PATH";
+    PATH = "/opt/homebrew/bin:/etc/profiles/per-user/conlin.durbin/bin:$HOME/.local/bin:$PATH";
   };
   programs.ssh = {
     enable = true;
@@ -20,6 +20,23 @@
   };
   programs.firefox = {
     enable = true;
+    policies = {
+      AppAutoUpdate = false;
+      DisableAppUpdate = true;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      DisplayBookmarksToolbar = "never";
+      # DisplayMenuBar = "default-off";
+      DontCheckDefaultBrowser = true;
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+      HardwareAcceleration = true;
+    };
   };
   browser.enable = true;
   direnv.enable = true;

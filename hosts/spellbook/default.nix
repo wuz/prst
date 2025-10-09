@@ -10,17 +10,22 @@ in
 {
   ids.gids.nixbld = 350;
   imports = [
-  ] ++ (import ../../modules/darwin);
+  ]
+  ++ (import ../../modules/darwin)
+  ++ (import ../../modules/shared);
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
   system.stateVersion = 5;
-  users.knownUsers = [ user.username ];
-  users.users.${user.username} = {
-    name = user.username;
-    description = user.name;
-    home = "/Users/${user.username}";
-    shell = pkgs.${user.shell};
-    uid = uid;
+  users = {
+    knownUsers = [ user.username ];
+    users.${user.username} = {
+      name = user.username;
+      description = user.name;
+      home = "/Users/${user.username}";
+      shell = pkgs.${user.shell};
+      uid = uid;
+    };
   };
+
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -94,6 +99,7 @@ in
     touchIdAuth = true;
     watchIdAuth = true;
   };
+
   documentation.enable = false;
 
   services.ollama = {
@@ -101,17 +107,44 @@ in
   };
 
   homebrew = {
-    brews = [
-      "ghalint"
-    ];
     apps = {
-      zen = true;
       ghostty = true;
       fruit-screensaver = true;
+      raycast = true;
+      notchnook = true;
+      obsidian = true;
+      notion = true;
+      notion-calendar = true;
+      notion-mail = true;
+      notion-enhanced = true;
+      container = true;
+
+      crystalfetch = true;
+      keybase = true;
+      betterdisplay = true;
+      muzzle = true;
+      karabiner-elements = true;
       peninsula = true;
-      brilliant = true;
-      tiny-shield = true;
       music-presence = true;
+      utm = true;
+      docker-desktop = true;
+      affinity-designer = true;
+      affinity-photo = true;
+      affinity-publisher = true;
+      figma = true;
+      brilliant = true;
+      slack = true;
+      discord = true;
+
+      rockboxutility = false;
+      tiny-shield = false;
+      inkscape = false;
+      inkstitch = false;
+
+      raindropio = true;
+      spotify = true;
+      deezer = true;
+      lastfm = true;
     };
   };
 }

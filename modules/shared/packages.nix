@@ -3,11 +3,14 @@
   lib,
   pkgs,
   jacobi,
+  inputs,
   ...
 }:
 let
   optList = conditional: list: if conditional then list else [ ];
   cobiscripts = jacobi.packages.${pkgs.system};
+
+  nix-search = inputs.nix-search.packages.${pkgs.system}.default;
 
   python-with-global-packages = pkgs.python3.withPackages (
     ps: with ps; [
@@ -29,15 +32,20 @@ in
       ])
 
       scc
+      slides
 
       faff
+      dstp
 
+      claude-code
+      nix-search
       fontforge
       fontforge-fonttools
       google-fonts
 
       python-with-global-packages
       kubernetes-helm
+      markdownlint-cli2
 
       mergiraf
       srgn
