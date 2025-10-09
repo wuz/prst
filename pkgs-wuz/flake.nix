@@ -97,11 +97,8 @@
                   description = "Hash nix-unstable and pin to file";
                   arguments = [ ];
                   script = helpers: ''
-                    out=$(${pkgs.nix-prefetch-git}/bin/nix-prefetch-git --no-deepClone --branch-name nixpkgs-unstable \
-                    https://github.com/NixOS/nixpkgs.git | \
-                    ${pkgs.jq}/bin/jq '{ rev: .rev, sha256: .sha256 }')
-                    echo "$path"
-                    echo "$out"
+                    ${pkgs.nix-prefetch-git}/bin/nix-prefetch-git --no-deepClone --branch-name nixpkgs-unstable \
+                    https://github.com/NixOS/nixpkgs.git | ${pkgs.jq}/bin/jq '{ rev: .rev, sha256: .sha256 }'
                   '';
                 };
 

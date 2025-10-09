@@ -75,7 +75,8 @@ in
       gnupg
       gnused
       gawk
-      msgpack
+      msgpack-c
+      msgpack-cxx
       libiconvReal
       coreutils-full
       findutils

@@ -3,6 +3,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    agenix.url = "github:ryantm/agenix";
 
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
@@ -58,6 +59,7 @@
       nixos-wsl,
       nix-darwin-browsers,
       claude-code,
+      agenix,
       ...
     }:
     let
@@ -89,6 +91,7 @@
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.backupFileExtension = "backup";
         }
+        agenix.nixosModules.default
       ];
       wslModules = [
         { nixpkgs.overlays = overlays; }
