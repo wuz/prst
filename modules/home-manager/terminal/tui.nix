@@ -9,9 +9,10 @@ in
   home.packages =
     with pkgs;
     lib.flatten [
-      # discordo
       btop
       lazydocker
       atac
+      discordo
+      # calcure
     ];
 }

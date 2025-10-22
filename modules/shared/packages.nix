@@ -34,6 +34,8 @@ in
       scc
       slides
 
+      ragenix
+
       faff
       dstp
 
@@ -47,6 +49,7 @@ in
       kubernetes-helm
       markdownlint-cli2
 
+      imagemagick
       mergiraf
       srgn
       ast-grep

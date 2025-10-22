@@ -3,6 +3,7 @@
   lib,
   user,
   inputs,
+  config,
   ...
 }:
 let
@@ -70,37 +71,41 @@ in
       MOZ_LEGACY_PROFILES = 1;
       MOZ_ALLOW_DOWNGRADE = 1;
     };
-    home.file."zen/config.js" = {
-      enable = true;
-      source = "${fx-autoconfig}/program/config.js";
-    };
-    home.file."zen/defaults/" = {
+    home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome" = {
       recursive = true;
       enable = true;
-      source = "${fx-autoconfig}/program/defaults/";
-    };
-    home.file."Library/Application Support/Zen/Profiles/wuz/chrome" = {
-      recursive = true;
-      enable = true;
+      force = true;
       source = "${fx-autoconfig}/profile/chrome";
     };
-    home.file."Library/Application Support/Zen/Profiles/wuz/chrome/JS/sine.us.mjs" = {
+    home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/sine.us.mjs" = {
       enable = true;
+      force = true;
       source = "${sine}/sine.us.mjs";
     };
-    home.file."Library/Application Support/Zen/Profiles/wuz/chrome/JS/engine" = {
+    home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/engine" = {
       recursive = true;
       enable = true;
+      force = true;
       source = "${sine}/engine";
     };
     programs.zen-browser = {
-      package = null;
       enable = true;
+      package =
+        (pkgs.wrapFirefox.override {
+          libcanberra-gtk3 = pkgs.libcanberra-gtk2;
+        })
+          inputs.zen-browser.packages."${pkgs.system}".twilight-unwrapped
+          { };
+      extraPrefsFiles = [
+        (builtins.fetchurl {
+          url = "https://raw.githubusercontent.com/MrOtherGuy/fx-autoconfig/master/program/config.js";
+          sha256 = "sha256-gNxCEmSj6gQnXhckt7VyNPiSVOlYKmwX6akRtlw6ptc=";
+        })
+      ];
       policies = {
         DisableFirefoxStudies = true;
         DisablePocket = true;
         DisableTelemetry = true;
-        DisplayBookmarksToolbar = "never";
         DontCheckDefaultBrowser = true;
         EnableTrackingProtection = {
           Value = true;
@@ -115,16 +120,16 @@ in
           builtins.map (
             e:
             lib.nameValuePair e.addonId {
-              installation_mode = "force_installed";
               install_url = "file://${e.src}";
-              updates_disabled = true;
+              installation_mode = "force_installed";
             }
           ) extensions
         );
       };
       profiles.wuz = {
         isDefault = true;
-        extensions = extensions;
+        extensions.packages = extensions;
+        containersForce = true;
         containers = {
           citadel = {
             color = "toolbar";
@@ -147,21 +152,77 @@ in
             id = 4;
           };
         };
-        containersForce = true;
+        spacesForce = true;
+        spaces =
+          let
+            containers = config.programs.zen-browser.profiles."wuz".containers;
+          in
+          {
+            "Home" = {
+              id = "c6de089c-410d-4206-961d-ab11f988d40a";
+              icon = "🏠";
+              container = containers."personal".id;
+              position = 1000;
+            };
+            "Work" = {
+              id = "cdd10fab-4fc5-494b-9041-325e5759195b";
+              icon = "💼";
+              container = containers."work".id;
+              position = 2000;
+            };
+            "Infinite Citadel" = {
+              id = "78aabdad-8aae-4fe0-8ff0-2a0c6c4ccc24";
+              icon = "🏰";
+              container = containers."citadel".id;
+              position = 3000;
+            };
+          };
         search = {
           force = true;
           default = "Kagi";
           privateDefault = "Kagi";
-          order = [ "Kagi" ];
           engines = {
+            bing.metaData.hidden = true;
+            google.metaData.hidden = true;
+            ddg.metaData.hidden = true;
+            wikipedia.metaData.hidden = true;
+            perplexity.metaData.hidden = true;
             "Kagi" = {
-              urls = [ { template = "https://kagi.com/search?q={searchTerms}"; } ];
-              definedAliases = [ "@kagi" ];
+              urls = [
+                {
+                  template = "https://kagi.com/search?q={searchTerms}";
+                }
+              ];
+              icon = "https://help.kagi.com/favicon-16x16.png";
+              updateInterval = 24 * 60 * 60 * 1000; # every day
+              definedAliases = [ "@kg" ];
             };
-            "Bing".metaData.hidden = true;
-            "Google".metaData.hidden = true;
-            "DuckDuckGo".metaData.hidden = true;
-            "Wikipedia (en)".metaData.hidden = true;
+            "Nix Packages" = {
+              urls = [
+                {
+                  template = "https://search.nixos.org/packages";
+                  params = [
+                    {
+                      name = "type";
+                      value = "packages";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@np" ];
+            };
+            "NixOS Wiki" = {
+              urls = [ { template = "https://wiki.nixos.org/index.php?search={searchTerms}"; } ];
+              icon = "https://wiki.nixos.org/favicon.ico";
+              updateInterval = 24 * 60 * 60 * 1000; # every day
+              definedAliases = [ "@nw" ];
+            };
             "Home Manager NixOs" = {
               urls = [
                 {
@@ -171,6 +232,10 @@ in
                       name = "query";
                       value = "{searchTerms}";
                     }
+                    {
+                      name = "release";
+                      value = "master"; # unstable
+                    }
                   ];
                 }
               ];
@@ -178,6 +243,12 @@ in
               definedAliases = [ "@hm" ];
             };
           };
+          order = [
+            "Kagi"
+            "Startpage"
+            "Nix Packages"
+            "NixOS Wiki"
+          ];
         };
         settings = {
           "app.update.auto" = false;
@@ -186,100 +257,16 @@ in
           "zen.sidebar.enabled" = true;
           "zen.urlbar.behavior" = "floating-on-type";
           "zen.workspaces.container-specific-essentials-enabled" = true;
-          "zen.workspaces.show-workspace-indicator" = false;
+          "zen.workspaces.show-workspace-indicator" = true;
+          "zen.workspaces.continue-where-left-off" = true;
+          "zen.workspaces.natural-scroll" = true;
+          "zen.view.compact.hide-tabbar" = true;
+          "zen.view.compact.hide-toolbar" = true;
+          "zen.view.compact.animate-sidebar" = false;
+          "zen.welcome-screen.seen" = true;
           "zen.view.experimental-rounded-view" = true;
 
           "beacon.enabled" = false;
-          "browser.contentblocking.category" = "strict";
-          "browser.display.os-zoom-behavior" = 1;
-          "browser.newtabpage.enabled" = false; # Blank new tab page.
-          "browser.safebrowsing.appRepURL" = "";
-          "browser.safebrowsing.malware.enabled" = false;
-          "browser.search.hiddenOneOffs" = "Google,Yahoo,Bing,Amazon.com,Twitter";
-          "browser.search.suggest.enabled" = false;
-          "browser.send_pings" = false;
-          "browser.startup.page" = 3; # Resume last session.
-          "browser.tabs.closeWindowWithLastTab" = false;
-          "browser.uidensity" = 1; # Dense.
-          "browser.urlbar.placeholderName" = "Kagi";
-          "browser.urlbar.speculativeConnect.enabled" = false;
-          "dom.battery.enabled" = false;
-          "dom.security.https_only_mode" = true;
-          "experiments.activeExperiment" = false;
-          "experiments.enabled" = false;
-          "experiments.supported" = false;
-          "extensions.unifiedExtensions.enabled" = false;
-          "general.smoothScroll" = false;
-          "geo.enabled" = false;
-          "gfx.webrender.all" = true;
-          "layout.css.devPixelsPerPx" = 1;
-          # Follow system color theme.
-          "layout.css.prefers-color-scheme.content-override" = 2;
-          "media.ffmpeg.vaapi.enabled" = true;
-          "media.navigator.enabled" = false;
-          "media.video_stats.enabled" = false;
-          "network.IDN_show_punycode" = true;
-          "network.allow-experiments" = false;
-          "network.dns.disablePrefetch" = true;
-          "network.http.referer.XOriginPolicy" = 1;
-          "network.http.referer.XOriginTrimmingPolicy" = 1;
-          "network.http.referer.trimmingPolicy" = 1;
-          "network.prefetch-next" = false;
-          "permissions.default.shortcuts" = 2; # Don't steal my shortcuts!
-          "privacy.donottrackheader.enabled" = true;
-          "privacy.donottrackheader.value" = 1;
-          "privacy.firstparty.isolate" = true;
-          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-          "ui.textScaleFactor" = 100;
-
-          # new tab page
-          # "browser.newtabpage.activity-stream.feeds.topsites" = false;
-          # "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
-          #   "browser.display.background_color.dark" = "#1e1e2e";
-          #   "browser.discovery.enabled" = false;
-          #   "browser.download.useDownloadDir" = false;
-          #   "browser.startup.homepage" = "about:blank";
-          #   "general.smoothScroll" = true;
-          #   "signon.autofillForms" = false;
-          #   "widget.non-native-theme.scrollbar.style" = 3;
-          #   "browser.uidensity" = 1;
-          #   "browser.compactmode.show" = true;
-          #   "breakpad.reportURL" = "";
-          #   "browser.tabs.crashReporting.sendReport" = false;
-          #   "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
-          #   "browser.urlbar.suggest.calculator" = true;
-          #   "browser.aboutConfig.showWarning" = false;
-          #   "extensions.htmlaboutaddons.recommendations.enabled" = false;
-          #   "extensions.getAddons.showPane" = false;
-          #   "extensions.postDownloadThirdPartyPrompt" = false;
-          #   "browser.preferences.moreFromMozilla" = false;
-          #   "browser.tabs.tabmanager.enabled" = false;
-          # "browser.toolbars.bookmarks.visibility" = "never";
-          #   # alt will not open menu
-          #   "ui.key.menuAccessKeyFocuses" = false;
-          #   # new tabs are added at the end of the tab list, not next to the current tab
-          #   "browser.tabs.insertRelatedAfterCurrent" = true;
-          #   # disable full screen fade animation
-          #   "full-screen-api.transition-duration.enter" = "0 0";
-          #   "full-screen-api.transition-duration.leave" = "0 0";
-          #   "full-screen-api.transition.timeout" = 0;
-          #   # disable address bar hiding in fullscreen mode
-          #   "browser.fullscreen.autohide" = false;
-          #   "full-screen-api.warning.delay" = 0;
-          #   # disable message "... is now fullscreen"
-          #   "full-screen-api.warning.timeout" = 0;
-          #   # cookie banner handling
-          "cookiebanners.service.mode" = 1;
-          "cookiebanners.service.mode.privateBrowsing" = 1;
-          "cookiebanners.service.enableGlobalRules" = true;
-          # passwords
-          "signon.rememberSignons" = false;
-          "signon.formlessCapture.enabled" = false;
-          "signon.privateBrowsingCapture.enabled" = false;
-          "network.auth.subresource-http-auth-allow" = 1;
-          # address + credit card manager
-          "extensions.formautofill.addresses.enabled" = false;
-          "extensions.formautofill.creditCards.enabled" = false;
         };
       };
     };

@@ -21,7 +21,7 @@ in
       sd
       pup
       ranger
-      time
+      # time
       tokei
       tree
       unzip
@@ -31,7 +31,7 @@ in
       grex
       ripgrep
       rsync
-      tealdeer
+      # tealdeer
       melt
       broot
       cloak

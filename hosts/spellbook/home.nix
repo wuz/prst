@@ -7,7 +7,8 @@
 {
   imports = [
     inputs.nur.modules.homeManager.default
-    inputs.pkgs-wuz.darwinModules.hm-zen-browser
+    # inputs.pkgs-wuz.darwinModules.hm-zen-browser
+    inputs.zen-browser.homeModules.beta
     ../../modules/home-manager
   ];
   home.sessionVariables = {
@@ -15,11 +16,24 @@
     PATH = "/opt/homebrew/bin:/etc/profiles/per-user/conlin.durbin/bin:$HOME/.local/bin:$PATH";
   };
   programs.ssh = {
-    enable = true;
-    addKeysToAgent = "yes";
+    enableDefaultConfig = false;
+    matchBlocks = {
+      "*" = {
+        forwardAgent = false;
+        addKeysToAgent = "yes";
+        compression = false;
+        serverAliveInterval = 0;
+        serverAliveCountMax = 3;
+        hashKnownHosts = false;
+        userKnownHostsFile = "~/.ssh/known_hosts";
+        controlMaster = "no";
+        controlPath = "~/.ssh/master-%r@%n:%p";
+        controlPersist = "no";
+      };
+    };
   };
   programs.firefox = {
-    enable = true;
+    enable = false;
     policies = {
       AppAutoUpdate = false;
       DisableAppUpdate = true;

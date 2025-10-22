@@ -3,7 +3,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    agenix.url = "github:ryantm/agenix";
+    ragenix.url = "github:yaxitech/ragenix";
 
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
@@ -22,7 +22,10 @@
     # pkgs-wuz = {
     #   url = "git+file://~/.config/darwin?dir=pkgs-wuz";
     # };
-    nix-darwin-browsers.url = "github:wuz/nix-darwin-browsers";
+
+    zen-browser = {
+      url = "github:wuz/zen-browser-flake";
+    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     claude-code.url = "github:sadjow/claude-code-nix";
@@ -57,9 +60,9 @@
       pkgs-wuz,
       jacobi,
       nixos-wsl,
-      nix-darwin-browsers,
       claude-code,
-      agenix,
+      ragenix,
+      zen-browser,
       ...
     }:
     let
@@ -68,6 +71,7 @@
         nur.overlays.default
         pkgs-wuz.overlays.default
         claude-code.overlays.default
+        ragenix.overlays.default
       ];
       user = {
         name = "Conlin Durbin";
@@ -91,7 +95,7 @@
           home-manager.extraSpecialArgs = specialArgs;
           home-manager.backupFileExtension = "backup";
         }
-        agenix.nixosModules.default
+        ragenix.nixosModules.default
       ];
       wslModules = [
         { nixpkgs.overlays = overlays; }
@@ -100,7 +104,6 @@
       darwinModules = [
         {
           nixpkgs.overlays = [
-            nix-darwin-browsers.overlays.default
           ]
           ++ overlays;
         }

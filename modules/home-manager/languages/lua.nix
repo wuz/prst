@@ -10,6 +10,7 @@ in
     with pkgs;
     lib.flatten [
       lua
+      luarocks
       luajitPackages.luarocks
       selene
       stylua

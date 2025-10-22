@@ -9,6 +9,6 @@ in
   home.packages =
     with pkgs;
     lib.flatten [
-      solargraph
+      # solargraph
     ];
 }

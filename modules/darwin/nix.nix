@@ -2,16 +2,19 @@
   user,
   lib,
   pkgs,
+  config,
   ...
 }:
 let
 in
 {
+  nix.extraOptions = ''
+    !include ${config.age.secrets.github-access-token.path}
+  '';
   nix.settings = {
     nix-path = [ "nixpkgs=flake:nixpkgs" ];
     experimental-features = "nix-command flakes";
-    access-tokens = [
-    ];
+
     extra-trusted-users = [
       user.username
       "@admin"

@@ -88,7 +88,7 @@ in
       discord = mkCaskOption "Discord" false;
 
       # browsing
-      zen = mkCaskOption "Zen" true;
+      zen = mkCaskOption "Zen" false;
       "zen@twilight" = mkCaskOption "Zen Twilight" false;
 
       orion = mkCaskOption "Orion" false;
