@@ -37,6 +37,7 @@ in
       ragenix
 
       faff
+      oura
       dstp
 
       claude-code
@@ -91,9 +92,9 @@ in
       pinentry_mac
       nur.repos.rycee.mozilla-addons-to-nix
       just
+      ffmpeg
 
       lapce
-      ollama
       chafa
 
       cobiscripts.docker_pog_scripts

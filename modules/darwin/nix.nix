@@ -14,6 +14,7 @@ in
   nix.settings = {
     nix-path = [ "nixpkgs=flake:nixpkgs" ];
     experimental-features = "nix-command flakes";
+    download-buffer-size = 524288000;
 
     extra-trusted-users = [
       user.username

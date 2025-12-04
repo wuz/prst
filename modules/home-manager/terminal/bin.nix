@@ -14,7 +14,7 @@ in
       jq
       bottom
       hyperfine
-      du-dust
+      dust
       procs
       fd
       figlet

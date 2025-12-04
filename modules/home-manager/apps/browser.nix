@@ -33,17 +33,17 @@ let
       violentmonkey
       raindropio
       don-t-fuck-with-paste
-      # ublock-origin
-      enhanced-h264ify
       enhanced-github
-      enhancer-for-nebula
       awesome-rss
-      wappalyzer
-      the-camelizer-price-history-ch
       cookie-autodelete
       link-cleaner
       reddit-enhancement-suite
       libredirect
+      are-na
+      auto-sort-bookmarks
+      better-darker-docs
+      bitwarden
+      kagi-translate
     ]
     ++ (with pkgs.firefox-addons; [
       libraryextension
@@ -53,14 +53,8 @@ let
       google-lighthouse
       apollo-developer-tools
       request-blocker-we
-      youtube-addon
-      page-shadow
-      are-na
       open-graph-preview-and-debug
       openlink-structured-data-sniff
-      clicktabsort
-      bluesky-sidebar
-      okta-browser-plugin
       remove-paywall
     ]);
 in
@@ -71,31 +65,26 @@ in
       MOZ_LEGACY_PROFILES = 1;
       MOZ_ALLOW_DOWNGRADE = 1;
     };
-    home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome" = {
-      recursive = true;
-      enable = true;
-      force = true;
-      source = "${fx-autoconfig}/profile/chrome";
-    };
-    home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/sine.us.mjs" = {
-      enable = true;
-      force = true;
-      source = "${sine}/sine.us.mjs";
-    };
-    home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/engine" = {
-      recursive = true;
-      enable = true;
-      force = true;
-      source = "${sine}/engine";
-    };
+    # home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome" = {
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    #   source = "${fx-autoconfig}/profile/chrome";
+    # };
+    # home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/sine.us.mjs" = {
+    #   enable = true;
+    #   force = true;
+    #   source = "${sine}/sine.us.mjs";
+    # };
+    # home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/engine" = {
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    #   source = "${sine}/engine";
+    # };
     programs.zen-browser = {
       enable = true;
-      package =
-        (pkgs.wrapFirefox.override {
-          libcanberra-gtk3 = pkgs.libcanberra-gtk2;
-        })
-          inputs.zen-browser.packages."${pkgs.system}".twilight-unwrapped
-          { };
+      package = inputs.zen-browser.packages."${pkgs.system}".twilight;
       extraPrefsFiles = [
         (builtins.fetchurl {
           url = "https://raw.githubusercontent.com/MrOtherGuy/fx-autoconfig/master/program/config.js";
@@ -107,12 +96,6 @@ in
         DisablePocket = true;
         DisableTelemetry = true;
         DontCheckDefaultBrowser = true;
-        EnableTrackingProtection = {
-          Value = true;
-          Locked = true;
-          Cryptomining = true;
-          Fingerprinting = true;
-        };
         HardwareAcceleration = true;
         AppAutoUpdate = false;
         DisableAppUpdate = true;
@@ -179,25 +162,24 @@ in
           };
         search = {
           force = true;
-          default = "Kagi";
-          privateDefault = "Kagi";
+          default = "kagi";
+          privateDefault = "kagi";
           engines = {
             bing.metaData.hidden = true;
             google.metaData.hidden = true;
             ddg.metaData.hidden = true;
             wikipedia.metaData.hidden = true;
             perplexity.metaData.hidden = true;
-            "Kagi" = {
+            kagi = {
               urls = [
                 {
                   template = "https://kagi.com/search?q={searchTerms}";
                 }
               ];
               icon = "https://help.kagi.com/favicon-16x16.png";
-              updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@kg" ];
             };
-            "Nix Packages" = {
+            nix-packages = {
               urls = [
                 {
                   template = "https://search.nixos.org/packages";
@@ -217,13 +199,13 @@ in
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@np" ];
             };
-            "NixOS Wiki" = {
+            nixos-wiki = {
               urls = [ { template = "https://wiki.nixos.org/index.php?search={searchTerms}"; } ];
               icon = "https://wiki.nixos.org/favicon.ico";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@nw" ];
             };
-            "Home Manager NixOs" = {
+            home-manager = {
               urls = [
                 {
                   template = "https://home-manager-options.extranix.com/";
@@ -244,10 +226,10 @@ in
             };
           };
           order = [
-            "Kagi"
-            "Startpage"
-            "Nix Packages"
-            "NixOS Wiki"
+            "kagi"
+            "nix-packages"
+            "nixos-wiki"
+            "home-manager"
           ];
         };
         settings = {

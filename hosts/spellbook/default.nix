@@ -30,6 +30,9 @@ in
     config = {
       allowUnfree = true;
       allowBroken = true;
+      permittedInsecurePackages = [
+        "python3.13-ecdsa-0.19.1"
+      ];
     };
   };
 
@@ -101,10 +104,6 @@ in
   };
 
   documentation.enable = false;
-
-  services.ollama = {
-    enable = true;
-  };
 
   homebrew = {
     apps = {

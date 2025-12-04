@@ -236,30 +236,6 @@ in
     programs.delta.enable = false;
     programs.git = {
       enable = true;
-      difftastic = {
-      };
-      # delta = {
-      #   options = {
-      #     decorations = {
-      #       commit-decoration-style = "bold yellow box ul";
-      #       file-decoration-style = "none";
-      #       file-style = "bold yellow ul";
-      #     };
-      #     features = "decorations";
-      #     whitespace-error-style = "22 reverse";
-      #     minus-style = ''syntax "#3a273a"'';
-      #     minus-non-emph-style = ''syntax "#3a273a"'';
-      #     minus-emph-style = ''syntax "#6b2e43"'';
-      #     minus-empty-line-marker-style = ''syntax "#3a273a"'';
-      #     line-numbers-minus-style = ''"#e26a75"'';
-      #     plus-style = ''syntax "#273849"'';
-      #     plus-non-emph-style = ''syntax "#273849"'';
-      #     plus-emph-style = ''syntax "#305f6f"'';
-      #     plus-empty-line-marker-style = ''syntax "#273849"'';
-      #     line-numbers-plus-style = ''"#b8db87"'';
-      #     line-numbers-zero-style = ''"#3b4261"'';
-      #   };
-      # };
       lfs = {
         enable = true;
       };
@@ -290,12 +266,13 @@ in
           gpgsign = true;
         };
         merge = {
-          tool = "vimConflicted";
+          tool = "nvimdiff";
           conflictStyle = "diff3";
         };
         mergetool = {
-          vimConflicted = {
+          nvimdiff = {
             cmd = "nvim +DiffviewOpen";
+            layout = "LOCAL,BASE@,REMOTE";
           };
         };
         alias = {
@@ -307,6 +284,7 @@ in
           co = "checkout";
           st = "status";
           br = "branch -v";
+          fix-conflict = "jump merge *";
           unstage = "reset HEAD --";
           find = "!sh -c 'git ls-tree -r --name-only HEAD | grep --color $1' -";
           g = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
