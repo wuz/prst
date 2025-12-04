@@ -20,7 +20,7 @@
       url = "github:wuz/prst/main?dir=pkgs-wuz";
     };
     # pkgs-wuz = {
-    #   url = "git+file://~/.config/darwin?dir=pkgs-wuz";
+    #   url = "path:pkgs-wuz";
     # };
 
     zen-browser = {
