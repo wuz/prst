@@ -28,7 +28,7 @@ let
       stylus
       proton-pass
       sponsorblock
-      kagi-search
+      # kagi-search
       privacy-possum
       violentmonkey
       raindropio
@@ -43,7 +43,7 @@ let
       auto-sort-bookmarks
       better-darker-docs
       bitwarden
-      kagi-translate
+      # kagi-translate
     ]
     ++ (with pkgs.firefox-addons; [
       libraryextension

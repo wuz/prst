@@ -37,7 +37,6 @@ in
       ragenix
 
       faff
-      oura
       dstp
 
       claude-code

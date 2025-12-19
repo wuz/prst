@@ -25,8 +25,16 @@ in
     };
   };
   config = lib.mkIf config.git.enable {
+    programs.gh-dash = {
+      enable = true;
+    };
     programs.gh = {
       enable = true;
+      extensions = [
+        pkgs.gh-notify
+        pkgs.gh-s
+        pkgs.gh-poi
+      ];
       settings = {
         prompt = "enabled";
         git_protocol = "ssh";
