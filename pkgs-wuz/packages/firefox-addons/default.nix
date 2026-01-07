@@ -17,16 +17,16 @@
     };
     "apollo-developer-tools" = buildFirefoxXpiAddon {
       pname = "apollo-developer-tools";
-      version = "4.21.8";
+      version = "4.23.2";
       addonId = "{a5260852-8d08-4979-8116-38f1129dfd22}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4588980/apollo_developer_tools-4.21.8.xpi";
-      sha256 = "325beb1d20aa9f020038d446b0b5921e066d021f9164f0d442d7e03312eb4608";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4646125/apollo_developer_tools-4.23.2.xpi";
+      sha256 = "e38ddc30d82a26d14f62b438bb2ec6e3a1e5602103f26c6cb521de1c6eb3ccc0";
       meta = with lib;
       {
         homepage = "https://www.apollographql.com";
         description = "GraphQL debugging tools for Apollo Client.";
         license = licenses.mit;
-        mozPermissions = [ "devtools" "<all_urls>" ];
+        mozPermissions = [ "storage" "devtools" "<all_urls>" ];
         platforms = platforms.all;
       };
     };
@@ -183,10 +183,10 @@
     };
     "libraryextension" = buildFirefoxXpiAddon {
       pname = "libraryextension";
-      version = "2025.1005.1";
+      version = "2025.1231.1";
       addonId = "firefox@libraryextension.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4591627/libraryextension-2025.1005.1.xpi";
-      sha256 = "92c6ec2962548a36d40ba62567dd8e96bf36c3790d394992cb84d83adec07ad7";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4654737/libraryextension-2025.1231.1.xpi";
+      sha256 = "670039fc5300e4002f9b836e8de4fad1787b65f4041f543947feac319d2021e2";
       meta = with lib;
       {
         homepage = "https://www.libraryextension.com/";
@@ -218,10 +218,10 @@
     };
     "okta-browser-plugin" = buildFirefoxXpiAddon {
       pname = "okta-browser-plugin";
-      version = "6.44.0";
+      version = "6.45.0";
       addonId = "plugin@okta.com";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4583741/okta_browser_plugin-6.44.0.xpi";
-      sha256 = "fb88e080f94f0b5e9f8b823a1769a6b1a5c52e9450e05985fcc5951da85a4439";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4619979/okta_browser_plugin-6.45.0.xpi";
+      sha256 = "cc5749bbe1333e45428bb786fdd0581ec4d757b45e97e1befb78bf2515208ed6";
       meta = with lib;
       {
         homepage = "https://www.okta.com";
@@ -336,10 +336,10 @@
     };
     "rss-reader-extension-inoreader" = buildFirefoxXpiAddon {
       pname = "rss-reader-extension-inoreader";
-      version = "6.0.6";
+      version = "6.0.9";
       addonId = "inodhwnfgtr463428675drebcs@jetpack";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4512762/rss_reader_extension_inoreader-6.0.6.xpi";
-      sha256 = "95525bbdfae3bb3a24477c90b37030ccd568c3a078aee37f7d97fc412f4bd3bd";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4603252/rss_reader_extension_inoreader-6.0.9.xpi";
+      sha256 = "dfb14fbacfa63dc1535df1e67c8781e1f0d77068a2bcbb51d2999dab5f6e13ca";
       meta = with lib;
       {
         homepage = "https://www.inoreader.com";
@@ -355,12 +355,35 @@
         platforms = platforms.all;
       };
     };
+    "winger" = buildFirefoxXpiAddon {
+      pname = "winger";
+      version = "2.11.1";
+      addonId = "winman@lionelw";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4560039/winger-2.11.1.xpi";
+      sha256 = "c158166b65b5ff69934655f340e1e33a5cadd2332ef31d3353cc9b551e8d8655";
+      meta = with lib;
+      {
+        description = "Name windows, move tabs between windows, stash windows away, and more. Use multiple windows with ease, making them a truly viable way to organize lots of tabs.";
+        license = licenses.mpl20;
+        mozPermissions = [
+          "alarms"
+          "contextualIdentities"
+          "cookies"
+          "menus"
+          "sessions"
+          "storage"
+          "tabs"
+          "tabGroups"
+        ];
+        platforms = platforms.all;
+      };
+    };
     "youtube-addon" = buildFirefoxXpiAddon {
       pname = "youtube-addon";
-      version = "4.1350";
+      version = "4.1400";
       addonId = "{3c6bf0cc-3ae2-42fb-9993-0d33104fdcaf}";
-      url = "https://addons.mozilla.org/firefox/downloads/file/4583940/youtube_addon-4.1350.xpi";
-      sha256 = "4ffb4231deecf25172bc7334bc2cb8ef3c58a57a501bf3d3fe4698aae9e003af";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4636627/youtube_addon-4.1400.xpi";
+      sha256 = "f47e6df9018b7d78977b79a789a4dcdefbd6a0470f4c6c65cc4c5e50cb543543";
       meta = with lib;
       {
         homepage = "https://github.com/code4charity/YouTube-Extension/";

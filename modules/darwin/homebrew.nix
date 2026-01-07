@@ -32,12 +32,14 @@ in
       lazycontainer = mkBrewOption "lazycontainer" true;
       ca-certificates = mkBrewOption "ca-certificates" true;
       docker = mkBrewOption "docker" true;
+      # lazyworktree = mkBrewOption "lazyworktree" true;
     };
     apps = {
       # productivity
       raycast = mkCaskOption "Raycast" true;
       notchnook = mkCaskOption "NotchNook" true;
       protonvpn = mkCaskOption "ProtonVPN" true;
+      hammerspoon = mkCaskOption "Hammerspoon" false;
 
       obsidian = mkCaskOption "obsidian" false;
       notion = mkCaskOption "Notion" false;
@@ -97,7 +99,6 @@ in
       deezer = mkCaskOption "Deezer" false;
       transmission = mkCaskOption "Transmission" false;
       lastfm = mkCaskOption "LastFM" false;
-
     };
   };
   config = {
@@ -105,6 +106,13 @@ in
       enable = enabled;
       casks = casks;
       brews = brews;
+      taps = [
+        # {
+        #   name = "chmouel/lazyworktree";
+        #   clone_target = "https://github.com/chmouel/lazyworktree";
+        #   force_auto_update = true;
+        # }
+      ];
       onActivation = {
         upgrade = true;
         autoUpdate = true;

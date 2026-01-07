@@ -93,7 +93,6 @@ in
       just
       ffmpeg
 
-      lapce
       chafa
 
       cobiscripts.docker_pog_scripts

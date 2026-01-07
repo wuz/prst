@@ -1,4 +1,9 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
 let
   cobihax = inputs.jacobi.packages.${pkgs.system}.hax;
   shellAliases = {
@@ -40,6 +45,7 @@ in
     enable = true;
     enableCompletion = true;
     shellAliases = shellAliases;
+    dotDir = "${config.xdg.configHome}/zsh";
     zplug = {
       enable = true;
       plugins = [
