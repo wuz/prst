@@ -661,11 +661,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767792169,
-        "narHash": "sha256-WSAu+ZxF697u/OJDdBLO+YFhtqFsPowrXXOQbjDT/uA=",
+        "lastModified": 1767802041,
+        "narHash": "sha256-ZhgbFGQGeJaZ/xkwyHlgUCeHuIdEDqugYkObPL0NCyo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "aea57993a89bfc2a66c0434e0f4383ebf164e2a3",
+        "rev": "bdaa3743831168787f528570f2b87963e72a2f23",
         "type": "github"
       },
       "original": {
@@ -874,7 +874,7 @@
     "liminix": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-mTiKJBUVyuDcZ6qmk64gA+96BUD5TgPPhAIh5WyQYN0=",
+        "narHash": "sha256-hVYoV8a5/Jn+O/jt1+yZ3hiveCjE1nYOAd9/zNr9jT8=",
         "type": "file",
         "url": "https://gti.telent.net/dan/liminix"
       },
@@ -1484,11 +1484,11 @@
         "nixpkgs": "nixpkgs_14"
       },
       "locked": {
-        "lastModified": 1767795797,
-        "narHash": "sha256-42uL9nyHeYRenmJZRMQeOgOvrgityjUBWbU00J4zkM0=",
+        "lastModified": 1767799844,
+        "narHash": "sha256-n0uTDvXGRPXi2oHxnb/Cfm87biebQ1i5hYlbQBoflRA=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "69678dba7e0ec92d9f13e5904d499efc7b3f641c",
+        "rev": "ac8ce1206965fa8b5fc57ef3526c5fb3584ff720",
         "type": "github"
       },
       "original": {
@@ -1506,11 +1506,11 @@
       },
       "locked": {
         "dir": "pkgs-wuz",
-        "lastModified": 1764863137,
-        "narHash": "sha256-xFvdjiP84KEEb3Gp25q8HdyFEadrxhO6brArsOEsajI=",
+        "lastModified": 1767802221,
+        "narHash": "sha256-8ibMyMOmv6VuS4wlgXMTFZiFfN3ZHvKATMbir86jLFY=",
         "owner": "wuz",
         "repo": "prst",
-        "rev": "d96d4656facf9399b6fc6c7835de9d94be4c134e",
+        "rev": "2775a19150bbe302bca6c918af493ca23e824e36",
         "type": "github"
       },
       "original": {

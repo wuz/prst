@@ -22,30 +22,31 @@ let
   extensions =
     with pkgs.nur.repos.rycee.firefox-addons;
     [
-      # react-devtools
-      # adnauseam
-      # clearurls
-      # stylus
-      # proton-pass
-      # sponsorblock
-      # privacy-possum
-      # violentmonkey
-      # raindropio
-      # don-t-fuck-with-paste
-      # enhanced-github
-      # reddit-enhancement-suite
-      # libredirect
-      # are-na
-      # bitwarden
+      react-devtools
+      adnauseam
+      stylus
+      proton-pass
+      sponsorblock
+      privacy-possum
+      violentmonkey
+      raindropio
+      don-t-fuck-with-paste
+      enhanced-github
+      reddit-enhancement-suite
+      libredirect
+      are-na
+      bitwarden
     ]
     ++ (with pkgs.firefox-addons; [
-      # libraryextension
-      # container-script
-      # markdown-here
-      # google-lighthouse
-      # request-blocker-we
-      # openlink-structured-data-sniff
-      # remove-paywall
+      libraryextension
+      container-script
+      markdown-here
+      google-lighthouse
+      request-blocker-we
+      open-graph-previewer
+      openlink-structured-data-sniff
+      remove-paywall
+      winger
     ]);
 in
 {
