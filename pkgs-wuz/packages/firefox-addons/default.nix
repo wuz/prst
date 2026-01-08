@@ -254,6 +254,27 @@
         platforms = platforms.all;
       };
     };
+    "open-graph-previewer" = buildFirefoxXpiAddon {
+      pname = "open-graph-previewer";
+      version = "1.0.1";
+      addonId = "ruben.winant@hotmail.com";
+      url = "https://addons.mozilla.org/firefox/downloads/file/4214314/open_graph_previewer-1.0.1.xpi";
+      sha256 = "ad13a7f2880a9557f921c44615e338849d4dfe5024a20c1792fa6c694522fe00";
+      meta = with lib;
+      {
+        homepage = "https://www.rubenwinant.be";
+        description = "Preview how your website will look on social media with every Open Graph configuration, instantly.";
+        license = licenses.mit;
+        mozPermissions = [
+          "tabs"
+          "activeTab"
+          "storage"
+          "webNavigation"
+          "devtools"
+        ];
+        platforms = platforms.all;
+      };
+    };
     "openlink-structured-data-sniff" = buildFirefoxXpiAddon {
       pname = "openlink-structured-data-sniff";
       version = "3.4.27";
