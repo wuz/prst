@@ -5,4 +5,5 @@
   ./shell.nix
   ./ollama.nix
   ./audioswitcher.nix
+  ./duckypad.nix
 ]
