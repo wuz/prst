@@ -38,6 +38,7 @@ in
 
       faff
       dstp
+      flyctl
 
       claude-code
       nix-search

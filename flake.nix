@@ -16,12 +16,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pkgs-wuz = {
-      url = "github:wuz/prst/main?dir=pkgs-wuz";
-    };
-    # pkgs-wuz = {
-    #   url = "path:pkgs-wuz";
-    # };
 
     zen-browser = {
       url = "github:wuz/zen-browser-flake";
@@ -57,19 +51,20 @@
       darwin,
       home-manager,
       nur,
-      pkgs-wuz,
       jacobi,
       nixos-wsl,
       claude-code,
       ragenix,
       zen-browser,
+      pog,
       ...
     }:
     let
       inherit (darwin.lib) darwinSystem;
-      overlays = [
+      system-overlays = system: [
         nur.overlays.default
-        pkgs-wuz.overlays.default
+        pog.overlays.${system}.default
+        (import ./overlays)
         claude-code.overlays.default
         ragenix.overlays.default
       ];
@@ -97,15 +92,13 @@
         }
         ragenix.nixosModules.default
       ];
-      wslModules = [
-        { nixpkgs.overlays = overlays; }
+      wslModules = system: [
+        { nixpkgs.overlays = system-overlays system; }
         nixos-wsl.nixosModules.default
       ];
-      darwinModules = [
+      darwinModules = system: [
         {
-          nixpkgs.overlays = [
-          ]
-          ++ overlays;
+          nixpkgs.overlays = system-overlays system;
         }
         {
           home-manager.backupFileExtension = "backup";
@@ -122,13 +115,13 @@
             ./hosts/spellbook
           ]
           ++ sharedModules
-          ++ darwinModules;
+          ++ (darwinModules "aarch64-darwin");
           specialArgs = specialArgs;
         };
       };
       nixosConfigurations = {
         tower = {
-          modules = [ ./hosts/tower ] ++ sharedModules ++ wslModules;
+          modules = [ ./hosts/tower ] ++ sharedModules ++ (wslModules "x86_64-linux");
         };
 
       };

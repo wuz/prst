@@ -1,0 +1,4 @@
+.worktrees/
+result
+
+.claude/settings.local.json
