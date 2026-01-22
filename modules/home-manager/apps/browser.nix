@@ -156,11 +156,27 @@ in
           default = "kagi";
           privateDefault = "kagi";
           engines = {
-            bing.metaData.hidden = true;
-            google.metaData.hidden = true;
-            ddg.metaData.hidden = true;
-            wikipedia.metaData.hidden = true;
-            perplexity.metaData.hidden = true;
+            "bing" = {
+              metaData.hidden = true;
+            };
+            "google" = {
+              metaData.hidden = true;
+            };
+            "duckDuckGo" = {
+              metaData.hidden = true;
+            };
+            "wikipedia" = {
+              metaData.hidden = true;
+            };
+            "perplexity" = {
+              metaData.hidden = true;
+            };
+            "amazondotcom-us" = {
+              metaData.hidden = true;
+            };
+            "ebay" = {
+              metaData.hidden = true;
+            };
             kagi = {
               urls = [
                 {
@@ -240,6 +256,13 @@ in
           "zen.view.experimental-rounded-view" = true;
 
           "beacon.enabled" = false;
+
+          # Force default search engine settings
+          "browser.search.region" = "US";
+          "browser.search.isUS" = true;
+          "browser.search.update" = false;
+          "browser.search.separatePrivateDefault.ui.enabled" = false;
+          "browser.search.defaultenginename" = "kagi";
         };
       };
     };

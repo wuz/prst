@@ -4,6 +4,7 @@ final: prev: {
     ccmenu
     deskpad
     faff
+    gh-worktree
     oura
     ;
 

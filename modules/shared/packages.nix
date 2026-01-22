@@ -55,6 +55,7 @@ in
       srgn
       ast-grep
       difftastic
+      wt
 
       openssh
       openssl

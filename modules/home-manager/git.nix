@@ -34,6 +34,7 @@ in
         pkgs.gh-notify
         pkgs.gh-s
         pkgs.gh-poi
+        pkgs.gh-worktree
       ];
       settings = {
         prompt = "enabled";
@@ -42,6 +43,7 @@ in
         aliases = {
           co = "pr checkout";
           pv = "pr view";
+          prco = "!f() { gh worktree pr \"$1\" \"$(git rev-parse --show-toplevel)/.worktrees\"; }; f";
         };
       };
     };
@@ -284,57 +286,126 @@ in
           };
         };
         alias = {
-          A = "add -A";
-          cam = "commit -am";
-          ca = "commit -a";
-          cm = "commit -m";
-          ci = "commit";
-          co = "checkout";
-          st = "status";
-          br = "branch -v";
-          fix-conflict = "jump merge *";
-          unstage = "reset HEAD --";
-          find = "!sh -c 'git ls-tree -r --name-only HEAD | grep --color $1' -";
-          g = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-          sl = "stash list --pretty='format:%<(13)%C(auto)%gd %C(green)%s %C(auto)|%C(yellow) %ar'";
-          h = "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline";
-          pom = "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master' -";
-          pomt = "!sh -c 'git h && echo Ready to push? ENTER && read && git push origin master && git push origin master --tags' -";
-          purm = ''!sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && exit 0 || echo "usage: git purm <branch>" >&2 && exit 1' -'';
-          rem = ''!sh -c 'test "$#" = 1 && git h && git checkout master && git pull --ff-only && git checkout "$1" && git rebase master && git checkout master && git merge "$1" && echo Done and ready to do: git pom && exit 0 || echo "usage: git rem <branch>" >&2 && exit 1' -'';
-          rpom = "!git pull --rebase && git pom # rebase and push to origin/master";
-          new = "hack";
-          lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
-          lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
-          getr = "!git-pull-r";
-          wipe = "!git-wipe";
-          cmas = ''!f() { git commit -m "$1" --author="$2"; }; f'';
-          coco = ''!f() { git commit -m ""$1" $(for i in "''${@:2}"; do echo "Co-authored-by: $i"; done);"; }; f'';
-          rbc = "rebase --continue";
-          rba = "rebase --abort";
-          branchr = "!git-branch-r";
-          track-upstream = "!sh -c 'git branch -u origin/$(git branch --show-current)'";
-          lt = "!git describe $(git rev-list --tags --max-count=1) #list tags";
-          ri = "!f() { if [ -z $1 ]; then val=$(git --no-pager log origin/master..HEAD --pretty=oneline | wc -l); else val=$1; fi; git rebase -i HEAD~$val; }; f";
+          # Git Worktree Workflow
+
+          ## Create a new feature
+          new = ''
+            !f() { \
+                root=$(git rev-parse --show-toplevel); \
+                branch=$1; \
+                sanitized=$(echo "$branch" | tr "/" "-"); \
+                git worktree add "$root/.worktrees/$sanitized" "$branch" origin/main; \
+            }; f'';
+
+          ## Create a worktree between current branch and its parent
+          prepend = ''
+            !f() { \
+                root=$(git rev-parse --show-toplevel); \
+                current_branch=$(git branch --show-current); \
+                new_branch=$1; \
+                parent_branch=$(git config --get "git-town.parent.$current_branch" || echo "main"); \
+                sanitized=$(echo "$new_branch" | tr "/" "-"); \
+                git worktree add "$root/.worktrees/$sanitized" -b "$new_branch" "$parent_branch" && \
+                git config "git-town.parent.$current_branch" "$new_branch" && \
+                git config "git-town.parent.$new_branch" "$parent_branch"; \
+            }; f'';
+
+          ## Create a worktree as a child of current branch
+          append = ''
+            !f() { \
+                root=$(git rev-parse --show-toplevel); \
+                current_branch=$(git branch --show-current); \
+                new_branch=$1; \
+                sanitized=$(echo "$new_branch" | tr "/" "-"); \
+                git worktree add "$root/.worktrees/$sanitized" -b "$new_branch" "$current_branch" && \
+                git config "git-town.parent.$new_branch" "$current_branch"; \
+            }; f'';
+
+          ## Find and output the path to the worktree for a given branch
+          ## Usage: cd $(git wtcd <branch-name>)
+          wtcd = ''
+            !f() { \
+                branch=$1; \
+                git worktree list --porcelain | awk -v branch="$branch" ' \
+                    /^worktree/ { path=$2 } \
+                    /^branch/ { if ($2 == "refs/heads/" branch) { print path; exit } } \
+                '; \
+            }; f'';
+
+          ## Move current branch to a new worktree and reset main worktree to main
+          ## Usage: git move-to-worktree
+          move-to-worktree = ''
+            !f() { \
+                root=$(git rev-parse --show-toplevel); \
+                current_branch=$(git branch --show-current); \
+                if [ "$current_branch" = "main" ] || [ "$current_branch" = "master" ]; then \
+                    echo "Already on main/master branch, nothing to move"; \
+                    exit 1; \
+                fi; \
+                sanitized=$(echo "$current_branch" | tr "/" "-"); \
+                worktree_path="$root/.worktrees/$sanitized"; \
+                if [ -d "$worktree_path" ]; then \
+                    echo "Worktree already exists at $worktree_path"; \
+                    exit 1; \
+                fi; \
+                echo "Switching main worktree to main branch" && \
+                git checkout main && \
+                echo "Creating worktree for $current_branch at $worktree_path" && \
+                git worktree add "$worktree_path" "$current_branch"; \
+            }; f'';
+
+          wt = "worktree";
+
           qc = "!git commit -a -m '____QUICK COMMIT - REMOVE WITH REBASE'";
+          st = "status";
+          co = "checkout";
+          fco = ''!f() { git branch -a -vv --color=always --format='%(refname)' | sed "s_refs/heads/__" | sed "s_refs/remotes/__" | fzf --query="$@" --height=40% --ansi --tac --color=16 --border | awk '{print $1}' | xargs git co; }; f'';
+          got = "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git checkout $2 && git pull origin $1 --ff-only && git checkout $CURRENT_BRANCH;  }; f";
+          get = "!git pull --ff-only";
+
           branch-name = "!git rev-parse --abbrev-ref HEAD";
+
           put = "!git push origin $(git branch-name)";
           pufl = "!git push origin $(git branch-name) --force-with-lease";
-          get = "!git pull --ff-only";
-          got = "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git checkout $2 && git pull origin $1 --ff-only && git checkout $CURRENT_BRANCH;  }; f";
+
+          br = "branch -v";
+
+          fix-conflict = "jump merge *";
+
+          ri = "!f() { if [ -z $1 ]; then val=$(git --no-pager log origin/master..HEAD --pretty=oneline | wc -l); else val=$1; fi; git rebase -i HEAD~$val; }; f";
+          rbc = "rebase --continue";
+          rba = "rebase --abort";
+
+          sl = "stash list --pretty='format:%<(13)%C(auto)%gd %C(green)%s %C(auto)|%C(yellow) %ar'";
+
+          lol = "log --graph --decorate --pretty=oneline --abbrev-commit";
+          lola = "log --graph --decorate --pretty=oneline --abbrev-commit --all";
+          h = "!git --no-pager log origin/master..HEAD --abbrev-commit --pretty=oneline";
           who = "shortlog -n -s --no-merges";
+
+          unstage = "reset HEAD --";
+
           cleanup = "!git remote prune origin && git branch -vv | grep ': gone]' | cut -d ' ' -f 3 | xargs -n 1 git branch -D";
-          fco = ''!f() { git branch -a -vv --color=always --format='%(refname)' | sed "s_refs/heads/__" | sed "s_refs/remotes/__" | fzf --query="$@" --height=40% --ansi --tac --color=16 --border | awk '{print $1}' | xargs git co; }; f'';
+
+          g = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+
+          track-upstream = "!sh -c 'git branch -u origin/$(git branch --show-current)'";
+          lt = "!git describe $(git rev-list --tags --max-count=1) #list tags";
+
           lb = "!git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37      m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'";
-          append = "town append";
+
+          cm = "commit -m";
+          cmas = ''!f() { git commit -m "$1" --author="$2"; }; f'';
+          coco = ''!f() { git commit -m ""$1" $(for i in "''${@:2}"; do echo "Co-authored-by: $i"; done);"; }; f'';
+
+          # append = "town append";
+          # prepend = "town prepend";
           compress = "town compress";
-          contribute = "town contribute";
           diff-parent = "town diff-parent";
           hack = "town hack";
           delete = "town delete";
           observe = "town observe";
           park = "town park";
-          prepend = "town prepend";
           propose = "town propose";
           rename = "town rename";
           repo = "town repo";
