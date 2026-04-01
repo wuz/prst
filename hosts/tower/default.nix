@@ -2,29 +2,27 @@
   pkgs,
   user,
   inputs,
+  system-overlays,
   ...
 }:
 let
-  uid = 502;
+  uid = 1000;
 in
 {
   wsl.enable = true;
-  ids.gids.nixbld = 350;
-  imports = [
-  ]
-  ++ (import ../../modules/shared);
-  services.nix-daemon.enable = true;
+  imports = [ ] ++ (import ../../modules/shared);
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
-  system.stateVersion = 5;
-  users.knownUsers = [ user.username ];
+  system.stateVersion = "24.11";
   users.users.${user.username} = {
-    name = user.username;
+    isNormalUser = true;
     description = user.name;
-    home = "/Users/${user.username}";
+    home = "/home/${user.username}";
     shell = pkgs.${user.shell};
     uid = uid;
+    extraGroups = [ "wheel" ];
   };
   nixpkgs = {
+    overlays = system-overlays "x86_64-linux";
     config = {
       allowUnfree = true;
       allowBroken = true;
@@ -33,28 +31,25 @@ in
   environment.systemPackages = with pkgs; [
     bash-completion
     bashInteractive
-    blesh
     gcc
     curl
     gnugrep
     gnupg
     gnused
     gawk
-    msgpack
+    msgpack-c
     libiconvReal
     coreutils-full
     findutils
     diffutils
     moreutils
     libuv
-    gnupg
     zsh
 
     shellcheck
     shellharden
     shfmt
     go
-    ccmenu
   ];
 
   environment.pathsToLink = [
@@ -63,9 +58,6 @@ in
   ];
 
   programs.nix-index.enable = true;
-
-  system = {
-  };
 
   documentation.enable = false;
 }

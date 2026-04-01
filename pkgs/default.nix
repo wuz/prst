@@ -9,6 +9,6 @@ in
   deskpad = callPackage ./deskpad.nix { };
   faff = callPackage ./faff.nix { };
   gh-worktree = callPackage ./gh-worktree.nix { };
-  oura = callPackage ./oura.nix { };
-  wt = callPackage ./wt.nix { };
+  llm-tldr = callPackage ./llm-tldr.nix { };
+  zerobrew = callPackage ./zerobrew.nix { };
 }

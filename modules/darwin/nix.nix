@@ -5,8 +5,6 @@
   config,
   ...
 }:
-let
-in
 {
   nix.extraOptions = ''
     !include ${config.age.secrets.github-access-token.path}
@@ -28,12 +26,8 @@ in
       "apple-virt"
     ];
     substituters = [
-      # "https://wuz.cachix.org"
-      # "https://jacobi.cachix.org"
-      # "https://whatnot-inc.cachix.org"
       "https://rycee.cachix.org"
       "https://cachix.cachix.org"
-      # "https://nixpkgs.cachix.org"
       "https://nix-community.cachix.org"
     ];
     trusted-public-keys = [
@@ -47,6 +41,19 @@ in
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
+  # Automatically collect garbage weekly, keeping the last 30 days of generations
+  nix.gc = {
+    automatic = true;
+    interval = {
+      Weekday = 0; # Sunday
+      Hour = 2;
+      Minute = 0;
+    };
+    options = "--delete-older-than 30d";
+  };
+  # NOTE: auto-optimise-store is intentionally disabled due to
+  # https://github.com/NixOS/nix/issues/7273 — run `nix store optimise` manually.
+  nix.settings.auto-optimise-store = false;
   nix.linux-builder = {
     enable = false;
   };

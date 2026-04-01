@@ -26,13 +26,15 @@ in
 {
   options.homebrew = {
     tools = {
+      # ca-certificates: provided by nix's openssl/curl
+      # uv: use pkgs.uv instead
       bandcamp-dl = mkBrewOption "bandcamp-dl" true;
       ghalint = mkBrewOption "ghalint" true;
       jiratui = mkBrewOption "jiratui" true;
-      lazycontainer = mkBrewOption "lazycontainer" true;
-      ca-certificates = mkBrewOption "ca-certificates" true;
       docker = mkBrewOption "docker" true;
-      # lazyworktree = mkBrewOption "lazyworktree" true;
+      mole = mkBrewOption "mole" true;
+      worktrunk = mkBrewOption "worktrunk" true;
+      weave = mkBrewOption "weave" true;
     };
     apps = {
       # productivity
@@ -40,26 +42,34 @@ in
       notchnook = mkCaskOption "NotchNook" true;
       protonvpn = mkCaskOption "ProtonVPN" true;
       hammerspoon = mkCaskOption "Hammerspoon" false;
+      finetune = mkCaskOption "FineTune" true;
+      lm-studio = mkCaskOption "LMStudio" false;
+      # thaw = mkCaskOption "Thaw" true;
+      petrichor = mkCaskOption "Petrichor" true;
+      meta = mkCaskOption "Meta" true;
 
       obsidian = mkCaskOption "obsidian" false;
       notion = mkCaskOption "Notion" false;
       notion-calendar = mkCaskOption "Notion Calendar" false;
       notion-mail = mkCaskOption "Notion Mail" false;
-      notion-enhanced = mkCaskOption "Notion Enhanced" false;
       moves = mkCaskOption "Moves" false;
+      sky = mkCaskOption "Sky.app" true;
 
       # utility
       appcleaner = mkCaskOption "appcleaner" true;
       elgato-control-center = mkCaskOption "Elgato Control Center" true;
       elgato-stream-deck = mkCaskOption "Elgato Stream Deck" true;
       elgato-wave-link = mkCaskOption "Elgato Wave Link" true;
+      lolgato = mkCaskOption "Lolgato" true;
+      appvolume = mkCaskOption "AppVolume" false;
       fruit-screensaver = mkCaskOption "Fruit" true;
       little-snitch = mkCaskOption "little-snitch" true;
       micro-snitch = mkCaskOption "micro-snitch" true;
-      jordanbaird-ice = mkCaskOption "Ice" true;
+      # jordanbaird-ice = mkCaskOption "Ice" true;
 
-      container = mkCaskOption "container" false;
-      crystalfetch = mkCaskOption "crystfetch" false;
+      # lazyworktree = mkCaskOption "lazyworktree" true;
+
+      crystalfetch = mkCaskOption "crystalfetch" false;
       keybase = mkCaskOption "keybase" false;
       betterdisplay = mkCaskOption "betterdisplay" false;
       muzzle = mkCaskOption "muzzle" false;
@@ -76,9 +86,6 @@ in
       docker-desktop = mkCaskOption "Docker Desktop" false;
 
       # design
-      affinity-designer = mkCaskOption "Affinity Designer" false;
-      affinity-photo = mkCaskOption "Affinity Photo" false;
-      affinity-publisher = mkCaskOption "Affinity Publisher" false;
       figma = mkCaskOption "Gigma" false;
       brilliant = mkCaskOption "Brilliant" false;
       inkscape = mkCaskOption "Inkscape" false;
@@ -93,12 +100,11 @@ in
       zen = mkCaskOption "Zen" false;
       "zen@twilight" = mkCaskOption "Zen Twilight" false;
 
-      orion = mkCaskOption "Orion" false;
+      orion = mkCaskOption "Orion" true;
       raindropio = mkCaskOption "Raindrop.io" false;
       spotify = mkCaskOption "Spotify" false;
       deezer = mkCaskOption "Deezer" false;
       transmission = mkCaskOption "Transmission" false;
-      lastfm = mkCaskOption "LastFM" false;
     };
   };
   config = {
@@ -106,12 +112,13 @@ in
       enable = enabled;
       casks = casks;
       brews = brews;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
       taps = [
-        # {
-        #   name = "chmouel/lazyworktree";
-        #   clone_target = "https://github.com/chmouel/lazyworktree";
-        #   force_auto_update = true;
-        # }
+        {
+          name = "chmouel/lazyworktree";
+          clone_target = "https://github.com/chmouel/lazyworktree";
+        }
       ];
       onActivation = {
         upgrade = true;

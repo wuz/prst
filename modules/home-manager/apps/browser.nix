@@ -6,19 +6,15 @@
   config,
   ...
 }:
+with lib;
 let
-  fx-autoconfig = pkgs.fetchFromGitHub {
-    owner = "MrOtherGuy";
-    repo = "fx-autoconfig";
-    rev = "master";
-    sha256 = "sha256-ibtYuRv21s4T+PbV0o3jRAuG/6mlaLzwWhkEivL1sho=";
-  };
-  sine = pkgs.fetchFromGitHub {
-    owner = "CosmoCreeper";
-    repo = "Sine";
-    rev = "main";
-    sha256 = "sha256-a6ZDi0YIuccXC7yZr93wq94vj/aeOyUZ+4aKn6U/q1Q=";
-  };
+  cfg_orig = config.programs.zen-browser;
+  cfg = config.zen;
+  zen-package = (
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.twilight-unwrapped.override {
+      policies = cfg_orig.policies;
+    }
+  );
   extensions =
     with pkgs.nur.repos.rycee.firefox-addons;
     [
@@ -50,48 +46,63 @@ let
     ]);
 in
 {
-  options.browser = lib.mkEnableOption "browser";
-  config = {
+  options.zen = {
+    enable = mkEnableOption "Enable zen-browser with declarative customization";
+  };
+  config = mkIf cfg.enable {
     home.sessionVariables = {
       MOZ_LEGACY_PROFILES = 1;
       MOZ_ALLOW_DOWNGRADE = 1;
     };
-    # home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome" = {
-    #   recursive = true;
-    #   enable = true;
-    #   force = true;
-    #   source = "${fx-autoconfig}/profile/chrome";
-    # };
-    # home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/sine.us.mjs" = {
-    #   enable = true;
-    #   force = true;
-    #   source = "${sine}/sine.us.mjs";
-    # };
-    # home.file."Library/Application\ Support/Zen/Profiles/wuz/chrome/JS/engine" = {
-    #   recursive = true;
-    #   enable = true;
-    #   force = true;
-    #   source = "${sine}/engine";
-    # };
     programs.zen-browser = {
+      darwinDefaultsId = "app.zen-browser.zen";
       enable = true;
-      package = inputs.zen-browser.packages."${pkgs.system}".twilight;
-      extraPrefsFiles = [
-        (builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/MrOtherGuy/fx-autoconfig/master/program/config.js";
-          sha256 = "sha256-gNxCEmSj6gQnXhckt7VyNPiSVOlYKmwX6akRtlw6ptc=";
-        })
-      ];
+      package = (pkgs.wrapFirefox zen-package { icon = "zen"; }).override {
+        extraPrefs = cfg_orig.extraPrefs;
+        extraPrefsFiles = cfg_orig.extraPrefsFiles;
+        nativeMessagingHosts = cfg_orig.nativeMessagingHosts;
+      };
       policies = {
+        # Disable auto update
+        AppAutoUpdate = false;
+        DisableAppUpdate = true;
+        ManualAppUpdateOnly = true;
+        BackgroundAppUpdate = false;
+
+        # Allow configuration
+
+        # Disable Firefox defaults
         DisableFirefoxStudies = true;
         DisablePocket = true;
         DisableTelemetry = true;
+        DisableFirefoxScreenshots = true;
+
         DontCheckDefaultBrowser = true;
+
         HardwareAcceleration = true;
-        AppAutoUpdate = false;
-        DisableAppUpdate = true;
+        AutofillAddressEnabled = false;
+        AutofillCreditCardEnabled = false;
+        OfferToSaveLogins = false;
+
+        UserMessaging = {
+          ExtensionRecommendations = false;
+          SkipOnboarding = true;
+        };
+
+        # Protection
+        # EnableTrackingProtection = {
+        #   Value = true;
+        #   Locked = true;
+        #   Cryptomining = true;
+        #   Fingerprinting = true;
+        #   EmailTracking = true;
+        #   Exceptions = [ "https://bsky.social" ];
+        # };
+
+        # Extensions
+        ExtensionUpdate = true;
         ExtensionSettings = builtins.listToAttrs (
-          builtins.map (
+          map (
             e:
             lib.nameValuePair e.addonId {
               install_url = "file://${e.src}";
@@ -244,16 +255,14 @@ in
           "svg.context-properties.content.enabled" = true;
           "extensions.autoDisableScopes" = 0;
           "zen.sidebar.enabled" = true;
-          "zen.urlbar.behavior" = "floating-on-type";
+          "zen.urlbar.behavior" = "float";
           "zen.workspaces.container-specific-essentials-enabled" = true;
           "zen.workspaces.show-workspace-indicator" = true;
           "zen.workspaces.continue-where-left-off" = true;
           "zen.workspaces.natural-scroll" = true;
           "zen.view.compact.hide-tabbar" = true;
           "zen.view.compact.hide-toolbar" = true;
-          "zen.view.compact.animate-sidebar" = false;
           "zen.welcome-screen.seen" = true;
-          "zen.view.experimental-rounded-view" = true;
 
           "beacon.enabled" = false;
 

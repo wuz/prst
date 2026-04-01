@@ -15,6 +15,6 @@ in
       comma
       nixd
       cachix
-      nixfmt-rfc-style
+      nixfmt
     ];
 }

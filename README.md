@@ -20,14 +20,12 @@ Host machines, by name.
 Modules for Nix configurations
 
 - `home-manager/` - all the modules that are managed by home-manager
-- `darwin/` - all the modules that require special configuration for Nix Darwin
-- `nixos/` - all the modules that require special configuration for NixOS
+- `darwin/` - all the modules that require special configuration for nix-darwin
 - `shared/` - all the modules that are shared between configurations
 
-## `pkgs-wuz/`
+## `pkgs/`
 
-Overlay for specific packages I use. In need of heavily modification, going to
-be migrating to [`pog`](https://pog.gemologic.dev/) soon for scripts.
+Custom package derivations and overlay. Scripts use [`pog`](https://pog.gemologic.dev/).
 
 ## installing on Darwin
 

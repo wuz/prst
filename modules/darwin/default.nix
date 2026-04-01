@@ -1,6 +1,7 @@
 [
   ./homebrew.nix
   ./nix.nix
+  ./system.nix
   ./browser.nix
   ./shell.nix
   ./ollama.nix

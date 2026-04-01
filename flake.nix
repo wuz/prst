@@ -1,6 +1,7 @@
 {
   description = "prst - wuz's configurator";
   inputs = {
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     ragenix.url = "github:yaxitech/ragenix";
@@ -17,10 +18,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    direnv-instant.url = "github:Mic92/direnv-instant";
+
     zen-browser = {
-      url = "github:wuz/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     claude-code.url = "github:sadjow/claude-code-nix";
     jacobi = {
@@ -55,8 +66,8 @@
       nixos-wsl,
       claude-code,
       ragenix,
-      zen-browser,
       pog,
+      nix-homebrew,
       ...
     }:
     let
@@ -80,6 +91,7 @@
           user
           inputs
           jacobi
+          system-overlays
           ;
       };
       sharedModules = [
@@ -92,19 +104,15 @@
         }
         ragenix.nixosModules.default
       ];
-      wslModules = system: [
-        { nixpkgs.overlays = system-overlays system; }
+      wslModules = [
         nixos-wsl.nixosModules.default
       ];
-      darwinModules = system: [
+      darwinModules = [
         {
-          nixpkgs.overlays = system-overlays system;
-        }
-        {
-          home-manager.backupFileExtension = "backup";
           home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
         }
         home-manager.darwinModules.home-manager
+        nix-homebrew.darwinModules.nix-homebrew
       ];
     in
     {
@@ -115,15 +123,16 @@
             ./hosts/spellbook
           ]
           ++ sharedModules
-          ++ (darwinModules "aarch64-darwin");
+          ++ darwinModules;
           specialArgs = specialArgs;
         };
       };
       nixosConfigurations = {
-        tower = {
-          modules = [ ./hosts/tower ] ++ sharedModules ++ (wslModules "x86_64-linux");
+        tower = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./hosts/tower ] ++ sharedModules ++ wslModules;
+          specialArgs = specialArgs;
         };
-
       };
       darwinPackages = self.darwinConfigurations."spellbook".pkgs;
     };

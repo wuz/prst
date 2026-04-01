@@ -1,6 +1,7 @@
-{ lib, ... }: {
-  options.optout = lib.mkEnableOption "optout";
-  config = {
+{ lib, config, ... }:
+{
+  options.optout.enable = lib.mkEnableOption "optout";
+  config = lib.mkIf config.optout.enable {
     home.sessionVariables = {
       ET_NO_TELEMETRY = "ANY_VALUE";
       HOMEBREW_NO_ANALYTICS = "1";

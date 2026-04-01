@@ -6,14 +6,13 @@
 }:
 {
   imports = [
-    inputs.nur.modules.homeManager.default
-    # inputs.pkgs-wuz.darwinModules.hm-zen-browser
     inputs.zen-browser.homeModules.beta
+    inputs.direnv-instant.homeModules.direnv-instant
     ../../modules/home-manager
   ];
   home.sessionVariables = {
     USER = user.username;
-    PATH = "/opt/homebrew/bin:/etc/profiles/per-user/conlin.durbin/bin:$HOME/.local/bin:$PATH";
+    PATH = "/opt/homebrew/bin:/etc/profiles/per-user/${user.username}/bin:$HOME/.local/bin:$PATH";
   };
   programs.ssh = {
     enableDefaultConfig = false;
@@ -52,7 +51,7 @@
       HardwareAcceleration = true;
     };
   };
-  browser.enable = true;
+  zen.enable = true;
   direnv.enable = true;
   zoxide.enable = true;
   mcfly.enable = true;

@@ -1,7 +1,12 @@
-{ pkgs, lib, ... }:
 {
-  options.bat = lib.mkEnableOption "bat";
-  config = {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
+  options.bat.enable = lib.mkEnableOption "bat";
+  config = lib.mkIf config.bat.enable {
     home.shellAliases = {
       cat = "bat";
     };

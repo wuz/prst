@@ -1,11 +1,26 @@
 final: prev: {
+  # Override direnv to avoid -linkmode=external on Darwin without CGo
+  # The GNUMakefile unconditionally adds -linkmode=external on Darwin; bypass it
+  # by using go build directly. Remove once nixpkgs binary cache has the fix.
+  direnv = prev.direnv.overrideAttrs (old: {
+    buildPhase = ''
+      go build -ldflags "-X main.bashPath=${prev.bash}/bin/bash" -o direnv
+    '';
+    installPhase = ''
+      mkdir -p $out/bin
+      cp direnv $out/bin/
+      make install-doc PREFIX=$out 2>/dev/null || true
+    '';
+  });
+
   # Custom packages
   inherit (final.callPackage ../pkgs { })
     ccmenu
     deskpad
     faff
     gh-worktree
-    oura
+    llm-tldr
+    zerobrew
     ;
 
   # Firefox addons

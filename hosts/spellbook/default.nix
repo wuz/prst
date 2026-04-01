@@ -2,6 +2,7 @@
   pkgs,
   user,
   inputs,
+  system-overlays,
   ...
 }:
 let
@@ -26,7 +27,15 @@ in
     };
   };
 
+  nix-homebrew = {
+    enable = false;
+    enableRosetta = true;
+    user = user.username;
+    autoMigrate = true;
+  };
+
   nixpkgs = {
+    overlays = system-overlays "aarch64-darwin";
     config = {
       allowUnfree = true;
       allowBroken = true;
@@ -40,60 +49,14 @@ in
     "/share/zsh"
   ];
 
+  programs.nix-index.enable = true;
+
   system = {
     primaryUser = user.username;
-    defaults = {
-      CustomSystemPreferences = {
-        "com.apple.finder" = {
-          ShowExternalHardDrivesOnDesktop = true;
-          ShowHardDrivesOnDesktop = true;
-          ShowMountedServersOnDesktop = true;
-          ShowRemovableMediaOnDesktop = true;
-          _FXSortFoldersFirst = true;
-          # When performing a search, search the current folder by default
-          FXDefaultSearchScope = "SCcf";
-        };
-        "com.apple.desktopservices" = {
-          # Avoid creating .DS_Store files on network or USB volumes
-          DSDontWriteNetworkStores = true;
-          DSDontWriteUSBStores = true;
-        };
-      };
-      NSGlobalDomain = {
-        AppleKeyboardUIMode = 3;
-        ApplePressAndHoldEnabled = false;
-        InitialKeyRepeat = 10;
-        KeyRepeat = 1;
-        NSAutomaticCapitalizationEnabled = false;
-        NSAutomaticDashSubstitutionEnabled = false;
-        NSAutomaticPeriodSubstitutionEnabled = false;
-        NSAutomaticQuoteSubstitutionEnabled = false;
-        NSAutomaticSpellingCorrectionEnabled = false;
-        NSNavPanelExpandedStateForSaveMode = true;
-        NSNavPanelExpandedStateForSaveMode2 = true;
-        _HIHideMenuBar = false;
-      };
-      screencapture = {
-        location = "/tmp";
-        type = "png";
-      };
-      dock = {
-        autohide = true;
-        mru-spaces = false;
-        orientation = "bottom";
-        showhidden = true;
-      };
-      finder = {
-        AppleShowAllExtensions = true;
-        QuitMenuItem = true;
-        FXEnableExtensionChangeWarning = false;
-      };
-
-      trackpad = {
-        Clicking = true;
-        TrackpadThreeFingerDrag = true;
-      };
-    };
+    activationScripts.extraActivation.text = ''
+      # Reload macOS settings without requiring logout/login
+      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    '';
   };
 
   security.pam.services.sudo_local = {
@@ -111,12 +74,12 @@ in
       fruit-screensaver = true;
       raycast = true;
       notchnook = true;
+      lm-studio = true;
       obsidian = true;
       notion = true;
       notion-calendar = true;
       notion-mail = true;
-      notion-enhanced = true;
-      container = true;
+      # container = true;
 
       crystalfetch = true;
       keybase = true;
@@ -126,10 +89,7 @@ in
       peninsula = true;
       music-presence = true;
       utm = true;
-      docker-desktop = true;
-      affinity-designer = true;
-      affinity-photo = true;
-      affinity-publisher = true;
+      docker-desktop = false;
       figma = true;
       brilliant = true;
       slack = true;
@@ -142,8 +102,6 @@ in
 
       raindropio = true;
       spotify = true;
-      deezer = true;
-      lastfm = true;
     };
   };
 }

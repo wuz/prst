@@ -239,6 +239,9 @@ in
         ];
       };
     };
+    programs.git.attributes = [
+      "* merge=mergiraf"
+    ];
     programs.difftastic.git = {
       enable = true;
       diffToolMode = true;
@@ -252,6 +255,7 @@ in
       signing = {
         key = config.git.user.key;
         signByDefault = signingEnabled;
+        format = "openpgp";
       };
       ignores = [ ".DS_Store" ];
       settings = {
@@ -267,6 +271,7 @@ in
         core = {
           editor = "nvim";
         };
+        diff.tool = "nvimdiff";
         git-town = {
           sync-feature-strategy = "rebase";
           sync-perennial-strategy = "rebase";
@@ -276,86 +281,13 @@ in
           gpgsign = true;
         };
         merge = {
-          tool = "nvimdiff";
           conflictStyle = "diff3";
-        };
-        mergetool = {
-          nvimdiff = {
-            cmd = "nvim +DiffviewOpen";
-            layout = "LOCAL,BASE@,REMOTE";
+          mergiraf = {
+            name = "mergiraf";
+            driver = "mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L";
           };
         };
         alias = {
-          # Git Worktree Workflow
-
-          ## Create a new feature
-          new = ''
-            !f() { \
-                root=$(git rev-parse --show-toplevel); \
-                branch=$1; \
-                sanitized=$(echo "$branch" | tr "/" "-"); \
-                git worktree add "$root/.worktrees/$sanitized" "$branch" origin/main; \
-            }; f'';
-
-          ## Create a worktree between current branch and its parent
-          prepend = ''
-            !f() { \
-                root=$(git rev-parse --show-toplevel); \
-                current_branch=$(git branch --show-current); \
-                new_branch=$1; \
-                parent_branch=$(git config --get "git-town.parent.$current_branch" || echo "main"); \
-                sanitized=$(echo "$new_branch" | tr "/" "-"); \
-                git worktree add "$root/.worktrees/$sanitized" -b "$new_branch" "$parent_branch" && \
-                git config "git-town.parent.$current_branch" "$new_branch" && \
-                git config "git-town.parent.$new_branch" "$parent_branch"; \
-            }; f'';
-
-          ## Create a worktree as a child of current branch
-          append = ''
-            !f() { \
-                root=$(git rev-parse --show-toplevel); \
-                current_branch=$(git branch --show-current); \
-                new_branch=$1; \
-                sanitized=$(echo "$new_branch" | tr "/" "-"); \
-                git worktree add "$root/.worktrees/$sanitized" -b "$new_branch" "$current_branch" && \
-                git config "git-town.parent.$new_branch" "$current_branch"; \
-            }; f'';
-
-          ## Find and output the path to the worktree for a given branch
-          ## Usage: cd $(git wtcd <branch-name>)
-          wtcd = ''
-            !f() { \
-                branch=$1; \
-                git worktree list --porcelain | awk -v branch="$branch" ' \
-                    /^worktree/ { path=$2 } \
-                    /^branch/ { if ($2 == "refs/heads/" branch) { print path; exit } } \
-                '; \
-            }; f'';
-
-          ## Move current branch to a new worktree and reset main worktree to main
-          ## Usage: git move-to-worktree
-          move-to-worktree = ''
-            !f() { \
-                root=$(git rev-parse --show-toplevel); \
-                current_branch=$(git branch --show-current); \
-                if [ "$current_branch" = "main" ] || [ "$current_branch" = "master" ]; then \
-                    echo "Already on main/master branch, nothing to move"; \
-                    exit 1; \
-                fi; \
-                sanitized=$(echo "$current_branch" | tr "/" "-"); \
-                worktree_path="$root/.worktrees/$sanitized"; \
-                if [ -d "$worktree_path" ]; then \
-                    echo "Worktree already exists at $worktree_path"; \
-                    exit 1; \
-                fi; \
-                echo "Switching main worktree to main branch" && \
-                git checkout main && \
-                echo "Creating worktree for $current_branch at $worktree_path" && \
-                git worktree add "$worktree_path" "$current_branch"; \
-            }; f'';
-
-          wt = "worktree";
-
           qc = "!git commit -a -m '____QUICK COMMIT - REMOVE WITH REBASE'";
           st = "status";
           co = "checkout";
@@ -398,11 +330,12 @@ in
           cmas = ''!f() { git commit -m "$1" --author="$2"; }; f'';
           coco = ''!f() { git commit -m ""$1" $(for i in "''${@:2}"; do echo "Co-authored-by: $i"; done);"; }; f'';
 
-          # append = "town append";
-          # prepend = "town prepend";
+          append = "town append";
+          prepend = "town prepend";
           compress = "town compress";
           diff-parent = "town diff-parent";
           hack = "town hack";
+          new = "town hack";
           delete = "town delete";
           observe = "town observe";
           park = "town park";

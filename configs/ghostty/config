@@ -89,6 +89,11 @@ selection-foreground = 0a0a0a
 # selection-background = 626880
 # selection-foreground = c6d0f5
 
+clipboard-read = allow
+clipboard-write = allow
+window-title-font-family = Cartograph CF
+window-subtitle = working-directory
+
 font-family = Cartograph CF
 font-feature = -liga
 
@@ -99,7 +104,8 @@ shell-integration-features = cursor,sudo,title
 
 macos-titlebar-style = transparent
 macos-auto-secure-input = true
-macos-icon = retro
+macos-icon = holographic
+macos-icon-frame = plastic
 
 # Keybindings
 keybind = global:cmd+grave_accent=toggle_quick_terminal

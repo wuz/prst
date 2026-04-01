@@ -8,9 +8,9 @@
 }:
 let
   optList = conditional: list: if conditional then list else [ ];
-  cobiscripts = jacobi.packages.${pkgs.system};
+  cobiscripts = jacobi.packages.${pkgs.stdenv.hostPlatform.system};
 
-  nix-search = inputs.nix-search.packages.${pkgs.system}.default;
+  nix-search = inputs.nix-search.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   python-with-global-packages = pkgs.python3.withPackages (
     ps: with ps; [
@@ -32,19 +32,18 @@ in
       ])
 
       scc
-      slides
-
       ragenix
 
-      faff
       dstp
       flyctl
 
       claude-code
+      opencode
       nix-search
       fontforge
       fontforge-fonttools
       google-fonts
+      tree-sitter
 
       python-with-global-packages
       kubernetes-helm
@@ -53,9 +52,11 @@ in
       imagemagick
       mergiraf
       srgn
-      ast-grep
+      # ast-grep
       difftastic
-      wt
+
+      # zerobrew
+      uv
 
       openssh
       openssl
@@ -63,7 +64,7 @@ in
       dbus
       fastfetch
       fzf
-      lima
+      # lima
       onlykey-agent
       onlykey-cli
 
@@ -88,7 +89,6 @@ in
       diffutils
       moreutils
       libuv
-      gnupg
       zsh
       pinentry_mac
       nur.repos.rycee.mozilla-addons-to-nix

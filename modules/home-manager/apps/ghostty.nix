@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 {
   programs.ghostty = {
     enable = false;
@@ -7,6 +12,6 @@
   };
   xdg.configFile."ghostty" = {
     recursive = true;
-    source = ../../../configs/ghostty;
+    source = config.lib.file.mkOutOfStoreSymlink ../../../configs/ghostty;
   };
 }
