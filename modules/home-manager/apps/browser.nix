@@ -38,11 +38,9 @@ let
       container-script
       markdown-here
       google-lighthouse
-      request-blocker-we
       open-graph-previewer
       openlink-structured-data-sniff
       remove-paywall
-      winger
     ]);
 in
 {
@@ -264,7 +262,7 @@ in
           "zen.view.compact.hide-toolbar" = true;
           "zen.welcome-screen.seen" = true;
 
-          "beacon.enabled" = false;
+          "beacon.enabled" = true;
 
           # Force default search engine settings
           "browser.search.region" = "US";

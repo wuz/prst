@@ -347,6 +347,22 @@ in
           sync = "town sync";
           switch = "town switch";
           tc = "town continue";
+
+          # Usage: git rescue <branch-name> <num-commits>
+          # Takes the last <num-commits> from current branch, creates a new branch
+          # with those commits, then resets the current branch back by that many commits.
+          rescue = ''
+            !f() { \
+                        if [ -z "$1" ] || [ -z "$2" ]; then \
+                          echo "Usage: git rescue <branch-name> <num-commits>"; \
+                          exit 1; \
+                        fi; \
+                        BRANCH="$1"; \
+                        N="$2"; \
+                        git checkout -b "$BRANCH" && \
+                        git checkout - && \
+                        git reset --hard HEAD~"$N"; \
+                      }; f'';
         };
       };
     };

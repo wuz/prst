@@ -26,8 +26,6 @@ in
 {
   options.homebrew = {
     tools = {
-      # ca-certificates: provided by nix's openssl/curl
-      # uv: use pkgs.uv instead
       bandcamp-dl = mkBrewOption "bandcamp-dl" true;
       ghalint = mkBrewOption "ghalint" true;
       jiratui = mkBrewOption "jiratui" true;
@@ -35,10 +33,12 @@ in
       mole = mkBrewOption "mole" true;
       worktrunk = mkBrewOption "worktrunk" true;
       weave = mkBrewOption "weave" true;
+      gtab = mkBrewOption "gtab" true;
     };
     apps = {
       # productivity
       raycast = mkCaskOption "Raycast" true;
+      anki = mkCaskOption "Anki" true;
       notchnook = mkCaskOption "NotchNook" true;
       protonvpn = mkCaskOption "ProtonVPN" true;
       hammerspoon = mkCaskOption "Hammerspoon" false;
@@ -53,7 +53,7 @@ in
       notion-calendar = mkCaskOption "Notion Calendar" false;
       notion-mail = mkCaskOption "Notion Mail" false;
       moves = mkCaskOption "Moves" false;
-      sky = mkCaskOption "Sky.app" true;
+      sky = mkCaskOption "Sky.app" false;
 
       # utility
       appcleaner = mkCaskOption "appcleaner" true;
@@ -103,6 +103,7 @@ in
       orion = mkCaskOption "Orion" true;
       raindropio = mkCaskOption "Raindrop.io" false;
       spotify = mkCaskOption "Spotify" false;
+      qobuz = mkCaskOption "Qobuz" true;
       deezer = mkCaskOption "Deezer" false;
       transmission = mkCaskOption "Transmission" false;
     };
@@ -119,11 +120,14 @@ in
           name = "chmouel/lazyworktree";
           clone_target = "https://github.com/chmouel/lazyworktree";
         }
+        {
+          name = "Franvy/gtab";
+          clone_target = "https://github.com/Franvy/gtab";
+        }
       ];
       onActivation = {
         upgrade = true;
         autoUpdate = true;
-        cleanup = "zap";
       };
       caskArgs = {
         no_quarantine = true;

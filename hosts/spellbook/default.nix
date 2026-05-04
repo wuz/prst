@@ -84,14 +84,11 @@ in
       crystalfetch = true;
       keybase = true;
       betterdisplay = true;
-      muzzle = true;
       karabiner-elements = true;
-      peninsula = true;
       music-presence = true;
       utm = true;
       docker-desktop = false;
       figma = true;
-      brilliant = true;
       slack = true;
       discord = true;
 

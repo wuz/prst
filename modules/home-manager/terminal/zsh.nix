@@ -72,7 +72,15 @@ in
       eval "$(${pkgs.just}/bin/just --completions zsh)"
       eval "$(${pkgs.pnpm}/bin/pnpm completion zsh)"
       eval "$(${pkgs.nodejs_22}/bin/node --completion-bash)"
-      eval "$(wt config shell init zsh)"
+      if command -v wt >/dev/null 2>&1
+      then
+        eval "$(wt config shell init zsh)"
+      fi
+      if command -v bonsai >/dev/null 2>&1
+      then
+        eval "$(bonsai shell-setup)"
+      fi
+
     '';
   };
   # bash is disabled but kept for completeness

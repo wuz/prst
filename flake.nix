@@ -1,18 +1,21 @@
 {
   description = "prst - wuz's configurator";
   inputs = {
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     ragenix.url = "github:yaxitech/ragenix";
 
     pog.url = "github:jpetrucciani/pog";
     nur.url = "github:nix-community/NUR";
-    darwin = {
-      url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
     nix-search.url = "github:diamondburned/nix-search";
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,7 +36,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    claude-code.url = "github:sadjow/claude-code-nix";
     jacobi = {
       url = "github:jpetrucciani/nix";
     };
@@ -49,10 +51,10 @@
       };
     };
 
-    liminix = {
-      flake = false;
-      url = "https://gti.telent.net/dan/liminix";
-    };
+    # liminix = {
+    #   flake = false;
+    #   url = "https://gti.telent.net/dan/liminix";
+    # };
 
   };
 
@@ -64,7 +66,6 @@
       nur,
       jacobi,
       nixos-wsl,
-      claude-code,
       ragenix,
       pog,
       nix-homebrew,
@@ -76,7 +77,6 @@
         nur.overlays.default
         pog.overlays.${system}.default
         (import ./overlays)
-        claude-code.overlays.default
         ragenix.overlays.default
       ];
       user = {

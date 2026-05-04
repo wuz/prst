@@ -1,91 +1,36 @@
+# Pulls telemetry opt-out variables from upstream:
+# https://github.com/alloydwhitlock/do-not-track-cli/blob/main/do_not_track.env
+#
+# To update: run `nix-prefetch-url https://raw.githubusercontent.com/alloydwhitlock/do-not-track-cli/main/do_not_track.env`
+# and replace the sha256 below with the new hash.
 { lib, config, ... }:
+let
+  envFile = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/alloydwhitlock/do-not-track-cli/main/do_not_track.env";
+    sha256 = "1d64ppqpfs02s86lbnfjy9i5gc2fq7cpcnv3wxs4lcwsgna1018m";
+  };
+
+  # Parse KEY=VALUE lines; skip comments and blank lines; skip lines without '='
+  parseLine = line:
+    let
+      stripped = lib.strings.removeSuffix "\r" line;
+      isComment = lib.strings.hasPrefix "#" stripped || stripped == "";
+      eqIdx = lib.strings.stringLength (builtins.head (lib.strings.splitString "=" stripped));
+      parts = lib.strings.splitString "=" stripped;
+      key = builtins.head parts;
+      value = lib.strings.concatStringsSep "=" (builtins.tail parts);
+      validKey = builtins.match "[A-Z][A-Z0-9_]*" key != null;
+    in
+    if isComment || builtins.length parts < 2 || !validKey then null
+    else { name = key; value = value; };
+
+  lines = lib.strings.splitString "\n" (builtins.readFile envFile);
+  parsed = builtins.filter (x: x != null) (map parseLine lines);
+  sessionVars = builtins.listToAttrs parsed;
+in
 {
   options.optout.enable = lib.mkEnableOption "optout";
   config = lib.mkIf config.optout.enable {
-    home.sessionVariables = {
-      ET_NO_TELEMETRY = "ANY_VALUE";
-      HOMEBREW_NO_ANALYTICS = "1";
-      LYNX_ANALYTICS = "0";
-      AUTOMAGICA_NO_TELEMETRY = "ANY_VALUE";
-      SAM_CLI_TELEMETRY = "0";
-      AZURE_CORE_COLLECT_TELEMETRY = "0";
-      CLOUDSDK_CORE_DISABLE_USAGE_REPORTING = "true";
-      HOOKDECK_CLI_TELEMETRY_OPTOUT = "ANY_VALUE";
-      STRIPE_CLI_TELEMETRY_OPTOUT = "1";
-      DO_NOT_TRACK = "1";
-      MM_LOGSETTINGS_ENABLEDIAGNOSTICS = "false";
-      MM_SERVICESETTINGS_ENABLESECURITYFIXALERT = "false";
-      FEAST_TELEMETRY = "False";
-      INFLUXD_REPORTING_DISABLED = "true";
-      MELTANO_DISABLE_TRACKING = "True";
-      QUILT_DISABLE_USAGE_METRICS = "True";
-      ALIBUILD_NO_ANALYTICS = "1";
-      NG_CLI_ANALYTICS = "false";
-      NG_CLI_ANALYTICS_SHARE = "false";
-      APPCD_TELEMETRY = "0";
-      MOBILE_CENTER_TELEMETRY = "off";
-      ARDUINO_METRICS_ENABLED = "false";
-      BF_CLI_TELEMETRY = "false";
-      CARBON_TELEMETRY_DISABLED = "1";
-      CHOOSENIM_NO_ANALYTICS = "1";
-      COCOAPODS_DISABLE_STATS = "true";
-      CUBEJS_TELEMETRY = "false";
-      DAGSTER_DISABLE_TELEMETRY = "ANY_VALUE";
-      DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT = "1";
-      DOTNET_SVCUTIL_TELEMETRY_OPTOUT = "1";
-      FASTLANE_OPT_OUT_USAGE = "YES";
-      TELEMETRY_DISABLED = "ANY_VALUE";
-      GATSBY_TELEMETRY_DISABLED = "1";
-      HASURA_GRAPHQL_ENABLE_TELEMETRY = "false";
-      MEILI_NO_ANALYTICS = "true";
-      MLDOTNET_CLI_TELEMETRY_OPTOUT = "True";
-      MSSQL_CLI_TELEMETRY_OPTOUT = "True";
-      DOTNET_CLI_TELEMETRY_OPTOUT = "true";
-      NEXT_TELEMETRY_DISABLED = "1";
-      NUXT_TELEMETRY_DISABLED = "1";
-      SQA_OPT_OUT = "true";
-      ORYX_DISABLE_TELEMETRY = "true";
-      PANTS_ANONYMOUS_TELEMETRY_ENABLED = "false";
-      PROSE_TELEMETRY_OPTOUT = "ANY_VALUE";
-      RASA_TELEMETRY_ENABLED = "false";
-      REPORTPORTAL_CLIENT_JS_NO_ANALYTICS = "true";
-      AGENT_NO_ANALYTICS = "1";
-      RESTLER_TELEMETRY_OPTOUT = "1";
-      ROCKSET_CLI_TELEMETRY_OPTOUT = "1";
-      SUGGESTIONS_OPT_OUT = "ANY_VALUE";
-      APOLLO_TELEMETRY_DISABLED = "1";
-      SALTO_TELEMETRY_DISABLE = "1";
-      SLS_TELEMETRY_DISABLED = "1";
-      SFDX_DISABLE_TELEMETRY = "true";
-      SKU_TELEMETRY = "false";
-      STRAPI_TELEMETRY_DISABLED = "true";
-      STRAPI_DISABLE_UPDATE_NOTIFICATION = "true";
-      TUIST_STATS_OPT_OUT = "1";
-      VUEDX_TELEMETRY = "off";
-      HINT_TELEMETRY = "off";
-      AUTOMATEDLAB_TELEMETRY_OPTOUT = "1";
-      BATECT_ENABLE_TELEMETRY = "false";
-      CHEF_TELEMETRY_OPT_OUT = "1";
-      DECK_ANALYTICS = "off";
-      TEEM_DISABLE = "true";
-      F5_ALLOW_TELEMETRY = "false";
-      INFRACOST_SELF_HOSTED_TELEMETRY = "false";
-      INFRACOST_SKIP_UPDATE_CHECK = "true";
-      KICS_COLLECT_TELEMETRY = "0";
-      ALLOW_UI_ANALYTICS = "false";
-      MSLAB_TELEMETRY_LEVEL = "None";
-      NUKE_TELEMETRY_OPTOUT = "1";
-      PNPPOWERSHELL_DISABLETELEMETRY = "true";
-      PNPPOWERSHELL_UPDATECHECK = "false";
-      SCOUT_DISABLE = "1";
-      CHECKPOINT_DISABLE = "ANY_VALUE";
-      VAGRANT_CHECKPOINT_DISABLE = "ANY_VALUE";
-      VAGRANT_BOX_UPDATE_CHECK_DISABLE = "ANY_VALUE";
-      ANALYTICS = "no";
-      DISABLE_AUTO_UPDATE = "true";
-      POWERSHELL_TELEMETRY_OPTOUT = "1";
-      POWERSHELL_UPDATECHECK = "Off";
-      AITOOLSVSCODE_DISABLETELEMETRY = "ANY_VALUE";
-    };
+    home.sessionVariables = sessionVars;
   };
 }

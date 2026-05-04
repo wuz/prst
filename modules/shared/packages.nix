@@ -37,7 +37,6 @@ in
       dstp
       flyctl
 
-      claude-code
       opencode
       nix-search
       fontforge
@@ -54,6 +53,7 @@ in
       srgn
       # ast-grep
       difftastic
+      lazyworktree
 
       # zerobrew
       uv
