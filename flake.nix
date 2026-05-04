@@ -1,28 +1,45 @@
 {
   description = "prst - wuz's configurator";
+
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./flake);
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # keep-sorted start
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    ragenix.url = "github:yaxitech/ragenix";
-
-    pog.url = "github:jpetrucciani/pog";
-    nur.url = "github:nix-community/NUR";
-
-    nix-search.url = "github:diamondburned/nix-search";
-
+    den.url = "github:vic/den";
+    direnv-instant.url = "github:Mic92/direnv-instant";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    direnv-instant.url = "github:Mic92/direnv-instant";
-
+    import-tree.url = "github:vic/import-tree";
+    jacobi = {
+      url = "github:jpetrucciani/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nur.url = "github:nix-community/NUR";
+    pog.url = "github:jpetrucciani/pog";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {
@@ -30,110 +47,6 @@
         home-manager.follows = "home-manager";
       };
     };
-
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    jacobi = {
-      url = "github:jpetrucciani/nix";
-    };
-    wezterm = {
-      url = "github:wez/wezterm/main?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    kwb = {
-      url = "github:kwbauson/cfg";
-      inputs = {
-        home-manager.follows = "home-manager";
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    # liminix = {
-    #   flake = false;
-    #   url = "https://gti.telent.net/dan/liminix";
-    # };
-
+    # keep-sorted end
   };
-
-  outputs =
-    inputs@{
-      self,
-      darwin,
-      home-manager,
-      nur,
-      jacobi,
-      nixos-wsl,
-      ragenix,
-      pog,
-      nix-homebrew,
-      ...
-    }:
-    let
-      inherit (darwin.lib) darwinSystem;
-      system-overlays = system: [
-        nur.overlays.default
-        pog.overlays.${system}.default
-        (import ./overlays)
-        ragenix.overlays.default
-      ];
-      user = {
-        name = "Conlin Durbin";
-        email = "c@wuz.sh";
-        username = "conlin.durbin";
-        shell = "zsh";
-        key = "CAA69BFC5EF24C40";
-      };
-      specialArgs = {
-        inherit
-          user
-          inputs
-          jacobi
-          system-overlays
-          ;
-      };
-      sharedModules = [
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.verbose = true;
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.backupFileExtension = "backup";
-        }
-        ragenix.nixosModules.default
-      ];
-      wslModules = [
-        nixos-wsl.nixosModules.default
-      ];
-      darwinModules = [
-        {
-          home-manager.users.${user.username} = ./hosts/spellbook/home.nix;
-        }
-        home-manager.darwinModules.home-manager
-        nix-homebrew.darwinModules.nix-homebrew
-      ];
-    in
-    {
-      darwinConfigurations = {
-        spellbook = darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            ./hosts/spellbook
-          ]
-          ++ sharedModules
-          ++ darwinModules;
-          specialArgs = specialArgs;
-        };
-      };
-      nixosConfigurations = {
-        tower = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./hosts/tower ] ++ sharedModules ++ wslModules;
-          specialArgs = specialArgs;
-        };
-      };
-      darwinPackages = self.darwinConfigurations."spellbook".pkgs;
-    };
 }

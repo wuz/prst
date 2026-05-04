@@ -1,0 +1,45 @@
+# sops-nix secret management
+# Age keys are derived from SSH ed25519 keys via ssh-to-age.
+#
+# To add a new host key:
+#   1. Get the host SSH public key: ssh-keyscan <host> | grep ed25519
+#   2. Convert: ssh-to-age <<< "<ssh-pubkey>"
+#   3. Add the age key below and update the relevant creation_rules
+#
+# To add a new user key:
+#   1. Convert your SSH key: ssh-to-age < ~/.ssh/id_ed25519.pub
+#   2. Add under keys.users below
+#
+# Re-encrypt after adding keys: sops updatekeys secrets/hosts/common.yaml
+keys:
+  # keep-sorted start
+  - &spellbook age10z2f6mdh6u8kka5pu43pr3042pu8lmfupw935wek3f9mje02fa5qmzhrmq # wuz SSH key → spellbook user
+  # Host SSH keys (populated after first boot of each machine):
+  # - &spellbook_host age1...  # /etc/ssh/ssh_host_ed25519_key
+  # - &tower_host age1...      # /etc/ssh/ssh_host_ed25519_key
+  # - &aether_host age1...     # /etc/ssh/ssh_host_ed25519_key
+  # keep-sorted end
+creation_rules:
+  # Common secrets — accessible from all hosts (decrypt with user key for now)
+  - path_regex: secrets/hosts/common\.yaml$
+    key_groups:
+      - age:
+          - *spellbook
+  # Per-host secrets (will add host keys once machines are running)
+  - path_regex: secrets/hosts/spellbook\.yaml$
+    key_groups:
+      - age:
+          - *spellbook
+  - path_regex: secrets/hosts/tower\.yaml$
+    key_groups:
+      - age:
+          - *spellbook
+  - path_regex: secrets/hosts/aether\.yaml$
+    key_groups:
+      - age:
+          - *spellbook
+  # User secrets
+  - path_regex: secrets/users/conlin\.yaml$
+    key_groups:
+      - age:
+          - *spellbook

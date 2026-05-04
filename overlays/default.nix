@@ -1,7 +1,6 @@
 final: prev: {
-  # Override direnv to avoid -linkmode=external on Darwin without CGo
-  # The GNUMakefile unconditionally adds -linkmode=external on Darwin; bypass it
-  # by using go build directly. Remove once nixpkgs binary cache has the fix.
+  # Override direnv to avoid -linkmode=external on Darwin without CGo.
+  # Remove once nixpkgs binary cache has the fix.
   direnv = prev.direnv.overrideAttrs (old: {
     buildPhase = ''
       go build -ldflags "-X main.bashPath=${prev.bash}/bin/bash" -o direnv

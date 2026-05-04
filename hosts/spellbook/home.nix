@@ -12,7 +12,6 @@
   ];
   home.sessionVariables = {
     USER = user.username;
-    PATH = "/opt/homebrew/bin:/etc/profiles/per-user/${user.username}/bin:$HOME/.local/bin:$PATH";
   };
   programs.ssh = {
     enableDefaultConfig = false;
@@ -29,26 +28,6 @@
         controlPath = "~/.ssh/master-%r@%n:%p";
         controlPersist = "no";
       };
-    };
-  };
-  programs.firefox = {
-    enable = false;
-    policies = {
-      AppAutoUpdate = false;
-      DisableAppUpdate = true;
-      DisableFirefoxStudies = true;
-      DisablePocket = true;
-      DisableTelemetry = true;
-      DisplayBookmarksToolbar = "never";
-      # DisplayMenuBar = "default-off";
-      DontCheckDefaultBrowser = true;
-      EnableTrackingProtection = {
-        Value = true;
-        Locked = true;
-        Cryptomining = true;
-        Fingerprinting = true;
-      };
-      HardwareAcceleration = true;
     };
   };
   zen.enable = true;

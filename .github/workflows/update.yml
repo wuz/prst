@@ -1,20 +1,58 @@
 name: Update flake
-on: { workflow_dispatch, schedule: [cron: '0 0 * * *'] }
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * *" # 4am UTC daily
 jobs:
-  check-for-updates:
+  update:
     runs-on: ubuntu-24.04
-    env:
-      GH_TOKEN: ${{ github.token }}
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: cachix/install-nix-action@v30
-      - run: nix flake update
-      - uses: peter-evans/create-pull-request@v7.0.5
+        with:
+          nix_path: nixpkgs=channel:nixpkgs-unstable
+          extra_nix_config: |
+            accept-flake-config = true
+      - name: Update flake.lock
+        run: nix flake update
+      - name: Check if lock changed
+        id: changed
+        run: |
+          if git diff --quiet flake.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build spellbook (darwin, cross-compiled check)
+        if: steps.changed.outputs.changed == 'true'
+        run: nix build .#darwinConfigurations.spellbook.system --dry-run
+      - name: Build tower (NixOS/WSL)
+        if: steps.changed.outputs.changed == 'true'
+        run: nix build .#nixosConfigurations.tower.config.system.build.toplevel --dry-run
+      - name: Run flake check
+        if: steps.changed.outputs.changed == 'true'
+        run: nix flake check --no-build
+      - name: Create pull request
+        if: steps.changed.outputs.changed == 'true'
         id: pr
+        uses: peter-evans/create-pull-request@v7
         with:
           delete-branch: true
           author: Conlin Durbin <c@wuz.sh>
-          title: flake.nix update
-          commit-message: flake.nix update
+          title: "chore: flake.lock update"
+          commit-message: "chore: flake.lock update"
           branch: automatic-update
-      # - run: gh pr merge --auto --squash ${{ steps.pr.outputs.pull-request-url }}
+          body: |
+            Automated flake.lock update.
+
+            All hosts built successfully — safe to merge.
+      - name: Auto-merge if builds passed
+        if: steps.pr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --auto --squash "${{ steps.pr.outputs.pull-request-url }}"

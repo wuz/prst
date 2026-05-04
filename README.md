@@ -39,7 +39,7 @@ Then:
 mkdir -p ~/.config/nix/
 echo -e 'max-jobs = auto\ntarball-ttl = 0\nexperimental-features = nix-command flakes' >>~/.config/nix/nix.conf
 
-# add current user as trusted 
+# add current user as trusted
 echo "trusted-users = root $USER" | sudo tee -a /etc/nix/nix.conf && sudo pkill nix-daemon
 ```
 

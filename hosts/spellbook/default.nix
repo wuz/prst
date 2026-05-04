@@ -10,10 +10,7 @@ let
 in
 {
   ids.gids.nixbld = 350;
-  imports = [
-  ]
-  ++ (import ../../modules/darwin)
-  ++ (import ../../modules/shared);
+  imports = [ ] ++ (import ../../modules/darwin) ++ (import ../../modules/shared);
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
   system.stateVersion = 5;
   users = {
@@ -39,15 +36,11 @@ in
     config = {
       allowUnfree = true;
       allowBroken = true;
-      permittedInsecurePackages = [
-        "python3.13-ecdsa-0.19.1"
-      ];
+      permittedInsecurePackages = [ "python3.13-ecdsa-0.19.1" ];
     };
   };
 
-  environment.pathsToLink = [
-    "/share/zsh"
-  ];
+  environment.pathsToLink = [ "/share/zsh" ];
 
   programs.nix-index.enable = true;
 

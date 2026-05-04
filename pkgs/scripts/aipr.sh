@@ -6,7 +6,7 @@ if [[ "${PROTECTED_BRANCHES[*]} " =~ $CURRENT_BRANCH ]]; then
 fi
 
 STAGED_FILES=$(git diff origin/main --cached --name-only)
-if [[ -z "$STAGED_FILES" ]]; then
+if [[ -z $STAGED_FILES ]]; then
   echo "No files are staged for commit."
   return 1
 fi
@@ -59,7 +59,7 @@ echo "Do you want to use this AI-generated title and body? (y/n)"
 read -r -k1 USE_AI_CONTENT
 echo
 
-if [[ "$USE_AI_CONTENT" != "y" ]]; then
+if [[ $USE_AI_CONTENT != "y" ]]; then
   echo "Enter a title for the pull request:"
   read -r PR_TITLE
   echo "Enter a body for the pull request (press Ctrl+D when finished):"
