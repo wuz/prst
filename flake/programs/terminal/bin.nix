@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.bin = {
+  work.bin = {
     homeManager =
       { pkgs, lib, ... }:
       {

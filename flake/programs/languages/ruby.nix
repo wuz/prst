@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.ruby = {
+  work.ruby = {
     homeManager =
       { pkgs, ... }:
       {

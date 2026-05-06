@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.tui = {
+  work.tui = {
     homeManager =
       { pkgs, lib, ... }:
       {

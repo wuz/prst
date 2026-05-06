@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.nixtools = {
+  work.nixtools = {
     homeManager =
       { pkgs, lib, ... }:
       {

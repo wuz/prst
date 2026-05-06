@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.zsh = {
+  work.zsh = {
     homeManager =
       { pkgs, config, ... }:
       {

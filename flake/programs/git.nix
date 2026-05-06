@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.git = {
+  work.git = {
     homeManager =
       { pkgs, ... }:
       {
@@ -217,17 +217,10 @@
         programs.git = {
           enable = true;
           lfs.enable = true;
-          signing = {
-            key = "CAA69BFC5EF24C40";
-            signByDefault = true;
-            format = "openpgp";
-          };
+          # signing key set per-user in host configuration
           ignores = [ ".DS_Store" ];
           settings = {
-            user = {
-              name = "Conlin Durbin";
-              email = "conlin.durbin@whatnot.com";
-            };
+            # name and email set per-user in host configuration
             color.ui = true;
             push.default = "current";
             pull.ff = "only";

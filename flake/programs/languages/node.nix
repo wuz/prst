@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.node = {
+  work.node = {
     homeManager =
       { pkgs, lib, ... }:
       {

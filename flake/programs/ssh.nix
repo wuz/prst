@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.ssh = {
+  work.ssh = {
     homeManager = {
       programs.ssh = {
         enable = true;

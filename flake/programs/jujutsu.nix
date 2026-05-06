@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.jj = {
+  work.jj = {
     homeManager =
       { ... }:
       {

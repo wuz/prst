@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.worktrunk = {
+  work.worktrunk = {
     homeManager = {
       xdg.configFile."worktrunk" = {
         recursive = true;

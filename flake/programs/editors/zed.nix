@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.zed = {
+  work.zed = {
     homeManager =
       { ... }:
       {

@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.wezterm = {
+  work.wezterm = {
     homeManager = {
       programs.wezterm = {
         enable = true;

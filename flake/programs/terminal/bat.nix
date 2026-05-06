@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.bat = {
+  work.bat = {
     homeManager =
       { pkgs, ... }:
       {

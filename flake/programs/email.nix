@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.email = {
+  work.email = {
     homeManager =
       { config, ... }:
       {

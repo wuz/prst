@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.starship = {
+  work.starship = {
     homeManager = {
       programs.starship = {
         enable = true;

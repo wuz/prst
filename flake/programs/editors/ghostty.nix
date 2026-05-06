@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.ghostty = {
+  work.ghostty = {
     homeManager =
       { config, ... }:
       {

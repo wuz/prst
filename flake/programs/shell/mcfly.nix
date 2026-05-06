@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.mcfly = {
+  work.mcfly = {
     homeManager = {
       programs.mcfly = {
         enable = true;

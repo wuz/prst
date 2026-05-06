@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.lua = {
+  work.lua = {
     homeManager =
       { pkgs, ... }:
       {

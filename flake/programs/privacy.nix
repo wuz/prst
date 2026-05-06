@@ -33,7 +33,7 @@ let
   sessionVars = builtins.listToAttrs parsed;
 in
 {
-  prst.optout = {
+  work.optout = {
     homeManager = {
       home.sessionVariables = sessionVars;
     };

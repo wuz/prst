@@ -1,10 +1,10 @@
-{ work, nodes, ... }:
+{ personal, work, nodes, ... }:
 {
   den = {
-    hosts.aarch64-darwin.spellbook.users."conlin.durbin" = { };
+    hosts.aarch64-darwin.grimoire.users."wuz" = { };
 
     aspects = {
-      spellbook = {
+      grimoire = {
         includes = with nodes; [
           auto-update
           nix
@@ -13,7 +13,6 @@
           packages
           homebrew
           shell
-          duckypad
         ];
 
         darwin = {
@@ -30,7 +29,7 @@
           environment.pathsToLink = [ "/share/zsh" ];
           programs.nix-index.enable = true;
 
-          system.primaryUser = "conlin.durbin";
+          system.primaryUser = "wuz";
           system.activationScripts.extraActivation.text = ''
             # Reload macOS settings without requiring logout/login
             /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
@@ -45,9 +44,8 @@
         };
       };
 
-      # Work user aspect for conlin.durbin on spellbook
-      "conlin.durbin" = {
-        # Work-specific overrides layered on top of shared work programs
+      # Personal user aspect for wuz on grimoire
+      wuz = {
         homeManager = { ... }: {
           programs.git.signing = {
             key = "CAA69BFC5EF24C40";
@@ -56,38 +54,39 @@
           };
           programs.git.settings.user = {
             name = "Conlin Durbin";
-            email = "conlin.durbin@whatnot.com";
+            email = "c@wuz.sh";
           };
-          programs.tiny.enable = true;
-          programs.xplr.enable = true;
         };
 
-        includes = with work; [
-          base
-          git
-          zsh
-          starship
-          direnv
-          zoxide
-          mcfly
-          bat
-          bin
-          tui
-          neovim
-          wezterm
-          ghostty
-          node
-          rust
-          nixtools
-          lua
-          ruby
-          browser
-          email
-          optout
-          ssh
-          zed
-          jj
-        ];
+        includes =
+          # personal.base sets username=wuz, homeDirectory=/Users/wuz
+          [ personal.base ]
+          # Reuse work.* program aspects — same tooling, personal identity set above
+          ++ (with work; [
+            git
+            zsh
+            starship
+            direnv
+            zoxide
+            mcfly
+            bat
+            bin
+            tui
+            neovim
+            wezterm
+            ghostty
+            node
+            rust
+            nixtools
+            lua
+            ruby
+            browser
+            email
+            optout
+            ssh
+            zed
+            jj
+          ]);
       };
     };
   };

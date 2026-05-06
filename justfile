@@ -6,18 +6,25 @@ switch:
       spellbook)
         sudo nix run nix-darwin -- switch --flake .#spellbook
         ;;
+      grimoire)
+        sudo nix run nix-darwin -- switch --flake .#grimoire
+        ;;
       tower)
         sudo nixos-rebuild switch --flake .#tower
         ;;
       *)
-        echo "Unknown host: $HOST — run 'just spellbook' or 'just tower' explicitly"
+        echo "Unknown host: $HOST — run 'just spellbook', 'just grimoire', or 'just tower' explicitly"
         exit 1
         ;;
     esac
 
-# Switch spellbook (darwin)
+# Switch spellbook — work MacBook (darwin)
 spellbook:
     sudo nix run nix-darwin -- switch --flake .#spellbook
+
+# Switch grimoire — personal MacBook (darwin)
+grimoire:
+    sudo nix run nix-darwin -- switch --flake .#grimoire
 
 # Build tower (NixOS/WSL) without switching
 tower:

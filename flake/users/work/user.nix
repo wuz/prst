@@ -3,8 +3,7 @@ let
   username = "conlin.durbin";
 in
 {
-  # Base home-manager config — included by every host via prst.base in den.aspects."conlin.durbin"
-  prst.base.homeManager =
+  work.base.homeManager =
     { pkgs, ... }:
     {
       home.stateVersion = "24.05";
@@ -14,10 +13,9 @@ in
       xdg.enable = true;
     };
 
-  # OS-level user account config.
-  prst.user.user.description = "Conlin Durbin";
+  work.user.user.description = "Conlin Durbin";
 
-  prst.user.includes = [
+  work.user.includes = [
     (
       { host, ... }:
       lib.optionalAttrs (host.class == "nixos") {

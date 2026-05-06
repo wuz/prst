@@ -1,7 +1,7 @@
-{ prst, nodes, ... }:
+{ personal, work, nodes, ... }:
 {
   den = {
-    hosts.x86_64-linux.tower.users."conlin.durbin" = { };
+    hosts.x86_64-linux.tower.users."wuz" = { };
 
     aspects = {
       tower = {
@@ -30,23 +30,36 @@
         };
       };
 
-      "conlin.durbin" = {
-        includes = with prst; [
-          base
-          git
-          zsh
-          starship
-          direnv
-          zoxide
-          mcfly
-          bat
-          bin
-          neovim
-          node
-          rust
-          nixtools
-          optout
-        ];
+      wuz = {
+        homeManager = { ... }: {
+          programs.git.signing = {
+            key = "CAA69BFC5EF24C40";
+            signByDefault = true;
+            format = "openpgp";
+          };
+          programs.git.settings.user = {
+            name = "Conlin Durbin";
+            email = "c@wuz.sh";
+          };
+        };
+
+        includes =
+          [ personal.base ]
+          ++ (with work; [
+            git
+            zsh
+            starship
+            direnv
+            zoxide
+            mcfly
+            bat
+            bin
+            neovim
+            node
+            rust
+            nixtools
+            optout
+          ]);
       };
     };
   };

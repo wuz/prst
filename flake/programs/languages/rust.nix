@@ -1,6 +1,6 @@
 { ... }:
 {
-  prst.rust = {
+  work.rust = {
     homeManager =
       { pkgs, lib, ... }:
       {

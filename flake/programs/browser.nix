@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 {
-  prst.browser = {
+  work.browser = {
     homeManager =
       { pkgs, config, ... }:
       let

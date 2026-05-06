@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  prst.neovim = {
+  work.neovim = {
     homeManager =
       { pkgs, ... }:
       {
