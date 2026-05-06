@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.email = {
+  prst.email = {
     homeManager =
       { config, ... }:
       {

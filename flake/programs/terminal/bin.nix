@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.bin = {
+  prst.bin = {
     homeManager =
       { pkgs, lib, ... }:
       {

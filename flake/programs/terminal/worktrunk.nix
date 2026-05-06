@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.worktrunk = {
+  prst.worktrunk = {
     homeManager = {
       xdg.configFile."worktrunk" = {
         recursive = true;

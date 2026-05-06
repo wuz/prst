@@ -33,7 +33,7 @@ let
   sessionVars = builtins.listToAttrs parsed;
 in
 {
-  conlin.optout = {
+  prst.optout = {
     homeManager = {
       home.sessionVariables = sessionVars;
     };

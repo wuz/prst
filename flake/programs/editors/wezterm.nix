@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.wezterm = {
+  prst.wezterm = {
     homeManager = {
       programs.wezterm = {
         enable = true;

@@ -1,8 +1,4 @@
-{
-  conlin,
-  nodes,
-  ...
-}:
+{ prst, nodes, ... }:
 {
   den = {
     hosts.aarch64-darwin.spellbook.users."conlin.durbin" = { };
@@ -50,9 +46,15 @@
       };
 
       # User aspect — den auto-creates den.aspects."conlin.durbin" for the user.
-      # We write here to populate it with user programs via the conlin namespace.
+      # We write here to populate it with user programs via the prst namespace.
       "conlin.durbin" = {
-        includes = with conlin; [
+        homeManager = { ... }: {
+          programs.git.settings.user.email = "conlin.durbin@whatnot.com";
+          programs.tiny.enable = true;
+          programs.xplr.enable = true;
+        };
+
+        includes = with prst; [
           base
           git
           zsh

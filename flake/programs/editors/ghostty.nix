@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.ghostty = {
+  prst.ghostty = {
     homeManager =
       { config, ... }:
       {

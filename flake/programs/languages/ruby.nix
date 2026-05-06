@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.ruby = {
+  prst.ruby = {
     homeManager =
       { pkgs, ... }:
       {

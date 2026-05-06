@@ -1,8 +1,4 @@
-{
-  conlin,
-  nodes,
-  ...
-}:
+{ prst, nodes, ... }:
 {
   den = {
     hosts.x86_64-linux.tower.users."conlin.durbin" = { };
@@ -35,7 +31,7 @@
       };
 
       "conlin.durbin" = {
-        includes = with conlin; [
+        includes = with prst; [
           base
           git
           zsh

@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.nixtools = {
+  prst.nixtools = {
     homeManager =
       { pkgs, lib, ... }:
       {

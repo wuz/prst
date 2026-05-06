@@ -3,22 +3,21 @@ let
   username = "conlin.durbin";
 in
 {
-  # Base home-manager config — included by every host via conlin.base in den.aspects."conlin.durbin"
-  conlin.base.homeManager =
+  # Base home-manager config — included by every host via prst.base in den.aspects."conlin.durbin"
+  prst.base.homeManager =
     { pkgs, ... }:
     {
       home.stateVersion = "24.05";
       home.username = username;
-      home.homeDirectory =
-        if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+      home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
       programs.home-manager.enable = true;
       xdg.enable = true;
     };
 
   # OS-level user account config.
-  conlin.user.user.description = "Conlin Durbin";
+  prst.user.user.description = "Conlin Durbin";
 
-  conlin.user.includes = [
+  prst.user.includes = [
     (
       { host, ... }:
       lib.optionalAttrs (host.class == "nixos") {

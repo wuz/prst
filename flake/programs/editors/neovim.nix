@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  conlin.neovim = {
+  prst.neovim = {
     homeManager =
       { pkgs, ... }:
       {

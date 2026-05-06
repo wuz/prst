@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.bat = {
+  prst.bat = {
     homeManager =
       { pkgs, ... }:
       {

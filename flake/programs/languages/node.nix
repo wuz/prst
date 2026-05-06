@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.node = {
+  prst.node = {
     homeManager =
       { pkgs, lib, ... }:
       {

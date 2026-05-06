@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.zsh = {
+  prst.zsh = {
     homeManager =
       { pkgs, config, ... }:
       {

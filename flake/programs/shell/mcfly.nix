@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.mcfly = {
+  prst.mcfly = {
     homeManager = {
       programs.mcfly = {
         enable = true;

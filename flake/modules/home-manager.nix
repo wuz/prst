@@ -16,9 +16,7 @@
           useGlobalPkgs = true;
           useUserPackages = true;
           verbose = true;
-          extraSpecialArgs = {
-            inherit inputs;
-          };
+          extraSpecialArgs = { inherit inputs; };
         };
       }
     )

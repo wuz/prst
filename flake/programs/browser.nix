@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 {
-  conlin.browser = {
+  prst.browser = {
     homeManager =
       { pkgs, config, ... }:
       let
@@ -36,6 +36,8 @@
             open-graph-previewer
             openlink-structured-data-sniff
             remove-paywall
+            request-blocker-we
+            winger
           ]);
       in
       {

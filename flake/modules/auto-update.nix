@@ -3,9 +3,9 @@
   nodes.auto-update = {
     # macOS: launchd agent that pulls and applies the config daily
     darwin = {
-      launchd.user.agents."sh.wuz.prst-update" = {
+      launchd.user.agents."sh.prst.prst-update" = {
         serviceConfig = {
-          Label = "sh.wuz.prst-update";
+          Label = "sh.prst.prst-update";
           ProgramArguments = [
             "/bin/bash"
             "-c"

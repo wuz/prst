@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.ssh = {
+  prst.ssh = {
     homeManager = {
       programs.ssh = {
         enable = true;

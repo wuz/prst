@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.rust = {
+  prst.rust = {
     homeManager =
       { pkgs, lib, ... }:
       {

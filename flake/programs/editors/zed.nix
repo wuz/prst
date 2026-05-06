@@ -1,8 +1,10 @@
 { ... }:
 {
-  conlin.zed = {
-    homeManager = { ... }: {
-      programs.zed-editor.enable = true;
-    };
+  prst.zed = {
+    homeManager =
+      { ... }:
+      {
+        programs.zed-editor.enable = true;
+      };
   };
 }

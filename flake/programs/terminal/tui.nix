@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.tui = {
+  prst.tui = {
     homeManager =
       { pkgs, lib, ... }:
       {

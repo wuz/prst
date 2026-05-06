@@ -1,10 +1,10 @@
 { ... }:
 {
-  conlin.starship = {
+  prst.starship = {
     homeManager = {
       programs.starship = {
         enable = true;
-        settings = builtins.fromTOML (builtins.readFile ../../../configs/starship/starship.toml);
+        settings = fromTOML (builtins.readFile ../../../configs/starship/starship.toml);
       };
     };
   };

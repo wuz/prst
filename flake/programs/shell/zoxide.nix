@@ -1,6 +1,6 @@
 { ... }:
 {
-  conlin.zoxide = {
+  prst.zoxide = {
     homeManager = {
       programs.zoxide = {
         enable = true;

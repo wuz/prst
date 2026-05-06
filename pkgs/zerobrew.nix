@@ -4,7 +4,7 @@
   rustPlatform,
   makeWrapper,
 }:
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage {
   pname = "zerobrew";
   version = "2026-01-26";
 
