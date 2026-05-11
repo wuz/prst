@@ -19,7 +19,6 @@
       {
         nixpkgs.config = {
           allowUnfree = true;
-          permittedInsecurePackages = [ "python3.13-ecdsa-0.19.1" ];
         };
 
         environment.systemPackages =
@@ -69,6 +68,8 @@
             # Hardware
             onlykey-agent
             onlykey-cli
+            signal-desktop
+            signal-cli
 
             # Utilities
             chafa

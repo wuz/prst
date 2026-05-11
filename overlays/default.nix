@@ -1,4 +1,14 @@
 final: prev: {
+  # botocore depends on ecdsa which nixpkgs marks insecure; override to allow it
+  # without needing permittedInsecurePackages on every host.
+  python3 = prev.python3.override {
+    packageOverrides = pyFinal: pyPrev: {
+      ecdsa = pyPrev.ecdsa.overrideAttrs (_: {
+        meta = pyPrev.ecdsa.meta // { knownVulnerabilities = [ ]; };
+      });
+    };
+  };
+  python3Packages = final.python3.pkgs;
   # Override direnv to avoid -linkmode=external on Darwin without CGo.
   # Remove once nixpkgs binary cache has the fix.
   direnv = prev.direnv.overrideAttrs (old: {

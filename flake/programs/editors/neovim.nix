@@ -70,6 +70,7 @@
                 { import = "cantrip.plugins.lsp.languages.react" },
                 { import = "cantrip.plugins.lsp.languages.yaml" },
                 { import = "cantrip.plugins.extras.oil" },
+                { import = "cantrip.plugins.extras.fff" },
                 { import = "cantrip.plugins.extras.terminal" },
                 { import = "cantrip.plugins.extras.ai.opencode" },
                 { import = "cantrip.plugins.extras.ai.99" },

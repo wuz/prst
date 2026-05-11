@@ -36,7 +36,6 @@ in
     config = {
       allowUnfree = true;
       allowBroken = true;
-      permittedInsecurePackages = [ "python3.13-ecdsa-0.19.1" ];
     };
   };
 
