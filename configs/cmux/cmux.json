@@ -1,0 +1,142 @@
+{
+  // cmux configuration — managed in darwin dotfiles
+  // Reload: Cmd+Shift+, or `cmux reload-config`
+  // Schema: https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  // ── Sidebar ─────────────────────────────────────────────────────────────────
+  "sidebar": {
+    "hideAllDetails": false,
+    "wrapWorkspaceTitles": false,
+    "showWorkspaceDescription": true,
+    "branchLayout": "vertical",
+    "showNotificationMessage": true,
+    "showBranchDirectory": true,
+    "showPullRequests": true,
+    "watchGitStatus": true,
+    "makePullRequestsClickable": true,
+    "openPullRequestLinksInCmuxBrowser": false,
+    "openPortLinksInCmuxBrowser": false
+  },
+
+  // ── Sidebar appearance — Lackluster theme ────────────────────────────────────
+  "sidebarAppearance": {
+    "matchTerminalBackground": true,
+    "tintColor": "#0a0a0a",
+    "darkModeTintColor": "#0a0a0a",
+    "lightModeTintColor": "#0a0a0a",
+    "tintOpacity": 1.0
+  },
+
+  // ── Automation ───────────────────────────────────────────────────────────────
+  "automation": {
+    "claudeCodeIntegration": true,
+    "workspaceAutoNaming": true,
+    "autoNamingAgent": "auto"
+  },
+
+  // ── Terminal ─────────────────────────────────────────────────────────────────
+  "terminal": {
+    "textBoxSubmitActions": [
+      {
+        "id": "opencode",
+        "title": "OpenCode",
+        "kind": "commandTemplate",
+        "commandTemplate": "opencode --prompt {{prompt}}",
+        "systemImage": "terminal"
+      }
+    ]
+  },
+
+  // ── Browser ──────────────────────────────────────────────────────────────────
+  "browser": {
+    "defaultSearchEngine": "https://kagi.com/search?q=%s"
+  },
+
+  // ── Actions ──────────────────────────────────────────────────────────────────
+  "actions": {
+    "dev-workspace": {
+      "type": "workspace",
+      "title": "Dev Workspace",
+      "icon": { "type": "symbol", "name": "hammer" },
+      "newWorkspaceMenu": true,
+      "workspace": {
+        "name": "Dev",
+        "layout": {
+          "direction": "horizontal",
+          "split": 0.6,
+          "children": [
+            {
+              "pane": {
+                "surfaces": [
+                  { "type": "terminal", "name": "Neovim", "command": "nvim", "focus": true }
+                ]
+              }
+            },
+            {
+              "direction": "vertical",
+              "split": 0.65,
+              "children": [
+                {
+                  "pane": {
+                    "surfaces": [
+                      { "type": "terminal", "name": "OpenCode", "command": "opencode" }
+                    ]
+                  }
+                },
+                {
+                  "pane": {
+                    "surfaces": [
+                      { "type": "terminal", "name": "Terminal" },
+                      { "type": "terminal", "name": "Lazygit", "command": "lazygit" }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  // ── Keyboard shortcuts ───────────────────────────────────────────────────────
+  "shortcuts": {
+    "bindings": {
+      // Sidebar
+      "toggleSidebar": "cmd+b",
+      "toggleFileExplorer": "cmd+/",
+
+      // Workspace navigation — Cmd+1-9 selects workspace (default, kept)
+      // Rebind workspace switcher off Cmd+P (conflicts with neovim passthrough)
+      "goToWorkspace": "cmd+shift+opt+space",
+
+      // Rebind command palette off Cmd+Shift+P (conflicts with neovim passthrough)
+      "commandPalette": "cmd+shift+o",
+
+      // Workspace management
+      "newTab": "cmd+n",
+      "closeTab": "cmd+w",
+      "renameWorkspace": "cmd+shift+r",
+
+      // Split panes — vim-style focus (Cmd+H/J/K/L)
+      "focusLeft": "cmd+h",
+      "focusRight": "cmd+l",
+      "focusUp": "cmd+k",
+      "focusDown": "cmd+j",
+
+      // Split creation
+      "splitRight": "cmd+d",
+      "splitDown": "cmd+shift+d",
+      "toggleSplitZoom": "cmd+shift+enter",
+      "equalizeSplits": "ctrl+cmd+equal",
+
+      // Browser — on-demand split only
+      "splitBrowserRight": "cmd+shift+b",
+      "splitBrowserDown": null,
+      "newBrowserWorkspace": null,
+      "openFolder": null
+    }
+  }
+}

@@ -1,0 +1,262 @@
+command_alias_start_index: 200
+
+keybindings:
+  prefix_table: "?"
+
+title:
+  style: align=centre,bold
+  prefix: " tmux "
+  prefix_style: "fg=#789978,align=centre,bold"
+
+position:
+  x: C
+  y: C
+
+custom_variables: []
+
+macros:
+  - name: reload-config
+    commands:
+      - source-file ~/.config/tmux/tmux.conf
+      - display "Config reloaded."
+
+items:
+  # ── Quick actions ──────────────────────────────────────────
+  - name: Search keys
+    key: /
+    command: "display-popup -E -w 80% -h 80% \"tmux list-keys | fzf --prompt=Keys>\""
+  - name: Command prompt
+    key: space
+    command: command-prompt
+  - name: Last window
+    key: tab
+    command: last-window
+  - name: Last pane
+    key: "`"
+    command: last-pane
+  - separator: true
+
+  # ── OpenSessions ───────────────────────────────────────────
+  - name: +OpenSessions
+    key: o
+    menu:
+      - name: Toggle sidebar
+        key: t
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/toggle.sh\""
+      - name: Focus sidebar
+        key: s
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/focus.sh\""
+      - name: Spread panes
+        key: e
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/even-horizontal.sh #{window_id} #{pane_id}\""
+      - separator: true
+      - name: "Switch 1"
+        key: "1"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 1\""
+      - name: "Switch 2"
+        key: "2"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 2\""
+      - name: "Switch 3"
+        key: "3"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 3\""
+      - name: "Switch 4"
+        key: "4"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 4\""
+      - name: "Switch 5"
+        key: "5"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 5\""
+      - name: "Switch 6"
+        key: "6"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 6\""
+      - name: "Switch 7"
+        key: "7"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 7\""
+      - name: "Switch 8"
+        key: "8"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 8\""
+      - name: "Switch 9"
+        key: "9"
+        command: "run-shell \"sh $OPENSESSIONS_DIR/integrations/tmux-plugin/scripts/switch-index.sh 9\""
+
+  # ── Windows ────────────────────────────────────────────────
+  - name: +Windows
+    key: w
+    menu:
+      - name: Split right
+        key: "|"
+        command: "splitw -h -c #{pane_current_path}"
+      - name: Split down
+        key: "-"
+        command: "splitw -v -c #{pane_current_path}"
+      - name: New window
+        key: c
+        command: "neww -c #{pane_current_path}"
+      - separator: true
+      - name: Previous
+        key: p
+        command: previous-window
+      - name: Next
+        key: n
+        command: next-window
+      - name: Last
+        key: tab
+        command: last-window
+      - name: Choose
+        key: w
+        command: choose-tree -Zw
+      - separator: true
+      - name: +Layout
+        key: l
+        menu:
+          - name: Next
+            key: l
+            command: next-layout
+            transient: true
+          - name: Tiled
+            key: t
+            command: "select-layout tiled"
+          - name: Even horizontal
+            key: h
+            command: "select-layout even-horizontal"
+          - name: Even vertical
+            key: v
+            command: "select-layout even-vertical"
+          - name: Main horizontal
+            key: H
+            command: "select-layout main-horizontal"
+          - name: Main vertical
+            key: V
+            command: "select-layout main-vertical"
+      - separator: true
+      - name: Rename
+        key: R
+        command: "command-prompt -p \"Rename window:\" -I \"#W\" \"renamew -- %%\""
+      - name: Kill
+        key: X
+        command: "confirm-before -p \"Kill window? (y/n)\" killw"
+
+  # ── Panes ──────────────────────────────────────────────────
+  - name: +Panes
+    key: p
+    menu:
+      - name: Last
+        key: tab
+        command: last-pane
+      - name: Choose
+        key: p
+        command: "display-panes -d 0"
+      - separator: true
+      - name: +Resize (H/J/K/L)
+        key: r
+        menu:
+          - name: Left
+            key: H
+            command: "resize-pane -L 5"
+            transient: true
+          - name: Down
+            key: J
+            command: "resize-pane -D 5"
+            transient: true
+          - name: Up
+            key: K
+            command: "resize-pane -U 5"
+            transient: true
+          - name: Right
+            key: L
+            command: "resize-pane -R 5"
+            transient: true
+      - separator: true
+      - name: Zoom toggle
+        key: z
+        command: "resize-pane -Z"
+      - name: Break to window
+        key: b
+        command: break-pane
+      - name: Kill
+        key: X
+        command: "confirm-before -p \"Kill pane? (y/n)\" killp"
+
+  # ── Sessions ───────────────────────────────────────────────
+  - name: +Sessions
+    key: s
+    menu:
+      - name: Detach
+        key: d
+        command: detach-client
+      - name: Rename
+        key: R
+        command: "command-prompt -p \"Rename session:\" -I \"#S\" \"rename-session -- %%\""
+      - name: Kill
+        key: X
+        command: "confirm-before -p \"Kill session? (y/n)\" kill-session"
+
+  # ── Copy ───────────────────────────────────────────────────
+  - name: +Copy
+    key: c
+    menu:
+      - name: Copy mode (vi)
+        key: c
+        command: copy-mode
+      - name: List buffers
+        key: b
+        command: list-buffers
+      - name: Paste buffer
+        key: p
+        command: paste-buffer
+      - name: Delete buffer
+        key: d
+        command: delete-buffer
+      - separator: true
+      - name: Thumbs (grab text)
+        key: F
+        command: thumbs-pick
+      - name: fzf URLs
+        key: u
+        command: "run-shell #{@fzf-url-path}"
+
+  # ── Find ───────────────────────────────────────────────────
+  - name: +Find
+    key: f
+    menu:
+      - name: tmux-fzf
+        key: f
+        command: "run-shell #{@fzf-path}"
+      - name: fzf URLs
+        key: u
+        command: "run-shell #{@fzf-url-path}"
+
+  - separator: true
+
+  # ── Git ────────────────────────────────────────────────────
+  - name: Lazygit
+    key: g
+    command: "display-popup -E -w 90% -h 90% lazygit"
+
+  # ── Float pane (floax) ─────────────────────────────────────
+  - name: Float pane
+    key: P
+    command: "run-shell #{@floax-path}"
+
+  # ── IDE layout ─────────────────────────────────────────────
+  - name: IDE layout
+    key: I
+    command: "split-window -v -l 20% -c #{pane_current_path} \\; select-pane -t 1 \\; split-window -h -c #{pane_current_path} \\; select-pane -t 1 \\; send-keys \"env NVIM_IDE=1 nvim\" Enter \\; select-pane -t 2 \\; send-keys opencode Enter \\; select-pane -t 3"
+
+  - separator: true
+
+  # ── Tmux management ────────────────────────────────────────
+  - name: +Tmux
+    key: T
+    menu:
+      - name: Reload config
+        key: r
+        macro: reload-config
+      - name: Customize
+        key: ","
+        command: "customize-mode -Z"
+      - name: Show messages
+        key: m
+        command: show-messages
+      - name: Clock
+        key: t
+        command: clock-mode

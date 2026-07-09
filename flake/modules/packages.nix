@@ -23,7 +23,9 @@
 
         environment.systemPackages =
           with pkgs;
+          with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
           lib.flatten [
+            cachix
             # Core system utils
             coreutils-full
             curl
@@ -56,6 +58,7 @@
             dstp
             flyctl
             opencode
+            crush
 
             # Fonts / design
             fontforge
@@ -93,6 +96,7 @@
             # Darwin-only
             (lib.optional stdenv.isDarwin reattach-to-user-namespace)
             (lib.optional stdenv.isDarwin pinentry_mac)
+            (lib.optional stdenv.isDarwin karabiner-elements)
 
             # cobiscripts
             cobiscripts.docker_pog_scripts

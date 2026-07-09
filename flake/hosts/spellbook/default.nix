@@ -14,6 +14,7 @@
           homebrew
           shell
           duckypad
+          karabiner
         ];
 
         darwin = {
@@ -47,19 +48,21 @@
       # Work user aspect for conlin.durbin on spellbook
       "conlin.durbin" = {
         # Work-specific overrides layered on top of shared work programs
-        homeManager = { ... }: {
-          programs.git.signing = {
-            key = "CAA69BFC5EF24C40";
-            signByDefault = true;
-            format = "openpgp";
+        homeManager =
+          { ... }:
+          {
+            programs.git.signing = {
+              key = "CAA69BFC5EF24C40";
+              signByDefault = true;
+              format = "openpgp";
+            };
+            programs.git.settings.user = {
+              name = "Conlin Durbin";
+              email = "conlin.durbin@whatnot.com";
+            };
+            programs.tiny.enable = true;
+            programs.xplr.enable = true;
           };
-          programs.git.settings.user = {
-            name = "Conlin Durbin";
-            email = "conlin.durbin@whatnot.com";
-          };
-          programs.tiny.enable = true;
-          programs.xplr.enable = true;
-        };
 
         includes = with work; [
           base
@@ -72,6 +75,7 @@
           bat
           bin
           tui
+          tmux
           neovim
           wezterm
           ghostty
@@ -84,7 +88,7 @@
           email
           optout
           ssh
-          zed
+          # zed
           jj
         ];
       };

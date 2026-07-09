@@ -6,6 +6,9 @@ let
       inputs.nur.overlays.default
       inputs.neovim-nightly-overlay.overlays.default
       (import ../overlays)
+      (_final: _prev: {
+        bonsai = inputs.bonsai.packages.${system}.default;
+      })
     ]
     ++ (if inputs.pog.overlays ? ${system} then [ inputs.pog.overlays.${system}.default ] else [ ]);
 in

@@ -51,6 +51,13 @@
           TrackpadThreeFingerDrag = true;
         };
       };
+
+      # nix-darwin master (a1fa429) uses --toc-depth which nixpkgs nixos-render-docs removed.
+      # Both the HTML manual and the darwin-uninstaller (which builds its own minimal nix-darwin
+      # config with documentation enabled) fail until nix-darwin fixes their manual builder.
+      # simplification: workaround, remove once nix-darwin/nix-darwin is fixed
+      documentation.doc.enable = false;
+      system.tools.darwin-uninstaller.enable = false;
     };
   };
 }

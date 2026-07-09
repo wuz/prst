@@ -70,8 +70,9 @@
             mcfly
             bat
             bin
-            tui
-            neovim
+          tui
+          tmux
+          neovim
             wezterm
             ghostty
             node

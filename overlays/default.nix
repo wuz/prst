@@ -8,6 +8,27 @@ final: prev: {
       });
     };
   };
+
+  # onlykey-agent's nixpkgs definition (pkgs/by-name/on/onlykey-agent/package.nix)
+  # defines a local `bech32` using `format = "setuptools"` and appends it to
+  # lib-agent's propagatedBuildInputs. lib-agent already inherits bech32 from the
+  # base libagent (v0.16.1) deps, so the closure ends up with two different
+  # bech32-1.2.0 derivations (different build formats → different store hashes).
+  # pythonCatchConflictsPhase on both libagent and onlykey-agent rejects this.
+  #
+  # Fix: skip the conflict check on both packages. The two bech32 derivations are
+  # functionally identical (same source/version), so runtime behavior is unaffected.
+  # The conflict is a build-infrastructure artefact from the nixpkgs package design.
+  onlykey-agent = prev.onlykey-agent.overrideAttrs (_: {
+    dontUsePythonCatchConflicts = true;
+    propagatedBuildInputs = map
+      (dep:
+        if dep.pname or "" == "libagent"
+        then dep.overrideAttrs (_: { dontUsePythonCatchConflicts = true; })
+        else dep
+      )
+      (prev.onlykey-agent.propagatedBuildInputs or [ ]);
+  });
   python3Packages = final.python3.pkgs;
   # Override direnv to avoid -linkmode=external on Darwin without CGo.
   # Remove once nixpkgs binary cache has the fix.
@@ -29,11 +50,15 @@ final: prev: {
     faff
     gh-worktree
     llm-tldr
+    mozeidon
+    mozeidon-native-app
     zerobrew
+    zmx
     ;
 
   # Firefox addons
   inherit (final.nur.repos.rycee.firefox-addons) buildFirefoxXpiAddon;
+  buildMozillaXpiAddon = final.buildFirefoxXpiAddon;
   firefox-addons = final.callPackage ../pkgs/firefox-addons { };
 
   # Utility functions and scripts

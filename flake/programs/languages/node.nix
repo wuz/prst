@@ -7,9 +7,9 @@
         home.packages =
           with pkgs;
           lib.flatten [
-            nodejs_22
+            nodejs_26
             bun
-            corepack_22
+            corepack
           ];
       };
   };

@@ -16,6 +16,12 @@
           format = "yaml";
         };
 
+        sops.secrets."protonmail-bridge-password" = {
+          sopsFile = ../../secrets/hosts/common.yaml;
+          format = "yaml";
+          owner = "conlin.durbin";
+        };
+
         # nix.conf !include lines must be valid settings. A bare `github.com=…`
         # line is a syntax error; emit `access-tokens = …` instead.
         # The secret value must be whatever belongs after `access-tokens = `, e.g.
@@ -40,6 +46,11 @@
 
         # Common secrets available on all hosts
         sops.secrets."github-access-token" = {
+          sopsFile = ../../secrets/hosts/common.yaml;
+          format = "yaml";
+        };
+
+        sops.secrets."protonmail-bridge-password" = {
           sopsFile = ../../secrets/hosts/common.yaml;
           format = "yaml";
         };

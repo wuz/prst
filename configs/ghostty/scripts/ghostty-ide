@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# ghostty-ide: create IDE layout in the current Ghostty tab.
+# Layout: nvim (left, 60%) | opencode (right top, 40%) / terminal (right bottom, 20%)
+#
+# Bind to Cmd+Shift+I: keybind = cmd+shift+i=text:ghostty-ide\r
+#
+# Uses AppleScript to split the current tab and launch apps.
+# ZMX session names are derived from the current directory basename.
+
+SESSION="$(basename "$(pwd)")"
+CWD="$(pwd)"
+
+osascript <<EOF
+tell application "Ghostty"
+    set win to front window
+    set tab1 to selected tab of win
+    set term1 to focused terminal of tab1
+
+    -- Split right (40% for opencode + terminal column)
+    set term2 to split term1 direction right
+
+    -- Split term2 down (opencode top, terminal bottom)
+    set term3 to split term2 direction down
+
+    -- Launch apps — use zmx sessions so each pane is persistent
+    input text "zmx attach ${SESSION}-nvim -- env NVIM_IDE=1 nvim\n" to term1
+    input text "zmx attach ${SESSION}-oc -- opencode\n" to term2
+    -- term3 gets a plain zmx session for ad-hoc terminal use
+    input text "zmx attach ${SESSION}-term\n" to term3
+end tell
+EOF

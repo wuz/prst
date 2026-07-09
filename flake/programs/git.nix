@@ -11,6 +11,7 @@
             gh-notify
             gh-s
             gh-poi
+            gh-enhance
             gh-worktree
           ];
           settings = {
@@ -34,10 +35,12 @@
           enable = true;
           settings = {
             git = {
-              paging = {
-                colorArg = "always";
-                pager = "diff-so-fancy";
-              };
+              pagers = [
+                {
+                  colorArg = "always";
+                  pager = "diff-so-fancy";
+                }
+              ];
               disableForcePushing = true;
             };
             gui = {
@@ -95,7 +98,7 @@
                 context = "global";
                 description = "Git-Town sYnc";
                 command = "git-town sync --all";
-                stream = true;
+                output = "log";
                 loadingText = "Syncing";
               }
               {
@@ -110,7 +113,7 @@
                     body = "Are you sure you want to Undo the last git-town command?";
                   }
                 ];
-                stream = true;
+                output = "log";
                 loadingText = "Undoing Git-Town Command";
               }
               {
@@ -118,7 +121,7 @@
                 context = "global";
                 description = "Git-Town Repo (opens the repo link)";
                 command = "git-town repo";
-                stream = true;
+                output = "log";
                 loadingText = "Opening Repo Link";
               }
               {
@@ -133,7 +136,7 @@
                   }
                 ];
                 command = "git-town append {{.Form.BranchName}}";
-                stream = true;
+                output = "log";
                 loadingText = "Appending";
               }
               {
@@ -148,7 +151,7 @@
                   }
                 ];
                 command = "git-town hack {{.Form.BranchName}}";
-                stream = true;
+                output = "log";
                 loadingText = "Hacking";
               }
               {
@@ -163,7 +166,7 @@
                     body = "Are you sure you want to delete the current feature branch?";
                   }
                 ];
-                stream = true;
+                output = "log";
                 loadingText = "Killing Feature Branch";
               }
               {
@@ -178,7 +181,7 @@
                   }
                 ];
                 command = "git-town prepend {{.Form.BranchName}}";
-                stream = true;
+                output = "log";
                 loadingText = "Prepending";
               }
               {
@@ -186,7 +189,7 @@
                 context = "localBranches";
                 description = "Git-Town Propose";
                 command = "git-town propose";
-                stream = true;
+                output = "log";
                 loadingText = "Creating pull request";
               }
               {
@@ -194,7 +197,7 @@
                 context = "localBranches";
                 description = "Git-Town Skip (skip branch with merge conflicts when syncing)";
                 command = "git-town skip";
-                stream = true;
+                output = "log";
                 loadingText = "Skipping";
               }
               {
@@ -202,7 +205,7 @@
                 context = "files";
                 description = "Git-Town GO aka continue (continue after resolving merge conflicts)";
                 command = "git-town continue";
-                stream = true;
+                output = "log";
                 loadingText = "Continuing";
               }
             ];
@@ -211,7 +214,7 @@
         programs.git.attributes = [ "* merge=mergiraf" ];
         programs.difftastic.git = {
           enable = true;
-          diffToolMode = true;
+          mode = "difftool";
         };
         programs.delta.enable = false;
         programs.git = {

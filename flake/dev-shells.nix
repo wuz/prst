@@ -11,7 +11,7 @@
           sops
           ssh-to-age
           nixd
-          nixfmt-rfc-style
+          nixfmt
           statix
           deadnix
         ];

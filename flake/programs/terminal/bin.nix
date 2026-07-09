@@ -18,7 +18,6 @@
             figlet
             sd
             pup
-            ranger
             tokei
             tree
             unzip
@@ -34,6 +33,8 @@
             vegeta
             gowall
             devenv
+            mozeidon
+            bonsai
           ];
       };
   };

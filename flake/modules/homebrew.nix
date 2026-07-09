@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, inputs, ... }:
 {
   nodes.homebrew =
     let
@@ -26,6 +26,8 @@
           brews = builtins.filter (key: cfg.tools.${key}) (builtins.attrNames cfg.tools);
         in
         {
+          imports = [ inputs.nix-homebrew.darwinModules.nix-homebrew ];
+
           options.homebrew = {
             tools = {
               bandcamp-dl = mkBrewOption "bandcamp-dl" true;
@@ -66,6 +68,7 @@
               fruit-screensaver = mkCaskOption "Fruit" true;
               little-snitch = mkCaskOption "Little Snitch" true;
               micro-snitch = mkCaskOption "Micro Snitch" true;
+              thaw = mkCaskOption "Thaw" true;
 
               crystalfetch = mkCaskOption "CrystalFetch" false;
               keybase = mkCaskOption "Keybase" false;
@@ -80,6 +83,9 @@
 
               # development
               ghostty = mkCaskOption "Ghostty" false; # Ghostty on nix seems broken for darwin right now
+              cmux = mkCaskOption "cmux" true;
+              binky = mkCaskOption "Binky" true;
+              dinky = mkCaskOption "Dinky" true;
               graphiql = mkCaskOption "GraphiQL" false;
               docker-desktop = mkCaskOption "Docker Desktop" false;
 
@@ -106,6 +112,17 @@
             };
           };
 
+          config.nix-homebrew = {
+            enable = true;
+            user = config.system.primaryUser;
+            autoMigrate = true;
+            trust.taps = [
+              "franvy/gtab"
+              "heyderekj/binky"
+              "heyderekj/dinky"
+            ];
+          };
+
           config.homebrew = {
             enable = (builtins.length casks) > 0 || (builtins.length brews) > 0;
             casks = casks;
@@ -121,14 +138,26 @@
                 name = "Franvy/gtab";
                 clone_target = "https://github.com/Franvy/gtab";
               }
+              {
+                name = "manaflow-ai/cmux";
+                clone_target = "https://github.com/manaflow-ai/homebrew-cmux";
+              }
+              {
+                name = "heyderekj/binky";
+                clone_target = "https://github.com/heyderekj/binky";
+              }
+              {
+                name = "heyderekj/dinky";
+                clone_target = "https://github.com/heyderekj/dinky";
+              }
             ];
             onActivation = {
               upgrade = true;
               autoUpdate = true;
               cleanup = "zap";
+              extraFlags = [ "--force" ];
             };
             caskArgs = {
-              no_quarantine = true;
               appdir = "~/Applications";
             };
           };

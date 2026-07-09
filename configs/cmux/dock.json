@@ -1,0 +1,16 @@
+{
+  "controls": [
+    {
+      "id": "docker",
+      "title": "Docker",
+      "command": "lazydocker",
+      "height": 320
+    },
+    {
+      "id": "resources",
+      "title": "Resources",
+      "command": "cmux top",
+      "height": 300
+    }
+  ]
+}

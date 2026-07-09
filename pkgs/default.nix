@@ -10,5 +10,8 @@ in
   faff = callPackage ./faff.nix { };
   gh-worktree = callPackage ./gh-worktree.nix { };
   llm-tldr = callPackage ./llm-tldr.nix { };
+  mozeidon = callPackage ./mozeidon.nix { };
+  mozeidon-native-app = callPackage ./mozeidon-native-app.nix { };
   zerobrew = callPackage ./zerobrew.nix { };
+  zmx = callPackage ./zmx.nix { };
 }

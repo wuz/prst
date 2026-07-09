@@ -5,8 +5,12 @@
 
   inputs = {
     # keep-sorted start
+    bonsai = {
+      url = "path:/Users/conlin.durbin/dev/github/wuz/bonsai";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     darwin = {
-      url = "github:LnL7/nix-darwin/master";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     den.url = "github:vic/den";
@@ -24,10 +28,16 @@
       url = "github:jpetrucciani/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    matcha = {
+      url = "github:floatpane/matcha";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nur.url = "github:nix-community/NUR";

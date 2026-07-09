@@ -11,7 +11,7 @@
             nix-prefetch-git
             comma
             nixd
-            nixfmt-rfc-style
+            nixfmt
             statix
             deadnix
           ];

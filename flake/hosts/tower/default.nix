@@ -53,8 +53,9 @@
             zoxide
             mcfly
             bat
-            bin
-            neovim
+          bin
+          tmux
+          neovim
             node
             rust
             nixtools
