@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   nodes.packages = {
     os =
       { lib, pkgs, ... }:
@@ -105,18 +104,16 @@
           ];
       };
 
-    nixos =
-      { pkgs, ... }:
-      {
-        environment.systemPackages = with pkgs; [
-          bash-completion
-          bashInteractive
-          dbus
-          libsecret
-          libuv
-          msgpack-c
-          msgpack-cxx
-        ];
-      };
+    nixos = { pkgs, ... }: {
+      environment.systemPackages = with pkgs; [
+        bash-completion
+        bashInteractive
+        dbus
+        libsecret
+        libuv
+        msgpack-c
+        msgpack-cxx
+      ];
+    };
   };
 }

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  stdenv,
-  lib,
-}:
+{ pkgs, stdenv }:
 stdenv.mkDerivation rec {
   name = "ccmenu";
   version = "26.0";

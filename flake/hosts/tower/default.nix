@@ -1,4 +1,10 @@
-{ personal, work, nodes, ... }:
+# tower — NixOS on WSL
+{
+  personal,
+  work,
+  nodes,
+  ...
+}:
 {
   den = {
     hosts.x86_64-linux.tower.users."wuz" = { };
@@ -30,38 +36,13 @@
         };
       };
 
-      wuz = {
-        homeManager = { ... }: {
-          programs.git.signing = {
-            key = "CAA69BFC5EF24C40";
-            signByDefault = true;
-            format = "openpgp";
-          };
-          programs.git.settings.user = {
-            name = "Conlin Durbin";
-            email = "c@wuz.sh";
-          };
-        };
-
-        includes =
-          [ personal.base ]
-          ++ (with work; [
-            git
-            zsh
-            starship
-            direnv
-            zoxide
-            mcfly
-            bat
-          bin
-          tmux
-          neovim
-            node
-            rust
-            nixtools
-            optout
-          ]);
-      };
+      # Personal user: CLI bundle only (headless host).
+      # NOTE: den aspects merge by name — `wuz` also picks up the desktop
+      # bundle defined for grimoire. Identity comes from there too.
+      wuz.includes = [
+        personal.base
+        work.cli
+      ];
     };
   };
 }

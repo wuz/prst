@@ -1,92 +1,28 @@
-{ personal, work, nodes, ... }:
+# grimoire — personal MacBook
+{
+  personal,
+  work,
+  nodes,
+  ...
+}:
 {
   den = {
     hosts.aarch64-darwin.grimoire.users."wuz" = { };
 
     aspects = {
-      grimoire = {
-        includes = with nodes; [
-          auto-update
-          nix
-          sops
-          system
-          packages
-          homebrew
-          shell
+      grimoire.includes = with nodes; [ darwin-base ];
+
+      # Personal user: same desktop bundle, personal identity
+      wuz = {
+        includes = [
+          personal.base
+          work.desktop
+          work.zed
         ];
 
-        darwin = {
-          ids.gids.nixbld = 350;
-
-          system.stateVersion = 5;
-          system.configurationRevision = null;
-
-          nixpkgs.config = {
-            allowUnfree = true;
-          };
-
-          environment.pathsToLink = [ "/share/zsh" ];
-          programs.nix-index.enable = true;
-
-          system.primaryUser = "wuz";
-          system.activationScripts.extraActivation.text = ''
-            # Reload macOS settings without requiring logout/login
-            /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-          '';
-
-          security.pam.services.sudo_local = {
-            enable = true;
-            reattach = true;
-            touchIdAuth = true;
-            watchIdAuth = true;
-          };
+        homeManager = {
+          programs.git.settings.user.email = "c@wuz.sh";
         };
-      };
-
-      # Personal user aspect for wuz on grimoire
-      wuz = {
-        homeManager = { ... }: {
-          programs.git.signing = {
-            key = "CAA69BFC5EF24C40";
-            signByDefault = true;
-            format = "openpgp";
-          };
-          programs.git.settings.user = {
-            name = "Conlin Durbin";
-            email = "c@wuz.sh";
-          };
-        };
-
-        includes =
-          # personal.base sets username=wuz, homeDirectory=/Users/wuz
-          [ personal.base ]
-          # Reuse work.* program aspects — same tooling, personal identity set above
-          ++ (with work; [
-            git
-            zsh
-            starship
-            direnv
-            zoxide
-            mcfly
-            bat
-            bin
-          tui
-          tmux
-          neovim
-            wezterm
-            ghostty
-            node
-            rust
-            nixtools
-            lua
-            ruby
-            browser
-            email
-            optout
-            ssh
-            zed
-            jj
-          ]);
       };
     };
   };

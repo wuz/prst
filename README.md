@@ -9,11 +9,11 @@ Multi-machine Nix configuration for macOS, WSL, and Linux — built on
 
 ## Machines
 
-| Host | Platform | User | Purpose |
-|------|----------|------|---------|
-| `spellbook` | macOS (aarch64-darwin) | `conlin.durbin` | Work MacBook |
-| `grimoire` | macOS (aarch64-darwin) | `wuz` | Personal MacBook |
-| `tower` | NixOS/WSL (x86_64-linux) | `wuz` | Personal Linux (WSL) |
+| Host        | Platform                 | User            | Purpose              |
+| ----------- | ------------------------ | --------------- | -------------------- |
+| `spellbook` | macOS (aarch64-darwin)   | `conlin.durbin` | Work MacBook         |
+| `grimoire`  | macOS (aarch64-darwin)   | `wuz`           | Personal MacBook     |
+| `tower`     | NixOS/WSL (x86_64-linux) | `wuz`           | Personal Linux (WSL) |
 
 ## How It Works
 
@@ -34,21 +34,21 @@ automatically wires it in.
 It introduces a few key concepts:
 
 - **Hosts** — defined in `flake/hosts/<name>/`.
-  Each host declares which system-level *nodes* it uses and which user programs
+  Each host declares which system-level _nodes_ it uses and which user programs
   to activate.
 - **Aspects** — composable configuration bundles.
   A host aspect contains `darwin = { ...
-  }` or `nixos = { ...
-  }` OS config.
+}` or `nixos = { ...
+}` OS config.
   A user aspect contains `homeManager = { ...
-  }` config.
+}` config.
 - **Namespaces** — named scopes for aspects.
   `work.*` contains program configurations shared across work machines;
   `personal.*` holds the personal user definition.
 - **Forwarding classes** — den automatically routes `homeManager = { ...
-  }` keys from user aspects into `home-manager.users.<name>.*`, and `user = {
-  ...
-  }` keys into `users.users.<name>.*`.
+}` keys from user aspects into `home-manager.users.<name>.*`, and `user = {
+...
+}` keys into `users.users.<name>.*`.
 
 **[home-manager](https://github.com/nix-community/home-manager)** — manages
 user-level configuration:

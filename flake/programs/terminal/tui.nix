@@ -1,17 +1,14 @@
-{ ... }:
-{
+{ ... }: {
   work.tui = {
-    homeManager =
-      { pkgs, lib, ... }:
-      {
-        home.packages =
-          with pkgs;
-          lib.flatten [
-            btop
-            lazydocker
-            atac
-            discordo
-          ];
-      };
+    homeManager = { pkgs, lib, ... }: {
+      home.packages =
+        with pkgs;
+        lib.flatten [
+          btop
+          lazydocker
+          atac
+          discordo
+        ];
+    };
   };
 }

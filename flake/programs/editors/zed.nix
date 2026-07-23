@@ -1,10 +1,5 @@
-{ ... }:
-{
+{ ... }: {
   work.zed = {
-    homeManager =
-      { ... }:
-      {
-        programs.zed-editor.enable = true;
-      };
+    homeManager = { ... }: { programs.zed-editor.enable = true; };
   };
 }

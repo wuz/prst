@@ -1,8 +1,12 @@
-{ ... }:
-{
+{ ... }: {
   work.zsh = {
     homeManager =
-      { pkgs, config, lib, ... }:
+      {
+        pkgs,
+        config,
+        lib,
+        ...
+      }:
       {
         programs.zsh = {
           enable = true;
@@ -25,7 +29,7 @@
             cleanup = "find . -type f -name '*.DS_Store' -ls -delete";
             b64 = "base64 -w 0 | pbcopy";
             nixclean = "nix-collect-garbage -d";
-            nixsearch = "nix-env -qaP | grep -i $1";
+            nixsearch = "nix search nixpkgs";
 
             # docker
             d = "docker";
@@ -89,44 +93,44 @@
 
             # Default order (1000) — post-compinit content
             ''
-            # zmx: set tab title to session name when attached
-            if [[ -n "$ZMX_SESSION" ]]; then
-              printf '\e]2;%s\a' "$ZMX_SESSION"
-              # Also update on every prompt so title stays correct
-              precmd_zmx_title() { printf '\e]2;%s\a' "$ZMX_SESSION"; }
-              autoload -Uz add-zsh-hook
-              add-zsh-hook precmd precmd_zmx_title
-            fi
-
-            # zmx session picker: `zs` to fzf-select and attach
-            function zs() {
-              local name
-              if [[ $# -gt 0 ]]; then
-                name="$1"
-              elif command -v fzf &>/dev/null && command -v zmx &>/dev/null; then
-                name=$(zmx list --short 2>/dev/null | fzf --prompt="session> " --height=10) || return 0
-              else
-                zmx list 2>/dev/null
-                return 0
+              # zmx: set tab title to session name when attached
+              if [[ -n "$ZMX_SESSION" ]]; then
+                printf '\e]2;%s\a' "$ZMX_SESSION"
+                # Also update on every prompt so title stays correct
+                precmd_zmx_title() { printf '\e]2;%s\a' "$ZMX_SESSION"; }
+                autoload -Uz add-zsh-hook
+                add-zsh-hook precmd precmd_zmx_title
               fi
-              [[ -n "$name" ]] && zmx attach "$name"
-            }
-            autoload -U up-line-or-beginning-search
-            autoload -U down-line-or-beginning-search
-            zle -N up-line-or-beginning-search
-            zle -N down-line-or-beginning-search
-            bindkey "^[[A" up-line-or-beginning-search
-            bindkey "^[[B" down-line-or-beginning-search
 
-            eval "$(${pkgs.just}/bin/just --completions zsh)"
+              # zmx session picker: `zs` to fzf-select and attach
+              function zs() {
+                local name
+                if [[ $# -gt 0 ]]; then
+                  name="$1"
+                elif command -v fzf &>/dev/null && command -v zmx &>/dev/null; then
+                  name=$(zmx list --short 2>/dev/null | fzf --prompt="session> " --height=10) || return 0
+                else
+                  zmx list 2>/dev/null
+                  return 0
+                fi
+                [[ -n "$name" ]] && zmx attach "$name"
+              }
+              autoload -U up-line-or-beginning-search
+              autoload -U down-line-or-beginning-search
+              zle -N up-line-or-beginning-search
+              zle -N down-line-or-beginning-search
+              bindkey "^[[A" up-line-or-beginning-search
+              bindkey "^[[B" down-line-or-beginning-search
 
-            if command -v wt >/dev/null 2>&1; then
-              eval "$(wt config shell init zsh)"
-            fi
-            if command -v bonsai >/dev/null 2>&1; then
-              eval "$(bonsai shell-setup)"
-            fi
-          ''
+              eval "$(${pkgs.just}/bin/just --completions zsh)"
+
+              if command -v wt >/dev/null 2>&1; then
+                eval "$(wt config shell init zsh)"
+              fi
+              if command -v bonsai >/dev/null 2>&1; then
+                eval "$(bonsai shell-setup)"
+              fi
+            ''
           ];
         };
       };

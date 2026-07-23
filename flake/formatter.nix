@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   imports = [ inputs.treefmt-nix.flakeModule ];
 
   perSystem.treefmt = {
@@ -34,6 +33,8 @@
       "*.age"
       "flake.lock"
       "configs/*"
+      # sops-encrypted files — reformatting risks corrupting them
+      "secrets/*"
     ];
   };
 }

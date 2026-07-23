@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   nodes.system = {
     darwin = {
       system.defaults = {

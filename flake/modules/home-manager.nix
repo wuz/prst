@@ -1,5 +1,4 @@
-{ inputs, lib, ... }:
-{
+{ inputs, lib, ... }: {
   # Mark all users as homeManager class users.
   # den's built-in home-manager.nix (in den/modules/aspects/provides/) auto-detects
   # this and wires ctx.host → schema.hm-host → ctx.hm-user pipeline to create
@@ -8,17 +7,14 @@
 
   # Configure shared HM settings applied to all hosts.
   den.schema.hm-host.includes = [
-    (
-      { host, ... }:
-      {
-        ${host.class}.home-manager = {
-          backupFileExtension = "bak";
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          verbose = true;
-          extraSpecialArgs = { inherit inputs; };
-        };
-      }
-    )
+    ({ host, ... }: {
+      ${host.class}.home-manager = {
+        backupFileExtension = "bak";
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        verbose = true;
+        extraSpecialArgs = { inherit inputs; };
+      };
+    })
   ];
 }

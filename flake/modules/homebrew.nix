@@ -1,5 +1,4 @@
-{ lib, inputs, ... }:
-{
+{ lib, inputs, ... }: {
   nodes.homebrew =
     let
       mkCaskOption =
@@ -153,9 +152,12 @@
             ];
             onActivation = {
               upgrade = true;
-              autoUpdate = true;
-              cleanup = "zap";
-              extraFlags = [ "--force" ];
+              # autoUpdate off: the daily auto-update job already rebuilds;
+              # unattended brew self-updates make activation non-deterministic
+              autoUpdate = false;
+              # "uninstall" removes undeclared formulae/casks but keeps their
+              # data; "zap" deletes app data and is unsafe unattended
+              cleanup = "uninstall";
             };
             caskArgs = {
               appdir = "~/Applications";

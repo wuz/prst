@@ -1,8 +1,4 @@
-{
-  pkgs,
-  stdenv,
-  lib,
-}:
+{ pkgs, stdenv }:
 stdenv.mkDerivation rec {
   name = "deskpad";
   version = "1.3.2";

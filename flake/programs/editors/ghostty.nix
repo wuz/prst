@@ -1,11 +1,18 @@
-{ ... }:
-{
+{ ... }: {
   work.ghostty = {
     homeManager =
-      { pkgs, config, lib, ... }:
+      {
+        pkgs,
+        config,
+        lib,
+        ...
+      }:
       let
         scriptDir = ../../../configs/ghostty/scripts;
-        scripts = [ "ghostty-lazygit" "ghostty-ide" ];
+        scripts = [
+          "ghostty-lazygit"
+          "ghostty-ide"
+        ];
       in
       {
         programs.ghostty = {
@@ -34,13 +41,15 @@
         home.packages = pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.zmx;
 
         # Scripts — symlink each into ~/.local/bin so they're on PATH
-        home.file = lib.listToAttrs (map (name: {
-          name = ".local/bin/${name}";
-          value = {
-            source = config.lib.file.mkOutOfStoreSymlink "${scriptDir}/${name}";
-            executable = true;
-          };
-        }) scripts);
+        home.file = lib.listToAttrs (
+          map (name: {
+            name = ".local/bin/${name}";
+            value = {
+              source = config.lib.file.mkOutOfStoreSymlink "${scriptDir}/${name}";
+              executable = true;
+            };
+          }) scripts
+        );
       };
   };
 }

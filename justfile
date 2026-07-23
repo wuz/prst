@@ -38,8 +38,17 @@ tower-switch:
 tree-spellbook:
     nix run nixpkgs#nix-tree -- --derivation ~/.config/darwin#darwinConfigurations.spellbook.system
 
-# Update all flake inputs (creates a new flake.lock)
+# Update flake inputs, skipping expensive source builds (creates a new flake.lock).
+# Heavy inputs (neovim-nightly-overlay, matcha) rebuild from source on every bump —
+# update those deliberately with `just update-input <name>` or `just update-all`.
 update:
+    nix flake update \
+      bonsai darwin den direnv-instant flake-parts home-manager import-tree \
+      jacobi llm-agents nix-homebrew nixos-wsl nixpkgs nur pog sops-nix \
+      treefmt-nix zen-browser
+
+# Update ALL flake inputs, including heavy source-built ones
+update-all:
     nix flake update
 
 # Update a single flake input, e.g.: just update-input nixpkgs
@@ -74,17 +83,15 @@ bootstrap-sops:
 secret host:
     sops secrets/hosts/{{ host }}.yaml
 
-# Update the optout.nix hash from upstream do-not-track-cli
+# Re-download the vendored do_not_track.env from upstream do-not-track-cli
 update-optout:
     #!/usr/bin/env bash
     set -euo pipefail
-    NIXFILE="flake/programs/privacy.nix"
+    DEST="flake/programs/do_not_track.env"
     URL="https://raw.githubusercontent.com/alloydwhitlock/do-not-track-cli/main/do_not_track.env"
-    NEW_HASH=$(nix-prefetch-url "$URL" 2>/dev/null)
-    CURRENT=$(grep 'sha256 = ' "$NIXFILE" | head -1 | sed 's/.*sha256 = "\(.*\)".*/\1/')
-    if [ "$NEW_HASH" = "$CURRENT" ]; then
-      echo "optout is already up to date ($CURRENT)"
-      exit 0
+    curl -fsSL "$URL" -o "$DEST"
+    if git diff --quiet -- "$DEST"; then
+      echo "optout is already up to date"
+    else
+      echo "Updated $DEST — review with: git diff $DEST"
     fi
-    sed -i "" "s|sha256 = \"$CURRENT\"|sha256 = \"$NEW_HASH\"|" "$NIXFILE"
-    echo "Updated optout hash: $CURRENT -> $NEW_HASH"

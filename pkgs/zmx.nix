@@ -24,7 +24,9 @@ let
       hash = lib.fakeHash; # update when needed
     };
   };
-  src' = srcs.${stdenv.hostPlatform.system} or (throw "zmx: unsupported system ${stdenv.hostPlatform.system}");
+  src' =
+    srcs.${stdenv.hostPlatform.system}
+      or (throw "zmx: unsupported system ${stdenv.hostPlatform.system}");
 in
 stdenv.mkDerivation {
   pname = "zmx";

@@ -1,0 +1,81 @@
+diff -ru a/libagent/age/__init__.py b/libagent/age/__init__.py
+--- a/libagent/age/__init__.py	2023-07-20 23:25:10
++++ b/libagent/age/__init__.py	2026-07-13 11:50:48
+@@ -18,7 +18,7 @@
+ import traceback
+ 
+ import bech32
+-import pkg_resources
++import importlib.metadata
+ import semver
+ from cryptography.exceptions import InvalidTag
+ from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
+@@ -154,9 +154,7 @@
+     p = argparse.ArgumentParser()
+ 
+     agent_package = device_type.package_name()
+-    resources_map = {r.key: r for r in pkg_resources.require(agent_package)}
+-    resources = [resources_map[agent_package], resources_map['lib-agent']]
+-    versions = '\n'.join('{}={}'.format(r.key, r.version) for r in resources)
++    versions = '\n'.join('{}={}'.format(p, importlib.metadata.version(p)) for p in [agent_package, 'lib-agent'])
+     p.add_argument('--version', help='print the version info',
+                    action='version', version=versions)
+ 
+diff -ru a/libagent/gpg/__init__.py b/libagent/gpg/__init__.py
+--- a/libagent/gpg/__init__.py	2023-07-20 23:25:10
++++ b/libagent/gpg/__init__.py	2026-07-13 11:50:48
+@@ -19,7 +19,7 @@
+ import time
+ 
+ import daemon
+-import pkg_resources
++import importlib.metadata
+ import semver
+ import Crypto.Hash
+ import Crypto.PublicKey
+@@ -328,9 +328,7 @@
+     parser = argparse.ArgumentParser(epilog=epilog)
+ 
+     agent_package = device_type.package_name()
+-    resources_map = {r.key: r for r in pkg_resources.require(agent_package)}
+-    resources = [resources_map[agent_package], resources_map['lib-agent']]
+-    versions = '\n'.join('{}={}'.format(r.key, r.version) for r in resources)
++    versions = '\n'.join('{}={}'.format(p, importlib.metadata.version(p)) for p in [agent_package, 'lib-agent'])
+     parser.add_argument('--version', help='print the version info',
+                         action='version', version=versions)
+ 
+diff -ru a/libagent/signify/__init__.py b/libagent/signify/__init__.py
+--- a/libagent/signify/__init__.py	2023-07-20 23:25:10
++++ b/libagent/signify/__init__.py	2026-07-13 11:50:48
+@@ -13,7 +13,7 @@
+ import sys
+ import time
+ 
+-import pkg_resources
++import importlib.metadata
+ import semver
+ 
+ from .. import formats, server, util
+diff -ru a/libagent/ssh/__init__.py b/libagent/ssh/__init__.py
+--- a/libagent/ssh/__init__.py	2023-07-20 23:25:10
++++ b/libagent/ssh/__init__.py	2026-07-13 11:50:48
+@@ -13,7 +13,7 @@
+ 
+ import configargparse
+ import daemon
+-import pkg_resources
++import importlib.metadata
+ 
+ from .. import device, formats, server, util
+ from . import client, protocol
+@@ -72,9 +72,7 @@
+     p.add_argument('-v', '--verbose', default=0, action='count')
+ 
+     agent_package = device_type.package_name()
+-    resources_map = {r.key: r for r in pkg_resources.require(agent_package)}
+-    resources = [resources_map[agent_package], resources_map['lib-agent']]
+-    versions = '\n'.join('{}={}'.format(r.key, r.version) for r in resources)
++    versions = '\n'.join('{}={}'.format(p, importlib.metadata.version(p)) for p in [agent_package, 'lib-agent'])
+     p.add_argument('--version', help='print the version info',
+                    action='version', version=versions)
+ 

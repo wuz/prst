@@ -1,14 +1,11 @@
-# Pulls telemetry opt-out variables from upstream:
+# Telemetry opt-out variables, vendored from upstream:
 # https://github.com/alloydwhitlock/do-not-track-cli/blob/main/do_not_track.env
 #
-# To update the hash: run `nix-prefetch-url https://raw.githubusercontent.com/alloydwhitlock/do-not-track-cli/main/do_not_track.env`
-# and replace the sha256 below.
+# To update: run `just update-optout` (re-downloads do_not_track.env).
+# Vendoring avoids a network fetch during evaluation.
 { lib, ... }:
 let
-  envFile = builtins.fetchurl {
-    url = "https://raw.githubusercontent.com/alloydwhitlock/do-not-track-cli/main/do_not_track.env";
-    sha256 = "1d64ppqpfs02s86lbnfjy9i5gc2fq7cpcnv3wxs4lcwsgna1018m";
-  };
+  envFile = ./do_not_track.env;
 
   parseLine =
     line:

@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   work.ssh = {
     homeManager = {
       programs.ssh = {

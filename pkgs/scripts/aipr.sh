@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+# Embedded in a pog wrapper — no shebang needed
 PROTECTED_BRANCHES=("main" "master" "develop" "release")
 
 # Check if the current branch is protected

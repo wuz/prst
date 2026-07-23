@@ -70,7 +70,7 @@ require("lazy").setup({
 		{ import = "cantrip.plugins.extras.miniharp" },
 		{ import = "cantrip.plugins.extras.sessions" },
 		{ import = "cantrip.plugins.extras.tailwind" },
-		{ import = "cantrip.plugins.extras.nvim_highlight_colors" },
+		-- { import = "cantrip.plugins.extras.nvim_highlight_colors" },
 		{ import = "cantrip.plugins.extras.git" },
 		{ import = "cantrip.plugins.extras.worktrees" },
 		{ import = "cantrip.plugins.ui.inclines.harpoon" },

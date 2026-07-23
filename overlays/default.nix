@@ -4,30 +4,38 @@ final: prev: {
   python3 = prev.python3.override {
     packageOverrides = pyFinal: pyPrev: {
       ecdsa = pyPrev.ecdsa.overrideAttrs (_: {
-        meta = pyPrev.ecdsa.meta // { knownVulnerabilities = [ ]; };
+        meta = pyPrev.ecdsa.meta // {
+          knownVulnerabilities = [ ];
+        };
       });
     };
   };
 
-  # onlykey-agent's nixpkgs definition (pkgs/by-name/on/onlykey-agent/package.nix)
-  # defines a local `bech32` using `format = "setuptools"` and appends it to
-  # lib-agent's propagatedBuildInputs. lib-agent already inherits bech32 from the
-  # base libagent (v0.16.1) deps, so the closure ends up with two different
-  # bech32-1.2.0 derivations (different build formats → different store hashes).
-  # pythonCatchConflictsPhase on both libagent and onlykey-agent rejects this.
+  # onlykey-agent / libagent fixes for Python 3.14:
   #
-  # Fix: skip the conflict check on both packages. The two bech32 derivations are
-  # functionally identical (same source/version), so runtime behavior is unaffected.
-  # The conflict is a build-infrastructure artefact from the nixpkgs package design.
+  # The libagent-1.0.6 bundled by the onlykey-agent nixpkgs package is a local
+  # derivation not accessible via python3.pkgs.libagent (which is 0.16.1). We must
+  # override it in-place via the propagatedBuildInputs map.
+  #
+  # Two issues fixed on libagent:
+  # 1. dontUsePythonCatchConflicts: onlykey-agent appends a second bech32-1.2.0
+  #    (different store hash) to libagent's closure; the conflict check rejects it.
+  # 2. pkg_resources removal: libagent/gpg/__init__.py does `import pkg_resources`
+  #    to display version info. setuptools 82+ (Python 3.14) no longer ships
+  #    pkg_resources as a top-level importable module. Patched to use
+  #    importlib.metadata instead (stdlib since Python 3.8).
   onlykey-agent = prev.onlykey-agent.overrideAttrs (_: {
     dontUsePythonCatchConflicts = true;
-    propagatedBuildInputs = map
-      (dep:
-        if dep.pname or "" == "libagent"
-        then dep.overrideAttrs (_: { dontUsePythonCatchConflicts = true; })
-        else dep
-      )
-      (prev.onlykey-agent.propagatedBuildInputs or [ ]);
+    propagatedBuildInputs = map (
+      dep:
+      if dep.pname or "" == "libagent" then
+        dep.overrideAttrs (old: {
+          dontUsePythonCatchConflicts = true;
+          patches = (old.patches or [ ]) ++ [ ./libagent-pkg-resources.patch ];
+        })
+      else
+        dep
+    ) (prev.onlykey-agent.propagatedBuildInputs or [ ]);
   });
   python3Packages = final.python3.pkgs;
   # Override direnv to avoid -linkmode=external on Darwin without CGo.
@@ -104,24 +112,6 @@ final: prev: {
         echo "Diverged"
     fi
   '';
-
-  git-town-status = final.writeBashBinChecked "git-town-status" ''
-    # Placeholder for git-town-status
-    echo "git-town-status"
-  '';
-
-  audio-switcher-d = prev.pog.pog {
-    name = "audio-switcher-d";
-    description = "Force audio switching";
-    script = helpers: ''
-      while true;
-      do
-       if [[ $(${prev.switchaudio-osx}/bin/SwitchAudioSource -t input -c) = "WH-1000XM5" ]]; then
-         ${prev.switchaudio-osx}/bin/SwitchAudioSource -t input -s "Elgato Wave:3" || sleep 1;
-       fi
-      done
-    '';
-  };
 
   aipr = prev.pog.pog {
     name = "aipr";

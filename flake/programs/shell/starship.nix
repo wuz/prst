@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   work.starship = {
     homeManager = {
       programs.starship = {

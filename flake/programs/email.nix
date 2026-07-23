@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   work.email = {
     homeManager =
       {
@@ -51,12 +50,15 @@
           # tells the build to use whatever Go is in PATH instead of fetching).
           (inputs.matcha.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
             doCheck = false;
-            # matcha's go.mod requires go 1.26.4 but nixpkgs ships 1.26.3.
-            # Patch go.mod to match what's available; GOTOOLCHAIN=local prevents
-            # the build from trying to download a newer toolchain at build time.
+            # matcha's go.mod often requires a Go patch release newer than
+            # nixpkgs ships. GOTOOLCHAIN=local prevents downloading a newer
+            # toolchain at build time; the sed rewrites go.mod's `go` directive
+            # to whatever Go nix provides (a hardcoded version here rotted
+            # before — keep this dynamic).
             GOTOOLCHAIN = "local";
             postPatch = (old.postPatch or "") + ''
-              sed -i 's/^go 1\.26\.4/go 1.26.3/' go.mod
+              sed -i -e "s/^go [0-9][0-9.]*$/go $(go version | sed 's/^go version go//; s/ .*//')/" \
+                     -e '/^toolchain /d' go.mod
             '';
           }))
           pkgs.protonmail-bridge

@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   nodes.karabiner = {
     home = {
       home.file.".config/karabiner/karabiner.json".text = builtins.toJSON {
@@ -9,7 +8,9 @@
             selected = true;
             simple_modifications = [
               {
-                from = { key_code = "caps_lock"; };
+                from = {
+                  key_code = "caps_lock";
+                };
                 to = [ { key_code = "left_control"; } ];
               }
             ];

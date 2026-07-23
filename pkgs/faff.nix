@@ -1,8 +1,4 @@
-{
-  pkgs,
-  stdenv,
-  lib,
-}:
+{ pkgs, stdenv }:
 stdenv.mkDerivation rec {
   name = "faff";
   version = "0.1.0";

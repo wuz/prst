@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   nodes.duckypad = {
     os =
       { lib, pkgs, ... }:
@@ -179,21 +178,29 @@
         ];
 
         system.activationScripts.duckypadPermissions.text = ''
-          echo ""
-          echo "╔══════════════════════════════════════════════════════════════╗"
-          echo "║              duckyPad — Permissions Required                 ║"
-          echo "╠══════════════════════════════════════════════════════════════╣"
-          echo "║  duckyPad needs two macOS permissions to function:           ║"
-          echo "║                                                              ║"
-          echo "║  1. Input Monitoring  (to read HID/keyboard events)          ║"
-          echo "║  2. Full Disk Access  (to read/write config files)           ║"
-          echo "║                                                              ║"
-          echo "║  Grant both to Terminal (or your terminal emulator).         ║"
-          echo "║  System Settings panes will open automatically.              ║"
-          echo "╚══════════════════════════════════════════════════════════════╝"
-          echo ""
-          open "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent" || true
-          open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles" || true
+          # Only prompt once — marker file suppresses the System Settings
+          # panes on subsequent rebuilds. Delete the marker to re-prompt.
+          DUCKYPAD_MARKER="/var/lib/prst/duckypad-permissions-prompted"
+          if [ ! -e "$DUCKYPAD_MARKER" ]; then
+            mkdir -p "$(dirname "$DUCKYPAD_MARKER")"
+            touch "$DUCKYPAD_MARKER"
+
+            echo ""
+            echo "╔══════════════════════════════════════════════════════════════╗"
+            echo "║              duckyPad — Permissions Required                 ║"
+            echo "╠══════════════════════════════════════════════════════════════╣"
+            echo "║  duckyPad needs two macOS permissions to function:           ║"
+            echo "║                                                              ║"
+            echo "║  1. Input Monitoring  (to read HID/keyboard events)          ║"
+            echo "║  2. Full Disk Access  (to read/write config files)           ║"
+            echo "║                                                              ║"
+            echo "║  Grant both to Terminal (or your terminal emulator).         ║"
+            echo "║  System Settings panes will open automatically.              ║"
+            echo "╚══════════════════════════════════════════════════════════════╝"
+            echo ""
+            open "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent" || true
+            open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles" || true
+          fi
         '';
       };
   };

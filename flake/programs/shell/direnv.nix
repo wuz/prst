@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   work.direnv = {
     homeManager = {
       imports = [ inputs.direnv-instant.homeModules.direnv-instant ];

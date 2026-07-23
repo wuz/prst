@@ -3,15 +3,13 @@ let
   username = "wuz";
 in
 {
-  personal.base.homeManager =
-    { pkgs, ... }:
-    {
-      home.stateVersion = "24.05";
-      home.username = username;
-      home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
-      programs.home-manager.enable = true;
-      xdg.enable = true;
-    };
+  personal.base.homeManager = { pkgs, ... }: {
+    home.stateVersion = "24.05";
+    home.username = username;
+    home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+    programs.home-manager.enable = true;
+    xdg.enable = true;
+  };
 
   personal.user.user.description = "Conlin Durbin";
 

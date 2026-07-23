@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   work.mcfly = {
     homeManager = {
       programs.mcfly = {

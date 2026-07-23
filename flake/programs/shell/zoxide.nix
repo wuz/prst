@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   work.zoxide = {
     homeManager = {
       programs.zoxide = {

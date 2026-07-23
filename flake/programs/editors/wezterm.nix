@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   work.wezterm = {
     homeManager = {
       programs.wezterm = {

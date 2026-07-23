@@ -3,16 +3,14 @@ let
   username = "conlin.durbin";
 in
 {
-  work.base.homeManager =
-    { pkgs, ... }:
-    {
-      home.stateVersion = "24.05";
-      home.enableNixpkgsReleaseCheck = false;
-      home.username = username;
-      home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
-      programs.home-manager.enable = true;
-      xdg.enable = true;
-    };
+  work.base.homeManager = { pkgs, ... }: {
+    home.stateVersion = "24.05";
+    home.enableNixpkgsReleaseCheck = false;
+    home.username = username;
+    home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+    programs.home-manager.enable = true;
+    xdg.enable = true;
+  };
 
   work.user.user.description = "Conlin Durbin";
 
