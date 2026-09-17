@@ -57,7 +57,9 @@
             dstp
             flyctl
             opencode
+            pi-coding-agent
             crush
+            proton-pass-cli
 
             # Fonts / design
             fontforge
@@ -95,12 +97,7 @@
             # Darwin-only
             (lib.optional stdenv.isDarwin reattach-to-user-namespace)
             (lib.optional stdenv.isDarwin pinentry_mac)
-            (lib.optional stdenv.isDarwin karabiner-elements)
-
-            # cobiscripts
-            cobiscripts.docker_pog_scripts
-            cobiscripts.k8s_pog_scripts
-            cobiscripts.nix_pog_scripts
+            # (lib.optional stdenv.isDarwin karabiner-elements)
           ];
       };
 

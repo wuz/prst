@@ -1,5 +1,5 @@
 return {
-  { "meznaric/key-analyzer.nvim", opts = {} },
+  { "meznaric/key-analyzer.nvim", opts = function() return {} end },
   {
     -- Cmd key mappings received as CSI u sequences via:
     -- Ghostty (text:\x1b[...~) → tmux user-keys (re-emits as \x1b[...u) → neovim <D-*>
@@ -13,7 +13,8 @@ return {
   },
   {
     "aserowy/tmux.nvim",
-    opts = {
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, {
       copy_sync = {
         enable = true,
         sync_clipboard = true,
@@ -29,7 +30,8 @@ return {
         -- Use Alt+Shift (M-H/J/K/L) for pane resize instead
         enable_default_keybindings = false,
       },
-    },
+      })
+    end,
     keys = {
       -- Navigation: C-h/j/k/l — smart tmux/nvim split switching
       { "<C-h>", function() require("tmux").move_left() end,  desc = "tmux/nvim left" },

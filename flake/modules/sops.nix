@@ -19,6 +19,23 @@
         owner = "conlin.durbin";
       };
 
+      sops.secrets."resolve-ai-token" = {
+        sopsFile = ../../secrets/hosts/common.yaml;
+        format = "yaml";
+        owner = "conlin.durbin";
+      };
+
+      sops.secrets."litellm-slack-api-key" = {
+        sopsFile = ../../secrets/hosts/common.yaml;
+        format = "yaml";
+        owner = "conlin.durbin";
+      };
+
+      sops.secrets."whatnot-inc-cachix-public-key" = {
+        sopsFile = ../../secrets/hosts/common.yaml;
+        format = "yaml";
+      };
+
       # nix.conf !include lines must be valid settings. A bare `github.com=…`
       # line is a syntax error; emit `access-tokens = …` instead.
       # The secret value must be whatever belongs after `access-tokens = `, e.g.
@@ -28,8 +45,24 @@
         access-tokens = ${config.sops.placeholder."github-access-token"}
       '';
 
+      # OpenCode MCP API keys — exposed as session variables so opencode.jsonc
+      # can reference them as $RESOLVE_AI_TOKEN and $LITELLM_SLACK_API_KEY.
+      sops.templates."opencode-api-keys".content = ''
+        RESOLVE_AI_TOKEN="Bearer ${config.sops.placeholder."resolve-ai-token"}"
+        LITELLM_SLACK_API_KEY="Bearer ${config.sops.placeholder."litellm-slack-api-key"}"
+      '';
+      sops.templates."opencode-api-keys".owner = "conlin.durbin";
+
+      # extra-* nix.conf settings append to (rather than replace) the
+      # plaintext list set in nodes.nix, so the whatnot-inc cachix key
+      # never needs to live unencrypted in the repo.
+      sops.templates."nix-extra-trusted-public-keys".content = ''
+        extra-trusted-public-keys = ${config.sops.placeholder."whatnot-inc-cachix-public-key"}
+      '';
+
       nix.extraOptions = lib.mkAfter ''
         !include ${config.sops.templates."nix-github-access-tokens".path}
+        !include ${config.sops.templates."nix-extra-trusted-public-keys".path}
       '';
     };
 
@@ -50,12 +83,37 @@
         format = "yaml";
       };
 
+      sops.secrets."resolve-ai-token" = {
+        sopsFile = ../../secrets/hosts/common.yaml;
+        format = "yaml";
+      };
+
+      sops.secrets."litellm-slack-api-key" = {
+        sopsFile = ../../secrets/hosts/common.yaml;
+        format = "yaml";
+      };
+
+      sops.secrets."whatnot-inc-cachix-public-key" = {
+        sopsFile = ../../secrets/hosts/common.yaml;
+        format = "yaml";
+      };
+
       sops.templates."nix-github-access-tokens".content = ''
         access-tokens = ${config.sops.placeholder."github-access-token"}
       '';
 
+      sops.templates."opencode-api-keys".content = ''
+        RESOLVE_AI_TOKEN="Bearer ${config.sops.placeholder."resolve-ai-token"}"
+        LITELLM_SLACK_API_KEY="Bearer ${config.sops.placeholder."litellm-slack-api-key"}"
+      '';
+
+      sops.templates."nix-extra-trusted-public-keys".content = ''
+        extra-trusted-public-keys = ${config.sops.placeholder."whatnot-inc-cachix-public-key"}
+      '';
+
       nix.extraOptions = lib.mkAfter ''
         !include ${config.sops.templates."nix-github-access-tokens".path}
+        !include ${config.sops.templates."nix-extra-trusted-public-keys".path}
       '';
     };
   };

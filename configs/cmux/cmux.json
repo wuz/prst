@@ -20,12 +20,12 @@
     "openPortLinksInCmuxBrowser": false
   },
 
-  // ── Sidebar appearance — Lackluster theme ────────────────────────────────────
+  // ── Sidebar appearance — Luna theme (wtfox) ──────────────────────────────────
   "sidebarAppearance": {
     "matchTerminalBackground": true,
-    "tintColor": "#0a0a0a",
-    "darkModeTintColor": "#0a0a0a",
-    "lightModeTintColor": "#0a0a0a",
+    "tintColor": "#060606",
+    "darkModeTintColor": "#060606",
+    "lightModeTintColor": "#060606",
     "tintOpacity": 1.0
   },
 

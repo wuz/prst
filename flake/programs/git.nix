@@ -27,6 +27,7 @@
         git-pull-status
         diff-so-fancy
         mergiraf
+        graphite-cli
       ];
       programs.lazygit = {
         enable = true;

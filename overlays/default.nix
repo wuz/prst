@@ -17,13 +17,17 @@ final: prev: {
   # derivation not accessible via python3.pkgs.libagent (which is 0.16.1). We must
   # override it in-place via the propagatedBuildInputs map.
   #
-  # Two issues fixed on libagent:
+  # Three issues fixed on libagent:
   # 1. dontUsePythonCatchConflicts: onlykey-agent appends a second bech32-1.2.0
   #    (different store hash) to libagent's closure; the conflict check rejects it.
   # 2. pkg_resources removal: libagent/gpg/__init__.py does `import pkg_resources`
   #    to display version info. setuptools 82+ (Python 3.14) no longer ships
   #    pkg_resources as a top-level importable module. Patched to use
   #    importlib.metadata instead (stdlib since Python 3.8).
+  # 3. dontCheckPythonMetadata: the upstream package registers itself as `lib-agent`
+  #    (dist-info name `lib_agent`) but nixpkgs sets pname = "libagent". The
+  #    pythonMetadataCheckPhase queries importlib.metadata using pname, which
+  #    normalizes to "libagent" — not matching "lib-agent" — so it always fails.
   onlykey-agent = prev.onlykey-agent.overrideAttrs (_: {
     dontUsePythonCatchConflicts = true;
     propagatedBuildInputs = map (
@@ -31,6 +35,7 @@ final: prev: {
       if dep.pname or "" == "libagent" then
         dep.overrideAttrs (old: {
           dontUsePythonCatchConflicts = true;
+          dontCheckPythonMetadata = true;
           patches = (old.patches or [ ]) ++ [ ./libagent-pkg-resources.patch ];
         })
       else

@@ -22,6 +22,10 @@ switch:
 spellbook:
     sudo nix run nix-darwin -- switch --flake .#spellbook
 
+# Switch spellbook offline — work MacBook (darwin)
+spellbook-offline:
+    sudo nix run nix-darwin -- switch --offline --flake .#spellbook
+
 # Switch grimoire — personal MacBook (darwin)
 grimoire:
     sudo nix run nix-darwin -- switch --flake .#grimoire

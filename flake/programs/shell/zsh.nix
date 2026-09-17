@@ -93,6 +93,11 @@
 
             # Default order (1000) — post-compinit content
             ''
+              # OpenCode MCP secrets — rendered by sops-nix at activation
+              if [[ -f /run/secrets/rendered/opencode-api-keys ]]; then
+                set -a; source /run/secrets/rendered/opencode-api-keys; set +a
+              fi
+
               # zmx: set tab title to session name when attached
               if [[ -n "$ZMX_SESSION" ]]; then
                 printf '\e]2;%s\a' "$ZMX_SESSION"

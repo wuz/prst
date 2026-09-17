@@ -34,7 +34,7 @@
               jiratui = mkBrewOption "jiratui" true;
               docker = mkBrewOption "docker" true;
               mole = mkBrewOption "mole" true;
-              worktrunk = mkBrewOption "worktrunk" true;
+              worktrunk = mkBrewOption "worktrunk" false;
               weave = mkBrewOption "weave" true;
               gtab = mkBrewOption "gtab" true;
             };
@@ -73,7 +73,7 @@
               keybase = mkCaskOption "Keybase" false;
               betterdisplay = mkCaskOption "BetterDisplay" false;
               muzzle = mkCaskOption "Muzzle" false;
-              karabiner-elements = mkCaskOption "Karabiner Elements" false;
+              karabiner-elements = mkCaskOption "Karabiner Elements" true;
               peninsula = mkCaskOption "Peninsula" false;
               tiny-shield = mkCaskOption "Tiny Shield" false;
               music-presence = mkCaskOption "Discord Music Presence" false;
